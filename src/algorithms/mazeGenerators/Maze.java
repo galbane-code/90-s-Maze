@@ -138,7 +138,9 @@ public class Maze {
         byte [] EndRowBytes = ByteBuffer.allocate(4).putInt(this.exit.getRowIndex()).array();
         byte [] EndColBytes = ByteBuffer.allocate(4).putInt(this.exit.getColumnIndex()).array();
 
-        //
+        // insert the bytes into the return bite arr by order we set which is :
+        // RowSizeBytes,ColSizeBytes,StartRowBytes,StartColBytes,EndRowBytes,EndColBytes.
+
         System.arraycopy(RowSizeBytes, 0, byteArr, 0, 4);
         System.arraycopy(ColSizeBytes, 0, byteArr, 4, 4);
         System.arraycopy(StartRowBytes, 0, byteArr, 8, 4);

@@ -43,7 +43,7 @@
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/src/test" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../HelloWorld" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Lab4" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
@@ -177,6 +177,7 @@
       <workItem from="1587051352873" duration="453000" />
       <workItem from="1587051873362" duration="608000" />
       <workItem from="1587280870702" duration="44000" />
+      <workItem from="1587542784381" duration="4806000" />
     </task>
     <servers />
   </component>
@@ -197,10 +198,10 @@
     </state>
     <state x="2081" y="172" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.680/1920.0.1280.984@1920.0.1280.984" timestamp="1586435588528" />
     <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.680@0.0.1280.680" timestamp="1585584172732" />
-    <state x="2365" y="208" key="#com.intellij.ide.util.MemberChooser" timestamp="1586266495438">
+    <state x="2365" y="208" key="#com.intellij.ide.util.MemberChooser" timestamp="1587543186971">
       <screen x="1920" y="0" width="1280" height="984" />
     </state>
-    <state x="2365" y="208" key="#com.intellij.ide.util.MemberChooser/0.0.1280.680/1920.0.1280.984@1920.0.1280.984" timestamp="1586266495438" />
+    <state x="2365" y="208" key="#com.intellij.ide.util.MemberChooser/0.0.1280.680/1920.0.1280.984@1920.0.1280.984" timestamp="1587543186971" />
     <state x="423" y="24" key="#com.intellij.ide.util.MemberChooser/0.0.1280.680@0.0.1280.680" timestamp="1586016760393" />
     <state x="268" y="124" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1587052170737">
       <screen x="0" y="0" width="1280" height="680" />
@@ -210,11 +211,11 @@
       <screen x="1920" y="0" width="1280" height="984" />
     </state>
     <state x="1941" y="0" key="#org.jetbrains.kotlin.idea.refactoring.safeDelete.KotlinOverridingDialog/0.0.1280.680/1920.0.1280.984@1920.0.1280.984" timestamp="1586600299171" />
-    <state x="420" y="164" key="FileChooserDialogImpl" timestamp="1587280906497">
-      <screen x="0" y="0" width="1280" height="680" />
+    <state x="2340" y="246" key="FileChooserDialogImpl" timestamp="1587544787097">
+      <screen x="1920" y="0" width="1280" height="984" />
     </state>
     <state x="420" y="164" key="FileChooserDialogImpl/0.0.1280.680/1920.0.1280.984@0.0.1280.680" timestamp="1587280906497" />
-    <state x="2340" y="246" key="FileChooserDialogImpl/0.0.1280.680/1920.0.1280.984@1920.0.1280.984" timestamp="1585247846040" />
+    <state x="2340" y="246" key="FileChooserDialogImpl/0.0.1280.680/1920.0.1280.984@1920.0.1280.984" timestamp="1587544787097" />
     <state x="420" y="164" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1587052055395" />
     <state width="1237" height="176" key="GridCell.Tab.0.bottom" timestamp="1587052481083">
       <screen x="0" y="0" width="1280" height="680" />
@@ -264,11 +265,11 @@
     <state width="1237" height="169" key="GridCell.Tab.1.right/0.0.1280.680/1920.0.1280.984@0.0.1280.680" timestamp="1585748664039" />
     <state width="1237" height="286" key="GridCell.Tab.1.right/0.0.1280.680/1920.0.1280.984@1920.0.1280.984" timestamp="1586197300313" />
     <state width="1237" height="233" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1586022164100" />
-    <state x="242" y="35" width="1038" height="645" key="SettingsEditor" timestamp="1587052440242">
-      <screen x="0" y="0" width="1280" height="680" />
+    <state x="2061" y="133" width="1038" height="645" key="SettingsEditor" timestamp="1587543035513">
+      <screen x="1920" y="0" width="1280" height="984" />
     </state>
     <state x="141" y="0" key="SettingsEditor/0.0.1280.680/1920.0.1280.984@0.0.1280.680" timestamp="1586853792547" />
-    <state x="2061" y="133" key="SettingsEditor/0.0.1280.680/1920.0.1280.984@1920.0.1280.984" timestamp="1586766437617" />
+    <state x="2061" y="133" key="SettingsEditor/0.0.1280.680/1920.0.1280.984@1920.0.1280.984" timestamp="1587543035513" />
     <state x="242" y="35" width="1038" height="645" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1587052440242" />
     <state x="2370" y="270" key="chooseDestDirectoryDialog" timestamp="1586596332606">
       <screen x="1920" y="0" width="1280" height="984" />

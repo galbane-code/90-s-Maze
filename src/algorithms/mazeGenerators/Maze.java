@@ -107,7 +107,26 @@ public class Maze {
             }
             System.out.println();
         }
+    }
 
 
+    public byte[] toByteArray() {
+        int rowSize = data.length;
+        int colSize = data[0].length;
+        byte [] byteArr = new byte[rowSize * colSize + 16];//16 for the entry, exit, size of row, size of col
+        int byteCounter = 16;
+
+        //TODO: add the first 16 bytes!
+
+        for (int i = 0; i < data.length; i++)
+        {
+            for (int j = 0; j < data[0].length; j++)
+            {
+                byteArr[byteCounter] = (byte) data[i][j];
+                byteCounter++;
+            }
+        }
+
+        return byteArr;
     }
 }

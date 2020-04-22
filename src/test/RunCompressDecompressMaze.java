@@ -16,7 +16,7 @@ public class RunCompressDecompressMaze {
     public static void main(String[] args) {
         String mazeFileName = "savedMaze.maze";
         AMazeGenerator mazeGenerator = new MyMazeGenerator();
-        Maze maze = mazeGenerator.generate(3, 3); //Generate new maze
+        Maze maze = mazeGenerator.generate(50, 50); //Generate new maze
 
         try {
             // save maze to a file

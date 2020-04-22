@@ -28,7 +28,7 @@ public class Maze {
     public Maze(byte [] arr )
 
     {
-       //int x = ByteBuffer.wrap(bytes).getInt();
+       //int x = ByteBuffer.wrap(arr).getInt();
     }
 
 
@@ -132,7 +132,6 @@ public class Maze {
         byte [] ColSizeBytes = ByteBuffer.allocate(4).putInt(colSize).array();
 
         // first we initial the start and end position of the maze in the four bits and set those values into  four values in the arr bit
-
         byte [] StartRowBytes = ByteBuffer.allocate(4).putInt(this.entry.getRowIndex()).array();
         byte [] StartColBytes = ByteBuffer.allocate(4).putInt(this.entry.getColumnIndex()).array();
 

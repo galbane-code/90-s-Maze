@@ -18,7 +18,7 @@ public class MyCompressorOutputStream extends OutputStream {
 
     @Override
     public void write(byte[] b) throws IOException {
-        //super.write(b);
+
         ArrayList<Byte> ByteArrList = new ArrayList<Byte>();
         for ( int i=0 ; i < 24; i++)
         {
@@ -97,10 +97,13 @@ public class MyCompressorOutputStream extends OutputStream {
         }
 
         b = newarr;
+        out.write(b);
+
     }
 
     @Override
-    public void write(int b) throws IOException {
-
+    public void write(int b) throws IOException
+    {
+        out.write(b);
     }
 }

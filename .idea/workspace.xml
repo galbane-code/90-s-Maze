@@ -24,6 +24,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="MERGE" />
   </component>
   <component name="ProjectId" id="1ZfrwpQ5NOEvAQYnMx4jYbe5AHE" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -178,6 +179,7 @@
       <workItem from="1587051873362" duration="608000" />
       <workItem from="1587280870702" duration="44000" />
       <workItem from="1587542784381" duration="4806000" />
+      <workItem from="1587554791401" duration="2297000" />
     </task>
     <servers />
   </component>
@@ -283,16 +285,20 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="117" y="47" width="1095" height="495" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1280.680@0.0.1280.680" timestamp="1587050034526" />
-    <state x="336" y="218" key="com.intellij.ide.util.TipDialog" timestamp="1587280871109">
-      <screen x="0" y="0" width="1280" height="680" />
+    <state x="2256" y="316" key="com.intellij.ide.util.TipDialog" timestamp="1587554899136">
+      <screen x="1920" y="0" width="1280" height="984" />
     </state>
     <state x="336" y="218" key="com.intellij.ide.util.TipDialog/0.0.1280.680/1920.0.1280.984@0.0.1280.680" timestamp="1587280871109" />
-    <state x="2256" y="316" key="com.intellij.ide.util.TipDialog/0.0.1280.680/1920.0.1280.984@1920.0.1280.984" timestamp="1586765758396" />
+    <state x="2256" y="316" key="com.intellij.ide.util.TipDialog/0.0.1280.680/1920.0.1280.984@1920.0.1280.984" timestamp="1587554899136" />
     <state x="336" y="218" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1587051873588" />
     <state x="2265" y="385" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1586273197307">
       <screen x="1920" y="0" width="1280" height="984" />
     </state>
     <state x="2265" y="385" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1280.680/1920.0.1280.984@1920.0.1280.984" timestamp="1586273197307" />
+    <state x="2369" y="409" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1587557841581">
+      <screen x="1920" y="0" width="1280" height="984" />
+    </state>
+    <state x="2369" y="409" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1280.680/1920.0.1280.984@1920.0.1280.984" timestamp="1587557841581" />
     <state x="2331" y="195" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1586273229209">
       <screen x="1920" y="0" width="1280" height="984" />
     </state>

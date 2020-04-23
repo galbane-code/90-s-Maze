@@ -3,7 +3,7 @@ package algorithms.mazeGenerators;
 //import javax.swing.text.Position;
 import java.util.Arrays;
 import java.nio.ByteBuffer;
-
+import java.util.Arrays;
 
 public class Maze {
 
@@ -28,7 +28,48 @@ public class Maze {
     public Maze(byte [] arr )
 
     {
+
+        int rowSizeInt;
+        int colSizeInt;
+        int entryRowInt;
+        int entryColInt;
+        int exitRowInt;
+        int exitColInt;
+
        //int x = ByteBuffer.wrap(arr).getInt();
+        byte [] RowSizeBytes = Arrays.copyOfRange(arr, 0, 4);
+        byte [] ColSizeBytes = Arrays.copyOfRange(arr, 4, 8);
+
+        // first we initial the start and end position of the maze in the four bits and set those values into  four values in the arr bit
+        byte [] StartRowBytes = Arrays.copyOfRange(arr, 8, 12);
+        byte [] StartColBytes = Arrays.copyOfRange(arr, 12, 16);
+
+        byte [] EndRowBytes = Arrays.copyOfRange(arr, 16, 20);
+        byte [] EndColBytes = Arrays.copyOfRange(arr, 20, 24);
+
+        rowSizeInt = ByteBuffer.wrap(RowSizeBytes).getInt();
+        colSizeInt = ByteBuffer.wrap(ColSizeBytes).getInt();
+        entryRowInt = ByteBuffer.wrap(StartRowBytes).getInt();
+        entryColInt = ByteBuffer.wrap(StartColBytes).getInt();
+        exitRowInt = ByteBuffer.wrap(EndRowBytes).getInt();
+        exitColInt = ByteBuffer.wrap(EndColBytes).getInt();
+
+        this.data = new int [rowSizeInt][colSizeInt];
+        int byteArrIndex = 24;
+
+        for(int i = 0; i < rowSizeInt; i++)
+        {
+            for(int j = 0; j < colSizeInt; j++)
+            {
+                this.data[i][j] = arr[byteArrIndex++];
+            }
+        }
+
+        this.data[entryRowInt*2][entryColInt*2] = 83;
+        this.data[exitRowInt*2][exitColInt*2] = 69;
+
+        this.entry = new Position(entryRowInt, entryColInt);
+        this.exit = new Position(exitRowInt, exitColInt);
     }
 
 

@@ -3,7 +3,7 @@ package IO;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.nio.ByteBuffer;
 
 
@@ -18,7 +18,7 @@ public class MyCompressorOutputStream extends OutputStream {
 
     @Override
     public void write(byte[] b) throws IOException {
-        //super.write(b);
+
         ArrayList<Byte> ByteArrList = new ArrayList<Byte>();
         for ( int i=0 ; i < 24; i++)
         {
@@ -38,71 +38,80 @@ public class MyCompressorOutputStream extends OutputStream {
 
         for(int j = 24; j < b.length-1; j++)
         {
-          if(b[j] == 1)
-          {
-              if(Ones == 255)
-              {
-                  ByteArrList.add(Ones);
-                  ByteArrList.add(Zeros);
-                  Ones = 0;
-              }
 
-              Ones++;
 
-              if(b[j+1] == 0)
+              if(b[j] == 1)
               {
-                  ByteArrList.add(Ones);
-                  Ones = 0;
-              }
-          }
-          else if(b[j] == 0)
-          {
-              if(Zeros == 255)
-              {
-                  ByteArrList.add(Zeros);
-                  ByteArrList.add(Ones);
-                  Zeros = 0;
-              }
+                  if(j == 24)
+                  {
+                    ByteArrList.add(Zeros);
+                  }
 
-              Zeros++;
+                  if(Ones == 255)
+                  {
+                      ByteArrList.add(Ones);
+                      ByteArrList.add(Zeros);
+                      Ones = 0;
+                  }
 
-              if(b[j+1] == 1)
-              {
-                  ByteArrList.add(Zeros);
-                  Zeros = 0;
-              }
-          }
-
-          if( j == b.length - 2)
-          {
-              if(b[b.length-1] == 1)
-              {
                   Ones++;
-                  ByteArrList.add(Ones);
+
+                  if(b[j+1] == 0)
+                  {
+                      ByteArrList.add(Ones);
+                      Ones = 0;
+                  }
               }
-              else
+
+              else if(b[j] == 0)
               {
+                  if(Zeros == 255)
+                  {
+                      ByteArrList.add(Zeros);
+                      ByteArrList.add(Ones);
+                      Zeros = 0;
+                  }
+
                   Zeros++;
-                  ByteArrList.add(Zeros);
+
+                  if(b[j+1] == 1)
+                  {
+                      ByteArrList.add(Zeros);
+                      Zeros = 0;
+                  }
               }
 
-          }
-        }
+              if( j == b.length - 2)
+              {
+                  if(b[b.length-1] == 1)
+                  {
+                      Ones++;
+                      ByteArrList.add(Ones);
+                  }
+                  else
+                  {
+                      Zeros++;
+                      ByteArrList.add(Zeros);
+                  }
 
-        byte[] newarr = new byte[ByteArrList.size()];
+              }
+            }
 
-        for(int i = 0; i < ByteArrList.size(); i++)
-        {
-            newarr[i] = ByteArrList.get(i);
-        }
+            byte[] newarr = new byte[ByteArrList.size()];
 
-        b = newarr;
-        super.write(b);
+            for(int i = 0; i < ByteArrList.size(); i++)
+            {
+                newarr[i] = ByteArrList.get(i);
+            }
+
+            b = newarr;
+            out.write(b);
+
     }
 
     @Override
-    public void write(int b) throws IOException {
-
-
+    public void write(int b) throws IOException
+    {
+        out.write(b);
     }
 }

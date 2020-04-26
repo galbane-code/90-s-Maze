@@ -8,6 +8,7 @@ import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.MyMazeGenerator;
 
 import java.io.*;
+import java.math.BigInteger;
 import java.util.Arrays;
 
 /**
@@ -17,12 +18,28 @@ public class RunCompressDecompressMaze {
     public static void main(String[] args) {
         String mazeFileName = "savedMaze.maze";
         AMazeGenerator mazeGenerator = new MyMazeGenerator();
-        Maze maze = mazeGenerator.generate(800, 1000); //Generate new maze
+        Maze maze = mazeGenerator.generate(100, 100); //Generate new maze
 
         try {
             // save maze to a file
             OutputStream out = new MyCompressorOutputStream(new FileOutputStream(mazeFileName));
             //maze.print();
+
+            //////////////TODO:: delete later (bottom section)
+            /*System.out.println(maze.toByteArray().length);
+            int [] intArr = new int [5];
+            byte byteNum = (byte)(213);
+            System.out.println(byteNum );
+            int intNum = byteNum & 0xFF;
+            System.out.println(intNum);
+            intArr [0] = byteNum & 0xFF;
+            System.out.println(intArr[0]);
+            System.out.println(Byte.parseByte("1011001", 2));
+            String gal = "10101001";
+            byte [] byteStr = gal.getBytes();
+            System.out.println(byteStr[0] - '0');*/
+            /////////////////////////////
+
             out.write(maze.toByteArray());
             out.flush();
             out.close();

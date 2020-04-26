@@ -105,6 +105,7 @@ public class MyCompressorOutputStream extends OutputStream {
             }
 
             b = newarr;
+            System.out.println(b.length);//TODO:: delete later
             out.write(b);
 
     }

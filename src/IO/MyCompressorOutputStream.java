@@ -57,14 +57,37 @@ public class MyCompressorOutputStream extends OutputStream {
                 lengthRemain -= lengthRemain;
             }
         }
-        int num = ByteArrList.size();
-        byte [] totalSize = ByteBuffer.allocate(4).putInt(ByteArrList.size()).array();
-        /*for(int i = 0; i < 4; i++)
-        {
-            ByteArrList.add(totalSize[i]);
-        }*/
+        byte [] totalSize = ByteBuffer.allocate(4).putInt(ByteArrList.size() + 4).array();
+        byte[] newarr = new byte[ByteArrList.size() + 4];
+        int k = 0;
 
-        /*ArrayList<Byte> ByteArrList = new ArrayList<Byte>();
+        for(int i = 0; i < newarr.length; i++)
+        {
+
+            if(i > 24 && i < 29)
+            {
+                newarr[i] = totalSize[k++];
+            }
+            else if(i >= 29)
+            {
+                newarr[i] = ByteArrList.get(i - 4);
+            }
+            else
+            {
+                newarr[i] = ByteArrList.get(i);
+            }
+        }
+
+        b = newarr;
+        out.write(b);
+
+
+
+
+
+        /*
+        ///////OLD
+        ArrayList<Byte> ByteArrList = new ArrayList<Byte>();
         for ( int i=0 ; i < 24; i++)
         {
             ByteArrList.add(b[i]);
@@ -81,90 +104,63 @@ public class MyCompressorOutputStream extends OutputStream {
         Byte Ones = 0;
         Byte Zeros = 0;
 
-        for(int j = 24; j < b.length-1; j++)
-        {
+        for(int j = 24; j < b.length-1; j++) {
 
 
-              if(b[j] == 1)
-              {
-                  if(j == 24)
-                  {
+            if (b[j] == 1) {
+                if (j == 24) {
                     ByteArrList.add(Zeros);
-                  }
-
-                  if(Ones == 255)
-                  {
-                      ByteArrList.add(Ones);
-                      ByteArrList.add(Zeros);
-                      Ones = 0;
-                  }
-
-                  Ones++;
-
-                  if(b[j+1] == 0)
-                  {
-                      ByteArrList.add(Ones);
-                      Ones = 0;
-                  }
-              }
-
-              else if(b[j] == 0)
-              {
-                  if(Zeros == 255)
-                  {
-                      ByteArrList.add(Zeros);
-                      ByteArrList.add(Ones);
-                      Zeros = 0;
-                  }
-
-                  Zeros++;
-
-                  if(b[j+1] == 1)
-                  {
-                      ByteArrList.add(Zeros);
-                      Zeros = 0;
-                  }
-              }
-
-              if( j == b.length - 2)
-              {
-                  if(b[b.length-1] == 1)
-                  {
-                      Ones++;
-                      ByteArrList.add(Ones);
-                  }
-                  else
-                  {
-                      Zeros++;
-                      ByteArrList.add(Zeros);
-                  }
-
-              }
-            }*/
-
-
-            byte[] newarr = new byte[ByteArrList.size() + 4];
-            int k = 0;
-
-            for(int i = 0; i < newarr.length; i++)
-            {
-
-                if(i > 24 && i < 29)
-                {
-                    newarr[i] = totalSize[k++];
                 }
-                else if(i >= 29)
-                {
-                    newarr[i] = ByteArrList.get(i - 4);
+
+                if (Ones == 255) {
+                    ByteArrList.add(Ones);
+                    ByteArrList.add(Zeros);
+                    Ones = 0;
                 }
-                else
-                {
-                    newarr[i ] = ByteArrList.get(i);
+
+                Ones++;
+
+                if (b[j + 1] == 0) {
+                    ByteArrList.add(Ones);
+                    Ones = 0;
+                }
+            } else if (b[j] == 0) {
+                if (Zeros == 255) {
+                    ByteArrList.add(Zeros);
+                    ByteArrList.add(Ones);
+                    Zeros = 0;
+                }
+
+                Zeros++;
+
+                if (b[j + 1] == 1) {
+                    ByteArrList.add(Zeros);
+                    Zeros = 0;
                 }
             }
 
-            b = newarr;
-            out.write(b);
+            if (j == b.length - 2) {
+                if (b[b.length - 1] == 1) {
+                    Ones++;
+                    ByteArrList.add(Ones);
+                } else {
+                    Zeros++;
+                    ByteArrList.add(Zeros);
+                }
+
+            }
+
+        }
+
+        byte[] newarr = new byte[ByteArrList.size()];
+
+        for (int i = 0; i < ByteArrList.size(); i++) {
+            newarr[i] = ByteArrList.get(i);
+        }
+
+        b = newarr;
+        out.write(b);*/
+
 
     }
 

@@ -23,7 +23,7 @@ public class MyDecompressorInputStream extends InputStream {
         ArrayList<Byte> byteArrayList = new ArrayList<Byte>();
         int i = 0;
 
-        while(i < 24 )
+        while(i < 29 )
         {
             byteArrayList.add(b[i]);
             i++;
@@ -32,7 +32,7 @@ public class MyDecompressorInputStream extends InputStream {
         boolean flag = false;
         byte count;
         int eightCounter;
-        int [] sizeOfEightArr = new int [8];
+        byte [] sizeOfEightArr = new byte [8];
         byte [] finalSizeArr = Arrays.copyOfRange(b, 25, 29);
 
         int totalArrbSize = ByteBuffer.wrap(finalSizeArr).getInt();
@@ -40,62 +40,68 @@ public class MyDecompressorInputStream extends InputStream {
         {
             int j = 0;
             count = b[i];
-            int byteToInt = count + 0xFF;
+            int byteToInt = count & 0xFF;
             String byteString = Integer.toBinaryString(byteToInt);
             byte[] byteArr = byteString.getBytes();
-            if(totalArrbSize - i != b[24])//b[24] is the size of the last array we compressed ( it is less then 8)
+
+            if (i == totalArrbSize - 1 && b[24] > 0)//b[24] is the size of the last array we compressed ( it is less then 8)
+            {
+                int finalInt = b[24];
+                int [] finalArr = new int [finalInt];
+                if(byteArr.length < finalArr.length)
+                {
+                    for (int k = 0; k < 8; k++)
+                    {
+                        if (k < byteArr.length)
+                            finalArr[finalArr.length - k - 1] = byteArr[finalArr.length - k - 1];
+                        else
+                        {
+                            finalArr[finalArr.length - k - 1] = 0;
+                        }
+                    }
+                }
+                else
+                {
+                    for(int h = 0; h < finalArr.length; h++)
+                    {
+                        finalArr[h] = byteArr[h];
+                    }
+                }
+                while (j < finalArr.length)
+                {
+                    byteArrayList.add((byte) (finalArr[j] - ((byte) 48)));
+                    j++;
+                }
+                break;
+            }
+
+            else
             {
                 if(byteArr.length < 8)
                 {
                     for (int k = 0; k < 8; k++)
                     {
                         if (k < byteArr.length)
-                            sizeOfEightArr[sizeOfEightArr.length - k - 1] = byteArr[sizeOfEightArr.length - k - 1];
+                            sizeOfEightArr[sizeOfEightArr.length - k - 1] = byteArr[byteArr.length - k - 1];
                         else
                         {
-                            sizeOfEightArr[sizeOfEightArr.length - k - 1] = 0;
-                        }
-                    }
-                }
-                else
-                    {
-                        for(int h = 0; h < 8; h++)
-                        {
-                            sizeOfEightArr[h] = byteArr[h];
-                        }
-                    }
-            }
-
-            else
-            {
-                int finalInt = b[24];
-                int [] finaArr = new int [finalInt];
-                if(byteArr.length < finaArr.length)
-                {
-                    for (int k = 0; k < 8; k++)
-                    {
-                        if (k < byteArr.length)
-                            finaArr[finaArr.length - k - 1] = byteArr[finaArr.length - k - 1];
-                        else
-                        {
-                            finaArr[finaArr.length - k - 1] = 0;
+                            sizeOfEightArr[sizeOfEightArr.length - k - 1] = 48;
                         }
                     }
                 }
                 else
                 {
-                    for(int h = 0; h < finaArr.length; h++)
+                    for(int h = 0; h < 8; h++)
                     {
-                        finaArr[h] = byteArr[h];
+                        sizeOfEightArr[h] = byteArr[h];
                     }
                 }
-                break;
-            }
 
-            while (j < sizeOfEightArr.length)
-            {
-                byteArrayList.add((byte) (byteArr[j] - ((byte) 48)));
-                j++;
+                while (j < sizeOfEightArr.length)
+                {
+                    byteArrayList.add((byte) (sizeOfEightArr[j] - ((byte) 48)));
+                    j++;
+                }
             }
         }
 
@@ -113,6 +119,7 @@ public class MyDecompressorInputStream extends InputStream {
 
         return -1;
 
+        ////OLD
         /*ArrayList<Byte> byteArrayList = new ArrayList<Byte>();
         int i = 0;
 
@@ -162,8 +169,15 @@ public class MyDecompressorInputStream extends InputStream {
             b[h] = toAssign[h];
         }
 
-        return -1;*/
+        return -1;
+
+         */
     }
+
+
+
+
+
 
     public int xboxDecomp(byte[] b)
     {

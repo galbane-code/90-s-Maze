@@ -233,7 +233,6 @@ public class Maze {
 
     public void intToPositionArr(Position [][] poseArr, int [][] intData)
     {
-        boolean isLastCol = false;
         int intMazeRow = 0;
         int intMazecol;
         for(int i = 0; i< poseArr.length - 1; i++)
@@ -253,42 +252,29 @@ public class Maze {
                 }
 
                 //last column
-                if(!isLastCol && j == poseArr[0].length - 2)
+                if(j == poseArr[0].length - 2)
                 {
-                    for (int s = 0; s < poseArr[0].length - 1; s++)
+                    if(intData[intMazeRow][intMazecol] == 0 && intData[intMazeRow+1][intMazecol] == 0 && intData[intMazeRow+2][intMazecol] == 0)
                     {
-                        if(intData[intMazeRow + 2][intMazecol] == 0 && intData[intMazeRow + 2][intMazecol + 1 ] == 0 && intData[intMazeRow+2][intMazecol + 2] == 0)
-                        {
-                            poseArr[s][j+1].getNeighbors().add(poseArr[s+1][j+1]);
-                            poseArr[s+1][j+1].getNeighbors().add(poseArr[s][j+1]);
-                        }
+                        poseArr[i][j+1].getNeighbors().add(poseArr[i+1][j+1]);
+                        poseArr[i+1][j+1].getNeighbors().add(poseArr[i][j+1]);
                     }
-                    isLastCol = true;
+
                 }
 
+                ///last row
+                if(i == poseArr.length - 2)
+                {
+                    if(intData[intMazeRow][intMazecol] == 0 && intData[intMazeRow][intMazecol+1] == 0 && intData[intMazeRow][intMazecol+2] == 0)
+                    {
+                        poseArr[i+1][j].getNeighbors().add(poseArr[i+1][j+1]);
+                        poseArr[i+1][j+1].getNeighbors().add(poseArr[i+1][j]);
+                    }
+                }
                 intMazecol += 2;
                // System.out.println(poseArr[i][j]);
             }
-
-            ///last row
-            if(i == poseArr.length - 2)
-            {
-                for (int s = 0; s < poseArr[0].length - 1; s++)
-                {
-                    if(intData[intMazeRow + 2][intMazecol] == 0 && intData[intMazeRow + 2][intMazecol + 1 ] == 0 && intData[intMazeRow+2][intMazecol + 2] == 0)
-                    {
-                        poseArr[i+1][s].getNeighbors().add(poseArr[i+1][s+1]);
-                        poseArr[i+1][s+1].getNeighbors().add(poseArr[i+1][s]);
-                    }
-                }
-            }
-
-
-
             intMazeRow += 2;
-
         }
-
-
     }
 }

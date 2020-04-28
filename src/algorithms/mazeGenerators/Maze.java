@@ -1,6 +1,8 @@
 package algorithms.mazeGenerators;
 
 //import javax.swing.text.Position;
+import javafx.geometry.Pos;
+
 import java.util.Arrays;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
@@ -65,11 +67,24 @@ public class Maze {
             }
         }
 
+        this.PositionMatrix = new Position[rowSizeInt / 2 + 1][colSizeInt / 2 + 1];
+        int counter = 0;
+        for(int i = 0; i< rowSizeInt/2 + 1; i++) {
+            for (int j = 0; j < colSizeInt / 2 + 1; j++) {
+                this.PositionMatrix[i][j] = new Position(i, j);
+                //this.PositionMatrix[i][j].setRank(0);
+                this.PositionMatrix[i][j].setId(counter);
+                counter++;
+            }
+        }
+        intToPositionArr(this.PositionMatrix, data);
+
         this.data[entryRowInt*2][entryColInt*2] = 83;
         this.data[exitRowInt*2][exitColInt*2] = 69;
 
         this.entry = new Position(entryRowInt, entryColInt);
         this.exit = new Position(exitRowInt, exitColInt);
+
     }
 
 
@@ -156,6 +171,20 @@ public class Maze {
             }
             System.out.println();
         }
+
+        for(int i = 0; i < this.PositionMatrix.length; i++)
+        {
+            for(int j = 0; j <this.PositionMatrix[0].length; j++)
+            {
+                System.out.println(PositionMatrix[i][j] + "his children:");
+                for(int h = 0; h < this.PositionMatrix[i][j].getNeighbors().size(); h++ )
+                {
+                    System.out.println(PositionMatrix[i][j].getNeighbors().get(h));
+                }
+                System.out.println("---------");
+
+            }
+        }
     }
 
 
@@ -200,5 +229,27 @@ public class Maze {
         }
 
         return byteArr;
+    }
+
+    public void intToPositionArr(Position [][] poseArr, int [][] intData)
+    {
+        for(int i = 0; i< poseArr.length - 1; i++)
+        {
+            for(int j = 0; j< poseArr[0].length - 1; j++)
+            {
+                if(intData[i][j] == 0 && intData[i][j+1] == 0 && intData[i][j+2] == 0)
+                {
+                    poseArr[i][j].getNeighbors().add(poseArr[i][j+1]);
+                    poseArr[i][j+1].getNeighbors().add(poseArr[i][j]);
+                }
+                if(intData[i][j] == 0 && intData[i+1][j] == 0 && intData[i+2][j] == 0)
+                {
+                    poseArr[i][j].getNeighbors().add(poseArr[i+1][j]);
+                    poseArr[i+1][j].getNeighbors().add(poseArr[i][j]);
+                }
+            }
+        }
+
+
     }
 }

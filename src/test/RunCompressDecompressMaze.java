@@ -6,9 +6,11 @@ import IO.MyDecompressorInputStream;
 import algorithms.mazeGenerators.AMazeGenerator;
 import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.MyMazeGenerator;
+import algorithms.search.*;
 
 import java.io.*;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -18,33 +20,12 @@ public class RunCompressDecompressMaze {
     public static void main(String[] args) {
         String mazeFileName = "savedMaze.maze";
         AMazeGenerator mazeGenerator = new MyMazeGenerator();
-        Maze maze = mazeGenerator.generate(100, 100); //Generate new maze
+        Maze maze = mazeGenerator.generate(3, 3); //Generate new maze
 
         try {
             // save maze to a file
             OutputStream out = new MyCompressorOutputStream(new FileOutputStream(mazeFileName));
             maze.print();
-
-            //////////////TODO:: delete later (bottom section)
-            /*System.out.println(maze.toByteArray().length);
-            int [] intArr = new int [5];
-            byte byteNum = (byte)(213);
-            System.out.println(byteNum );
-            int intNum = byteNum & 0xFF;
-            System.out.println(intNum);
-            intArr [0] = byteNum & 0xFF;
-            System.out.println(intArr[0]);
-            byte num = (byte) (Integer.parseInt("00111111", 2) );
-            String gal = "10101";
-            int numInt = num & 0xff;
-            byte [] byteStr = gal.getBytes();
-            byte [] copyArr = Arrays.copyOfRange(byteStr, 0, 2);
-            String newStr = new String(copyArr);
-            byte num2 = (byte) Integer.parseInt(newStr, 2);
-            System.out.println(num2);*/
-            /////////////////////////////
-
-
             out.write(maze.toByteArray());
             out.flush();
             out.close();
@@ -63,10 +44,32 @@ public class RunCompressDecompressMaze {
             e.printStackTrace();
         }
 
+        ////////////////////
         Maze loadedMaze = new Maze(savedMazeBytes);
+
+        /*SearchableMaze searchableMaze = new SearchableMaze(loadedMaze);
+        solveProblem(searchableMaze, new BreadthFirstSearch());
+        solveProblem(searchableMaze, new DepthFirstSearch());
+        solveProblem(searchableMaze, new BreadthFirstSearch());*/
+        ///////////////////
         System.out.println("--------");
         loadedMaze.print();
         boolean areMazesEquals = Arrays.equals(loadedMaze.toByteArray(),maze.toByteArray());
         System.out.println(String.format("Mazes equal: %s",areMazesEquals)); //maze should be equal to loadedMaze
+    }
+
+    private static void solveProblem(ISearchable domain, ASearchingAlgorithm searcher)
+    {
+        Solution solution = searcher.solve(domain);
+
+        System.out.println(String.format("'%s', algorithm - nodes evaluated: %s",
+                searcher.getName(), searcher.getNumberOFNodesEvaluated()));
+
+        System.out.println("Solution path:");
+        ArrayList<AState> solutionPath = solution.getSolutionPath();
+        for(int i = 0; i < solutionPath.size(); i++)
+        {
+            System.out.println(String.format("%s.%s", i, solutionPath.get(i)));
+        }
     }
 }

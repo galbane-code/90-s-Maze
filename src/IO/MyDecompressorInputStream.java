@@ -63,13 +63,13 @@ public class MyDecompressorInputStream extends InputStream {
 
                 if(byteArr.length < finalArr.length) // checks if we need to add zeros on the left and add if needed to the final arr.
                 {
-                    for (int k = 0; k < 8; k++)
+                    for (int k = 0; k < finalArr.length; k++)
                     {
                         if (k < byteArr.length)
-                            finalArr[finalArr.length - k - 1] = byteArr[finalArr.length - k - 1];
+                            finalArr[finalArr.length - k - 1] = byteArr[byteArr.length - k - 1];
                         else
                         {
-                            finalArr[finalArr.length - k - 1] = 0;
+                            finalArr[finalArr.length - k - 1] = 48;
                         }
                     }
                 }
@@ -114,7 +114,7 @@ public class MyDecompressorInputStream extends InputStream {
                     }
                 }
 
-                // after that we add the binary into the arrays list.
+                // after that we add the binary into the array list.
 
                 while (j < sizeOfEightArr.length)
                 {

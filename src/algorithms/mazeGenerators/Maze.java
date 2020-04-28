@@ -82,8 +82,8 @@ public class Maze {
         this.data[entryRowInt*2][entryColInt*2] = 83;
         this.data[exitRowInt*2][exitColInt*2] = 69;
 
-        this.entry = new Position(entryRowInt, entryColInt);
-        this.exit = new Position(exitRowInt, exitColInt);
+        this.entry = PositionMatrix[entryRowInt][entryColInt];
+        this.exit = PositionMatrix[exitRowInt][exitColInt];
 
     }
 
@@ -172,7 +172,7 @@ public class Maze {
             System.out.println();
         }
 
-        for(int i = 0; i < this.PositionMatrix.length; i++)
+        /*for(int i = 0; i < this.PositionMatrix.length; i++)
         {
             for(int j = 0; j <this.PositionMatrix[0].length; j++)
             {
@@ -184,7 +184,7 @@ public class Maze {
                 System.out.println("---------");
 
             }
-        }
+        }*/
     }
 
 
@@ -254,7 +254,7 @@ public class Maze {
                 //last column
                 if(j == poseArr[0].length - 2)
                 {
-                    if(intData[intMazeRow][intMazecol] == 0 && intData[intMazeRow+1][intMazecol] == 0 && intData[intMazeRow+2][intMazecol] == 0)
+                    if(intData[intMazeRow][intMazecol + 2] == 0 && intData[intMazeRow+1][intMazecol + 2] == 0 && intData[intMazeRow+2][intMazecol + 2] == 0)
                     {
                         poseArr[i][j+1].getNeighbors().add(poseArr[i+1][j+1]);
                         poseArr[i+1][j+1].getNeighbors().add(poseArr[i][j+1]);
@@ -265,14 +265,13 @@ public class Maze {
                 ///last row
                 if(i == poseArr.length - 2)
                 {
-                    if(intData[intMazeRow][intMazecol] == 0 && intData[intMazeRow][intMazecol+1] == 0 && intData[intMazeRow][intMazecol+2] == 0)
+                    if(intData[intMazeRow + 2][intMazecol] == 0 && intData[intMazeRow + 2][intMazecol+1] == 0 && intData[intMazeRow + 2][intMazecol+2] == 0)
                     {
                         poseArr[i+1][j].getNeighbors().add(poseArr[i+1][j+1]);
                         poseArr[i+1][j+1].getNeighbors().add(poseArr[i+1][j]);
                     }
                 }
                 intMazecol += 2;
-               // System.out.println(poseArr[i][j]);
             }
             intMazeRow += 2;
         }

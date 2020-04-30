@@ -1,6 +1,7 @@
 package IO;
 
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,6 +13,7 @@ import java.util.Arrays;
 public class MyCompressorOutputStream extends OutputStream {
 
     private OutputStream out;
+    private ObjectOutputStream out1;
 
     public MyCompressorOutputStream(OutputStream outputStream)
     {
@@ -19,6 +21,9 @@ public class MyCompressorOutputStream extends OutputStream {
     }
 
     @Override
+
+
+
     public void write(byte[] b) throws IOException {
 
         /** THIS FUNCTION COMPRESS THE BYTE ARR BY CHANGING THE MAZE 8 BINARY TO A BYTE */

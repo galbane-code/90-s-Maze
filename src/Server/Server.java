@@ -5,15 +5,17 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
 
-public class Server extends Thread
+public class Server
 {
     private IServerStrategy strategy;
     private int max_pool;
     private int port;
     private volatile boolean stop;
 
-    public Server(int port, int max_pool , IServerStrategy strategy)
+    public Server(int port, int max_pool , IServerStrategy strategy) throws IOException
     {
         this.strategy = strategy;
         this.max_pool = max_pool;
@@ -23,18 +25,16 @@ public class Server extends Thread
 
 
 
-    public void run()
-    {
+    public void start() throws Exception {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
 
-            while (true)
-            {
+            while (!stop) {
                 try {
                     Socket clientSocket = serverSocket.accept();
 
-                    InputStream inFromClient = clientSocket.getInputStream();
                     OutputStream outToClient = clientSocket.getOutputStream();
+                    InputStream inFromClient = clientSocket.getInputStream();
 
                     this.strategy.handleClient(inFromClient, outToClient);
 
@@ -42,21 +42,22 @@ public class Server extends Thread
                     outToClient.close();
                     clientSocket.close();
                 }
-                catch (ClassNotFoundException e) {
+                catch (ClassNotFoundException e)
+                {
                     System.out.println("Class not found");
                 }
-                catch (IOException e) {
-                    System.out.println("Where are the clients??");
-                }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+            }
+
+        catch (IOException e) {
+            System.out.println("Where are the clients??");
         }
-    }}
-
-   // public void stop()
-   // {
-   //     this.stop = true;
-   // }
+    }
 
 
+        public void stop()
+        {
+            this.stop = true;
+        }
+
+}

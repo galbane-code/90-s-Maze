@@ -1,6 +1,8 @@
 package Client;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 
@@ -19,12 +21,19 @@ public class Client
 
     public void communicateWithServer()
     {
-        try {
-            Socket socket = new Socket(serverIP,port);
+        try
+        {
+            Socket socket = new Socket(this.serverIP, this.port);
             System.out.println("Client is connected to server!");
-            clientStrategy.clientStrategy(socket.getInputStream(),socket.getOutputStream());
+            OutputStream clientOutPutStream = socket.getOutputStream();
+            InputStream clientInPutStream = socket.getInputStream();
+
+            clientStrategy.clientStrategy(clientInPutStream, clientOutPutStream);
             socket.close();
-        } catch (IOException e) {
+        }
+
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
     }

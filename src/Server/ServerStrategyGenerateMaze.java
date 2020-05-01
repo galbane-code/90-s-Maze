@@ -6,31 +6,40 @@ import algorithms.mazeGenerators.AMazeGenerator;
 import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.MyMazeGenerator;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.OutputStream;
+import java.io.*;
 
 public class ServerStrategyGenerateMaze implements IServerStrategy
 
 {
     private MyCompressorOutputStream compressorOutputStream;
-
+    private InputStream in;/*ToDelete*/
 
     @Override
     public void handleClient(InputStream inputStream, OutputStream outputStream) throws IOException
     {
         try
         {
+            compressorOutputStream = new MyCompressorOutputStream(outputStream);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(this.compressorOutputStream);
             ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
-            int [] maze_size = (int[]) (objectInputStream.readObject());
+
+
+
+            int [] maze_size = new int [2];
+            maze_size = (int[]) (objectInputStream.readObject());
 
             AMazeGenerator mazegen = new MyMazeGenerator();
             Maze maze = mazegen.generate(maze_size[0],maze_size[1]);
 
-            compressorOutputStream = new MyCompressorOutputStream(outputStream);
-            compressorOutputStream.write(maze.toByteArray());
-            compressorOutputStream.flush();
+            /////////////
+            System.out.println("server: ");
+            maze.print();
+            System.out.println("------------");
+            /////////////
+
+            //compressorOutputStream.write(maze.toByteArray());
+            objectOutputStream.writeObject(maze.toByteArray());
+            objectOutputStream.flush();
             compressorOutputStream.close();
         }
 

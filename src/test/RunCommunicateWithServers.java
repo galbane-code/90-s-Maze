@@ -12,16 +12,15 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
-/**
- * Created by Aviadjo on 3/27/2017.
- */
 public class RunCommunicateWithServers {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         //Initializing servers
         Server mazeGeneratingServer = new Server(5400, 1000, new ServerStrategyGenerateMaze());
        // Server solveSearchProblemServer = new Server(5401, 1000, new ServerStrategySolveSearchProblem());
         //Server stringReverserServer = new Server(5402, 1000, new ServerStrategyStringReverser());
 
+        new Thread(() ->
+        {
         try
         {
             //Starting  servers
@@ -31,7 +30,7 @@ public class RunCommunicateWithServers {
 
         catch (Exception e) {
             e.printStackTrace();
-        }
+        }}).start();
 
         //stringReverserServer.start();
 
@@ -41,7 +40,7 @@ public class RunCommunicateWithServers {
         //CommunicateWithServer_StringReverser();
 
         //Stopping all servers
-      //  mazeGeneratingServer.stop();
+        mazeGeneratingServer.stop();
        // solveSearchProblemServer.stop();
         //stringReverserServer.stop();
     }
@@ -55,10 +54,14 @@ public class RunCommunicateWithServers {
                         ObjectOutputStream toServer = new ObjectOutputStream(outToServer);
                         ObjectInputStream fromServer = new ObjectInputStream(inFromServer);
                         toServer.flush();
-                        int[] mazeDimensions = new int[]{50, 50};
+                        int[] mazeDimensions = new int[]{3, 3};
                         toServer.writeObject(mazeDimensions); //send maze dimensions to server
                         toServer.flush();
                         byte[] compressedMaze = (byte[]) fromServer.readObject(); //read generated maze (compressed with MyCompressor) from server
+                        ///////
+                        for (int i=25;i<compressedMaze.length;i++)
+                            System.out.println((int)compressedMaze[i]);
+                        //////
                         InputStream is = new MyDecompressorInputStream(new ByteArrayInputStream(compressedMaze));
                         byte[] decompressedMaze = new byte[1000 /*CHANGE SIZE ACCORDING TO YOU MAZE SIZE*/]; //allocating byte[] for the decompressed maze -
                         is.read(decompressedMaze); //Fill decompressedMaze with bytes

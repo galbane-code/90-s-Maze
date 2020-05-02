@@ -18,11 +18,11 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy
 
         try
         {
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
             ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
             Maze maze = (Maze)objectInputStream.readObject();
             ISearchable searchablemaze = new SearchableMaze(maze);
             Solution solved = bfs.solve(searchablemaze);
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
             objectOutputStream.writeObject(solved);
             objectOutputStream.flush();
         }

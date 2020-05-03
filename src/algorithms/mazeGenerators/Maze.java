@@ -3,11 +3,12 @@ package algorithms.mazeGenerators;
 //import javax.swing.text.Position;
 import javafx.geometry.Pos;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
-public class Maze {
+public class Maze implements Serializable {
 
     private String name = "new maze";
     private Position entry; // the position we start from in the maze

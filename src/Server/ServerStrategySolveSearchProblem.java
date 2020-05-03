@@ -16,6 +16,8 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy
     @Override
     public void handleClient(InputStream inputStream, OutputStream outputStream) throws IOException, ClassNotFoundException {
 
+        //generating a maze
+        //converting it into a searchable maze and then solve it with best first search
         try
         {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);

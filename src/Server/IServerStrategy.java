@@ -5,6 +5,6 @@ import java.io.OutputStream;
 
 public interface IServerStrategy
 {
-    public void handleClient(InputStream inputStream, OutputStream outputStream) throws IOException, ClassNotFoundException;
+    public void handleClient(InputStream inputStream, OutputStream outputStream) throws IOException, ClassNotFoundException, interupredException, InterruptedException;
 
 }

@@ -13,7 +13,7 @@ public class ServerStrategyGenerateMaze implements IServerStrategy
 {
     private MyCompressorOutputStream compressorOutputStream;
     private ByteArrayOutputStream out;
-    private ByteArrayInputStream in;/*ToDelete*/
+    private ByteArrayInputStream in;
 
     @Override
     public void handleClient(InputStream inputStream, OutputStream outputStream) throws IOException
@@ -34,6 +34,7 @@ public class ServerStrategyGenerateMaze implements IServerStrategy
             Maze maze = mazegen.generate(maze_size[0],maze_size[1]);
 
             /////////////@TODO: test section
+
             System.out.println("server: ");
             maze.print();
             System.out.println("------------");

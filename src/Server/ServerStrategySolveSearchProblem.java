@@ -44,7 +44,7 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy
             {
                 ISearchable searchablemaze = new SearchableMaze(maze);
                 solved = bfs.solve(searchablemaze);
-
+                MazesSolved.add(mazearr);
                 Solutions.put(mazearr,solved);
             }
 
@@ -62,19 +62,13 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy
 
     private byte[] isExist(ArrayList<byte[]> maze , byte[] tocheck)
     {
-        int change = 0;
+
         for(int i=0; i < maze.size(); i++)
         {
             if(Arrays.equals(tocheck,maze.get(i)))
             {
-                change++;
                 return maze.get(i);
             }
-        }
-        if(change == 0)
-        {
-            maze.add(tocheck);
-            this.MazesSolved = maze;
         }
         return null;
     }

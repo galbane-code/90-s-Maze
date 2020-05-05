@@ -1,11 +1,12 @@
 package algorithms.search;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 
 // an abstract class to represent one state/move in a searching problem.
 
-public abstract class AState  {
+public abstract class AState  implements Serializable {
 
     private AState parent;
     private String State;

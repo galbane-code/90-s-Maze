@@ -24,7 +24,6 @@ public class Client
         try
         {
             Socket socket = new Socket(this.serverIP, this.port);
-            System.out.println("Client is connected to server!");
             OutputStream clientOutPutStream = socket.getOutputStream();
             InputStream clientInPutStream = socket.getInputStream();
 

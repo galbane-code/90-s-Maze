@@ -24,8 +24,8 @@ public class RunCommunicateWithServers {
         try
         {
             //Starting  servers
-            //solveSearchProblemServer.start();
-            mazeGeneratingServer.start();
+            solveSearchProblemServer.start();
+            //mazeGeneratingServer.start();
         }
 
         catch (Exception e) {
@@ -35,13 +35,13 @@ public class RunCommunicateWithServers {
         //stringReverserServer.start();
 
         //Communicating with servers
-        CommunicateWithServer_MazeGenerating();
-        //CommunicateWithServer_SolveSearchProblem();
+        //CommunicateWithServer_MazeGenerating();
+        CommunicateWithServer_SolveSearchProblem();
         //CommunicateWithServer_StringReverser();
 
         //Stopping all servers
-        mazeGeneratingServer.stop();
-        //solveSearchProblemServer.stop();
+        //mazeGeneratingServer.stop();
+        solveSearchProblemServer.stop();
         //stringReverserServer.stop();
     }
 

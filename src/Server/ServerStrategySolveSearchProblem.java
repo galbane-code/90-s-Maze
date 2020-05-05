@@ -65,8 +65,8 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy
         {
             if(Arrays.equals(tocheck,maze.get(i)))
             {
-                return maze.get(i);
                 change++;
+                return maze.get(i);
             }
         }
         if(change == 0)

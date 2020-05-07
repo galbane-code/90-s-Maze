@@ -4,8 +4,7 @@ import Server.*;
 import Client.*;
 import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.MyMazeGenerator;
-import algorithms.search.AState;
-import algorithms.search.Solution;
+import algorithms.search.*;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -63,6 +62,7 @@ public class RunCommunicateWithServers {
                         is.read(decompressedMaze); //Fill decompressedMaze with bytes
                         Maze maze = new Maze(decompressedMaze);
                         maze.print();
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -84,8 +84,8 @@ public class RunCommunicateWithServers {
                         ObjectInputStream fromServer = new ObjectInputStream(inFromServer);
                         toServer.flush();
                         MyMazeGenerator mg = new MyMazeGenerator();
-                        Maze maze = mg.generate(30, 30);
-                        maze.print();
+                        Maze maze = mg.generate(3, 3);
+                        //maze.print();
                         toServer.writeObject(maze); //send maze to server
                         toServer.flush();
                         Solution mazeSolution = (Solution) fromServer.readObject(); //read generated maze (compressed with MyCompressor) from server

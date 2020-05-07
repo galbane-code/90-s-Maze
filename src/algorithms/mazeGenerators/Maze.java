@@ -3,6 +3,9 @@ package algorithms.mazeGenerators;
 //import javax.swing.text.Position;
 import javafx.geometry.Pos;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.nio.ByteBuffer;
@@ -73,7 +76,6 @@ public class Maze implements Serializable {
         for(int i = 0; i< rowSizeInt/2 + 1; i++) {
             for (int j = 0; j < colSizeInt / 2 + 1; j++) {
                 this.PositionMatrix[i][j] = new Position(i, j);
-                //this.PositionMatrix[i][j].setRank(0);
                 this.PositionMatrix[i][j].setId(counter);
                 counter++;
             }
@@ -277,4 +279,24 @@ public class Maze implements Serializable {
             intMazeRow += 2;
         }
     }
+
+    private void writeObject(ObjectOutputStream outputStream) throws IOException
+    {
+        byte [] byteArr = this.toByteArray();
+        outputStream.writeObject(byteArr);
+    }
+
+
+    private void readObject(ObjectInputStream inputStream) throws IOException, ClassNotFoundException
+    {
+        byte [] arr = (byte [])inputStream.readObject();
+
+        Maze maze = new Maze(arr);
+        this.exit = maze.exit;
+        this.entry = maze.entry;
+        this.PositionMatrix = maze.getPositionMatrix();
+        this.data = maze.data;
+
+    }
+
 }

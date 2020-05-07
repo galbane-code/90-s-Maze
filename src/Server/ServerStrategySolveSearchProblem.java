@@ -25,17 +25,19 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy
     public void handleClient(InputStream inputStream, OutputStream outputStream) throws IOException, ClassNotFoundException, InterruptedException {
 
         //generating a maze
-        //converting it into a searchable maze and then solve it with best first search
+        //converting it into a searchable maze and then solves it with best first search
         try
         {
             Solution solved;
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
             ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
             Maze maze = (Maze)objectInputStream.readObject();
-            byte[] mazearr = maze.toByteArray();
-            byte[] returned = isExist(this.MazesSolved,mazearr);
-
+            byte [] mazeArr = maze.toByteArray();
             mutex.acquire();
+            byte[] returned = isExist(this.MazesSolved,mazeArr);
+            mutex.release();
+
+
             if( returned != null )
             {
                 solved = Solutions.get(returned);
@@ -44,11 +46,11 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy
             {
                 ISearchable searchablemaze = new SearchableMaze(maze);
                 solved = bfs.solve(searchablemaze);
-                MazesSolved.add(mazearr);
-                Solutions.put(mazearr,solved);
+                MazesSolved.add(mazeArr);
+                Solutions.put(mazeArr,solved);
             }
 
-            mutex.release();
+
             objectOutputStream.writeObject(solved);
             objectOutputStream.flush();
         }

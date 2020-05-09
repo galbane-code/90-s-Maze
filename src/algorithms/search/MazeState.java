@@ -1,8 +1,14 @@
 package algorithms.search;
 
+import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.Position;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 public class MazeState extends AState
 
@@ -51,6 +57,74 @@ public class MazeState extends AState
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public byte[] MazeStateTobyteArr() // TODO: change the maze state to byte arr
+    {
+        byte [] arr = new byte[8];
+        byte [] RowBytes = ByteBuffer.allocate(4).putInt(this.self.getRowIndex()).array();
+        byte [] ColBytes = ByteBuffer.allocate(4).putInt(this.self.getColumnIndex()).array();
+        System.arraycopy(RowBytes, 0, arr, 0, 4);
+        System.arraycopy(ColBytes, 0, arr, 4, 4);
+        return arr;
+    }
+
+
+    public static MazeState ByteArrToMazeState (byte [] arr) // TODO: CHANGE the byte arr back to maze PositIon
+    {
+        byte [] RowSizeBytes = Arrays.copyOfRange(arr, 0, 4);
+        byte [] ColSizeBytes = Arrays.copyOfRange(arr, 4, 8);
+        int rowInt = ByteBuffer.wrap(RowSizeBytes).getInt();
+        int colInt = ByteBuffer.wrap(ColSizeBytes).getInt();
+        Position pos = new Position(rowInt,colInt);
+        MazeState state = new MazeState(0,pos);
+        return state;
+    }
+
+    private void writeObject(ObjectOutputStream outputStream) throws IOException
+    {
+        outputStream.writeObject(this.MazeStateTobyteArr()); // first we write this maze state
+        /* byte SuccesorsSize = (byte)(this.getSuccessors().size());
+        outputStream.writeObject(SuccesorsSize); // then the size of his successors
+       for(int i=0; i < this.getSuccessors().size(); i++) // then we write all his successors seperatley
+        {
+            outputStream.writeObject(((MazeState)(this.getSuccessors().get(i))).MazeStateTobyteArr());
+        }*/
+
+        outputStream.writeObject(((MazeState)(this.getParent())).MazeStateTobyteArr()); // write his parent
+        outputStream.writeObject(this.getCost()); // write the cost of the node
+
+    }
+
+
+    private void readObject(ObjectInputStream inputStream) throws IOException, ClassNotFoundException
+    {
+
+        byte [] arr = (byte [])inputStream.readObject();
+        MazeState newState = MazeState.ByteArrToMazeState(arr);
+      /*  byte successorsSize = (byte)inputStream.readObject();
+
+        MazeState temp;
+        for(int i = 0; i < successorsSize; i++)
+        {
+            byte [] tempArr = (byte [])inputStream.readObject();
+            temp = MazeState.ByteArrToMazeState(arr);
+            newState.getSuccessors().add(temp);
+        }*/
+
+        arr = (byte [])inputStream.readObject();
+        MazeState parent = MazeState.ByteArrToMazeState(arr);
+        newState.setParent(parent);
+
+        double cost = (double)inputStream.readObject();
+        newState.setCost(cost);
+
+        this.self = newState.self;
+        this.id = newState.id;
+        this.setParent(newState.getParent());
+       // this.setSuccessors(newState.getSuccessors());
+        this.setCost(newState.getCost());
+
     }
 
 }

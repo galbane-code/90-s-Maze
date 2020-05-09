@@ -1,6 +1,9 @@
 package algorithms.mazeGenerators;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 public class Position implements Serializable{
     // the object that represents the row and the col of the maze so we can access its easily and manipulate the maze

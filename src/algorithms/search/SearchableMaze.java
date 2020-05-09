@@ -239,4 +239,6 @@ public class SearchableMaze implements ISearchable
             states.get(i).setVisited(false);
         }
     }
+
+
 }

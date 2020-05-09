@@ -69,4 +69,12 @@ public abstract class AState  implements Serializable {
     public boolean equals(Object obj) {
         return super.equals(obj);
     }
+
+    public void setState(String state) {
+        State = state;
+    }
+
+    public void setSuccessors(ArrayList<AState> successors) {
+        Successors = successors;
+    }
 }

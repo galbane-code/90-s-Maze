@@ -19,8 +19,9 @@ public class Maze implements Serializable {
     boolean isSolved = false; // a bool that confirm as if the maze is solved or not
     int [][] data; // the field that we keep the print of the maze
 
-    Character [] characters; // the characters that play in the maze
-    Position [][] PositionMatrix; // a field that we keep in all the position and there neighbors updated to create and solved the maze
+    private Character [] characters; // the characters that play in the maze
+    private Position [][] PositionMatrix; // a field that we keep in all the position and there neighbors updated to create and solved the maze
+
 
 
 
@@ -60,7 +61,9 @@ public class Maze implements Serializable {
         exitRowInt = ByteBuffer.wrap(EndRowBytes).getInt();
         exitColInt = ByteBuffer.wrap(EndColBytes).getInt();
 
+
         this.data = new int [rowSizeInt][colSizeInt];
+
         int byteArrIndex = 24;
 
         for(int i = 0; i < rowSizeInt; i++)
@@ -71,6 +74,9 @@ public class Maze implements Serializable {
             }
         }
 
+        this.data[entryRowInt*2][entryColInt*2] = 0;
+        this.data[exitRowInt*2][exitColInt*2] = 0;
+
         this.PositionMatrix = new Position[rowSizeInt / 2 + 1][colSizeInt / 2 + 1];
         int counter = 0;
         for(int i = 0; i< rowSizeInt/2 + 1; i++) {
@@ -80,6 +86,7 @@ public class Maze implements Serializable {
                 counter++;
             }
         }
+
         intToPositionArr(this.PositionMatrix, data);
 
         this.data[entryRowInt*2][entryColInt*2] = 83;
@@ -280,6 +287,7 @@ public class Maze implements Serializable {
         }
     }
 
+
     private void writeObject(ObjectOutputStream outputStream) throws IOException
     {
         byte [] byteArr = this.toByteArray();
@@ -289,11 +297,11 @@ public class Maze implements Serializable {
 
     private void readObject(ObjectInputStream inputStream) throws IOException, ClassNotFoundException
     {
-        byte [] arr = (byte [])inputStream.readObject();
 
+        byte [] arr = (byte [])inputStream.readObject();
         Maze maze = new Maze(arr);
-        this.exit = maze.exit;
-        this.entry = maze.entry;
+        this.exit = maze.getGoalPosition();
+        this.entry = maze.getStartPosition();
         this.PositionMatrix = maze.getPositionMatrix();
         this.data = maze.data;
 

@@ -18,6 +18,8 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy
 
     private ArrayList<byte[]> MazesSolved = new ArrayList<byte[]>();
     private HashMap<byte[], Solution> Solutions = new HashMap<byte[], Solution>();
+    private String tempDirectoryPath = System.getProperty("java.io.tmpdir");
+    private FileOutputStream fos;
     private ISearchingAlgorithm bfs = new BestFirstSearch();
     private static Semaphore mutex = new Semaphore(1);
 
@@ -32,7 +34,8 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
             ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
             Maze maze = (Maze)objectInputStream.readObject();
-            byte [] mazeArr = maze.toByteArray();
+            byte[] mazeArr = maze.toByteArray();
+
             mutex.acquire();
             byte[] returned = isExist(this.MazesSolved,mazeArr);
             mutex.release();

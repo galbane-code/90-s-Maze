@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
-public class MazeState extends AState
+public class MazeState extends AState implements Serializable
 
     // a derived class of AState, used for the maze problem
 {
@@ -83,7 +83,8 @@ public class MazeState extends AState
 
     private void writeObject(ObjectOutputStream outputStream) throws IOException
     {
-        outputStream.writeObject(this.MazeStateTobyteArr()); // first we write this maze state
+        /*byte [] arr = this.MazeStateTobyteArr();
+        outputStream.writeObject(arr); // first we write this maze state
         /* byte SuccesorsSize = (byte)(this.getSuccessors().size());
         outputStream.writeObject(SuccesorsSize); // then the size of his successors
        for(int i=0; i < this.getSuccessors().size(); i++) // then we write all his successors seperatley
@@ -91,8 +92,10 @@ public class MazeState extends AState
             outputStream.writeObject(((MazeState)(this.getSuccessors().get(i))).MazeStateTobyteArr());
         }*/
 
-        outputStream.writeObject(((MazeState)(this.getParent())).MazeStateTobyteArr()); // write his parent
-        outputStream.writeObject(this.getCost()); // write the cost of the node
+        //outputStream.writeObject(((MazeState)(this.getParent())).MazeStateTobyteArr()); // write his parent
+        //outputStream.writeObject(this.getCost()); // write the cost of the node
+        outputStream.writeInt(this.self.getRowIndex());
+        outputStream.writeInt(this.self.getColumnIndex());
 
     }
 
@@ -100,9 +103,16 @@ public class MazeState extends AState
     private void readObject(ObjectInputStream inputStream) throws IOException, ClassNotFoundException
     {
 
-        byte [] arr = (byte [])inputStream.readObject();
+        /*byte[] arr = (byte[]) inputStream.readObject();
+
+        byte[] RowSizeBytes = Arrays.copyOfRange(arr, 0, 4);
+        byte[] ColSizeBytes = Arrays.copyOfRange(arr, 4, 8);
+        int rowInt = ByteBuffer.wrap(RowSizeBytes).getInt();
+        int colInt = ByteBuffer.wrap(ColSizeBytes).getInt();
+        Position pos = new Position(rowInt, colInt);
+        MazeState state = new MazeState(0, pos);
         MazeState newState = MazeState.ByteArrToMazeState(arr);
-      /*  byte successorsSize = (byte)inputStream.readObject();
+       byte successorsSize = (byte)inputStream.readObject();
 
         MazeState temp;
         for(int i = 0; i < successorsSize; i++)
@@ -110,20 +120,24 @@ public class MazeState extends AState
             byte [] tempArr = (byte [])inputStream.readObject();
             temp = MazeState.ByteArrToMazeState(arr);
             newState.getSuccessors().add(temp);
-        }*/
+        }
 
         arr = (byte [])inputStream.readObject();
         MazeState parent = MazeState.ByteArrToMazeState(arr);
         newState.setParent(parent);
 
         double cost = (double)inputStream.readObject();
-        newState.setCost(cost);
+        newState.setCost(cost);*/
 
-        this.self = newState.self;
-        this.id = newState.id;
-        this.setParent(newState.getParent());
-       // this.setSuccessors(newState.getSuccessors());
-        this.setCost(newState.getCost());
+        //this.setSelf(state.self);
+        //this.id = newState.id;
+        //this.setParent(newState.getParent());
+        //this.setSuccessors(newState.getSuccessors());
+        //this.setCost(newState.getCost());
+
+        int row = inputStream.readInt();
+        int col = inputStream.readInt();
+        this.self = new Position(row, col);
 
     }
 

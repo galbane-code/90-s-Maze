@@ -28,7 +28,7 @@ public class Solution implements Serializable
         return solution;
     }
 
-
+    /*
     private void writeObject(ObjectOutputStream outputStream) throws IOException
     {
         int size = this.solution.size();
@@ -38,7 +38,7 @@ public class Solution implements Serializable
             outputStream.writeObject(this.solution.get(i));
         }
 
-
+        outputStream.writeObject(this.solution);
     }
 
     private void readObject(ObjectInputStream inputStream) throws IOException, ClassNotFoundException
@@ -47,12 +47,16 @@ public class Solution implements Serializable
         ArrayList<AState> Mazestates = new ArrayList<AState>();
         while(size != 0)
         {
-            Mazestates.add((MazeState)inputStream.readObject());
+            MazeState MS = (MazeState)inputStream.readObject();
+            Mazestates.add(MS);
             size--;
         }
 
         this.solution = Mazestates;
 
-    }
+        ArrayList<AState> arr= (ArrayList<AState>)inputStream.readObject();
+
+        this.solution = arr;
+    }*/
 
 }

@@ -11,38 +11,52 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Semaphore;
 
 public class RunCommunicateWithServers {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
+
+
+
         //Initializing servers
-        Server mazeGeneratingServer = new Server(5400, 1000, new ServerStrategyGenerateMaze());
-        Server solveSearchProblemServer = new Server(5401, 1000, new ServerStrategySolveSearchProblem());
+        Server mazeGeneratingServer = new Server(5400, 2000, new ServerStrategyGenerateMaze());
+        Server solveSearchProblemServer = new Server(5401, 2000, new ServerStrategySolveSearchProblem());
         //Server stringReverserServer = new Server(5402, 1000, new ServerStrategyStringReverser());
 
         new Thread(() ->
+            {
+            try
+            {
+                //Starting  servers
+                //solveSearchProblemServer.start();
+                mazeGeneratingServer.start();
+            }
+
+            catch (Exception e) {
+                e.printStackTrace();
+        }}).start();
+
+
+        for (int i = 0; i < 6; i++)
         {
-        try
-        {
-            //Starting  servers
-            solveSearchProblemServer.start();
-            //mazeGeneratingServer.start();
+            CommunicateWithServer_MazeGenerating();;
+            //Thread.sleep(2000);
         }
 
-        catch (Exception e) {
-            e.printStackTrace();
-        }}).start();
+
 
         //stringReverserServer.start();
 
         //Communicating with servers
         //CommunicateWithServer_MazeGenerating();
-        CommunicateWithServer_SolveSearchProblem();
-        //CommunicateWithServer_StringReverser();
+        //CommunicateWithServer_SolveSearchProblem();
 
         //Stopping all servers
-        //mazeGeneratingServer.stop();
-        solveSearchProblemServer.stop();
-        //stringReverserServer.stop();
+        mazeGeneratingServer.stop();
+        //solveSearchProblemServer.stop();
+        //executor.shutdown();
     }
 
     private static void CommunicateWithServer_MazeGenerating() {
@@ -54,7 +68,7 @@ public class RunCommunicateWithServers {
                         ObjectOutputStream toServer = new ObjectOutputStream(outToServer);
                         ObjectInputStream fromServer = new ObjectInputStream(inFromServer);
                         toServer.flush();
-                        int[] mazeDimensions = new int[]{200, 200};
+                        int[] mazeDimensions = new int[]{5, 9};
                         toServer.writeObject(mazeDimensions); //send maze dimensions to server
                         toServer.flush();
                         byte[] compressedMaze = (byte[]) fromServer.readObject(); //read generated maze (compressed with MyCompressor) from server
@@ -77,6 +91,7 @@ public class RunCommunicateWithServers {
 
     private static void CommunicateWithServer_SolveSearchProblem() {
         try {
+            System.out.println("new client");
             Client client = new Client(InetAddress.getLocalHost(), 5401, new IClientStrategy() {
                 @Override
                 public void clientStrategy(InputStream inFromServer, OutputStream outToServer) {
@@ -85,7 +100,7 @@ public class RunCommunicateWithServers {
                         ObjectInputStream fromServer = new ObjectInputStream(inFromServer);
                         toServer.flush();
                         MyMazeGenerator mg = new MyMazeGenerator();
-                        Maze maze = mg.generate(1000, 1000);
+                        Maze maze = mg.generate(5, 7);
                         toServer.writeObject(maze); //send maze to server
                         toServer.flush();
                         Solution mazeSolution = (Solution) fromServer.readObject(); //read generated maze (compressed with MyCompressor) from server
@@ -96,35 +111,6 @@ public class RunCommunicateWithServers {
                         for (int i = 0; i < mazeSolutionSteps.size(); i++) {
                             System.out.println(String.format("%s. %s", i, mazeSolutionSteps.get(i).toString()));
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-            client.communicateWithServer();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static void CommunicateWithServer_StringReverser() {
-        try {
-            Client client = new Client(InetAddress.getLocalHost(), 5402, new IClientStrategy() {
-                @Override
-                public void clientStrategy(InputStream inFromServer, OutputStream outToServer) {
-                    try {
-                        BufferedReader fromServer = new BufferedReader(new InputStreamReader(inFromServer));
-                        PrintWriter toServer = new PrintWriter(outToServer);
-
-                        String message = "Client Message";
-                        String serverResponse;
-                        toServer.write(message + "\n");
-                        toServer.flush();
-                        serverResponse = fromServer.readLine();
-                        System.out.println(String.format("Server response: %s", serverResponse));
-                        toServer.flush();
-                        fromServer.close();
-                        toServer.close();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

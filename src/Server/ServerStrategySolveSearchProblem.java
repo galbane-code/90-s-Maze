@@ -6,22 +6,28 @@ import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.MyMazeGenerator;
 import algorithms.mazeGenerators.Position;
 import algorithms.search.*;
-
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 import java.util.concurrent.Semaphore;
 
 public class ServerStrategySolveSearchProblem implements IServerStrategy
 {
 
-    private ArrayList<byte[]> MazesSolved = new ArrayList<byte[]>();
-    private HashMap<byte[], Solution> Solutions = new HashMap<byte[], Solution>();
-    private String tempDirectoryPath = System.getProperty("java.io.tmpdir");
-    private FileOutputStream fos;
+    private HashMap<byte[], Solution> SolutionsMap = new HashMap<byte[], Solution>();
     private ISearchingAlgorithm bfs = new BestFirstSearch();
     private static Semaphore mutex = new Semaphore(1);
+
+    /**
+    file creation for maze solutions
+     */
+    private String tempDirectoryPath = System.getProperty("java.io.tmpdir");
+    private FileOutputStream fos;
+    private FileInputStream fis;
+    private ObjectInputStream ois;
+    private ObjectOutputStream oos;
+    private File file;
+
+
 
     @Override
     public void handleClient(InputStream inputStream, OutputStream outputStream) throws IOException, ClassNotFoundException, InterruptedException {
@@ -34,23 +40,29 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
             ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
             Maze maze = (Maze)objectInputStream.readObject();
-            byte[] mazeArr = maze.toByteArray();
+            byte[] mazeByteArr = maze.toByteArray();
 
             mutex.acquire();
-            byte[] returned = isExist(this.MazesSolved,mazeArr);
+            byte[] returned = null;
+            if(file != null)
+            {
+                readFromFile();
+                ArrayList<byte[]> keysArrayList = new ArrayList<byte[]>(this.SolutionsMap.keySet());
+                returned = isExist(keysArrayList, mazeByteArr);
+            }
             mutex.release();
 
 
             if( returned != null )
             {
-                solved = Solutions.get(returned);
+                solved = SolutionsMap.get(returned);
             }
             else
             {
                 ISearchable searchablemaze = new SearchableMaze(maze);
                 solved = bfs.solve(searchablemaze);
-                MazesSolved.add(mazeArr);
-                Solutions.put(mazeArr,solved);
+                SolutionsMap.put(mazeByteArr, solved);
+                writeToFile();
             }
 
 
@@ -65,16 +77,52 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy
 
     }
 
-    private byte[] isExist(ArrayList<byte[]> maze , byte[] tocheck)
+    private byte[] isExist(ArrayList<byte[]> mazeSolutions , byte[] tocheck)
     {
 
-        for(int i=0; i < maze.size(); i++)
+        for(int i=0; i < mazeSolutions.size(); i++)
         {
-            if(Arrays.equals(tocheck,maze.get(i)))
+            if(Arrays.equals(tocheck,mazeSolutions.get(i)))
             {
-                return maze.get(i);
+                return mazeSolutions.get(i);
             }
         }
         return null;
+    }
+
+    public void readFromFile() throws IOException, ClassNotFoundException {
+        try
+        {
+
+            fis = new FileInputStream(file);
+            ois = new ObjectInputStream(fis);
+            SolutionsMap = (HashMap<byte[], Solution>) ois.readObject();
+        }
+
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void writeToFile() throws IOException
+    {
+        try
+        {
+            file = File.createTempFile(tempDirectoryPath, null);
+            fos = new FileOutputStream(file);
+            oos = new ObjectOutputStream(fos);
+
+            oos.writeObject(SolutionsMap);
+            oos.flush();
+            oos.close();
+            fos.close();
+
+        }
+
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 }

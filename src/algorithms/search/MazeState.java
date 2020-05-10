@@ -83,19 +83,19 @@ public class MazeState extends AState implements Serializable
 
     private void writeObject(ObjectOutputStream outputStream) throws IOException
     {
-        /*byte [] arr = this.MazeStateTobyteArr();
+        byte [] arr = this.MazeStateTobyteArr();
         outputStream.writeObject(arr); // first we write this maze state
-        /* byte SuccesorsSize = (byte)(this.getSuccessors().size());
+        byte SuccesorsSize = (byte)(this.getSuccessors().size());
         outputStream.writeObject(SuccesorsSize); // then the size of his successors
-       for(int i=0; i < this.getSuccessors().size(); i++) // then we write all his successors seperatley
+        for(int i=0; i < this.getSuccessors().size(); i++) // then we write all his successors seperatley
         {
             outputStream.writeObject(((MazeState)(this.getSuccessors().get(i))).MazeStateTobyteArr());
-        }*/
+        }
 
-        //outputStream.writeObject(((MazeState)(this.getParent())).MazeStateTobyteArr()); // write his parent
-        //outputStream.writeObject(this.getCost()); // write the cost of the node
-        outputStream.writeInt(this.self.getRowIndex());
-        outputStream.writeInt(this.self.getColumnIndex());
+        outputStream.writeObject(((MazeState)(this.getParent())).MazeStateTobyteArr()); // write his parent
+        outputStream.writeObject(this.getCost()); // write the cost of the node
+        /*outputStream.writeInt(this.self.getRowIndex());
+        outputStream.writeInt(this.self.getColumnIndex());*/
 
     }
 
@@ -103,7 +103,7 @@ public class MazeState extends AState implements Serializable
     private void readObject(ObjectInputStream inputStream) throws IOException, ClassNotFoundException
     {
 
-        /*byte[] arr = (byte[]) inputStream.readObject();
+        byte[] arr = (byte[]) inputStream.readObject();
 
         byte[] RowSizeBytes = Arrays.copyOfRange(arr, 0, 4);
         byte[] ColSizeBytes = Arrays.copyOfRange(arr, 4, 8);
@@ -112,13 +112,13 @@ public class MazeState extends AState implements Serializable
         Position pos = new Position(rowInt, colInt);
         MazeState state = new MazeState(0, pos);
         MazeState newState = MazeState.ByteArrToMazeState(arr);
-       byte successorsSize = (byte)inputStream.readObject();
+        byte successorsSize = (byte)inputStream.readObject();
 
         MazeState temp;
         for(int i = 0; i < successorsSize; i++)
         {
             byte [] tempArr = (byte [])inputStream.readObject();
-            temp = MazeState.ByteArrToMazeState(arr);
+            temp = MazeState.ByteArrToMazeState(tempArr);
             newState.getSuccessors().add(temp);
         }
 
@@ -127,17 +127,17 @@ public class MazeState extends AState implements Serializable
         newState.setParent(parent);
 
         double cost = (double)inputStream.readObject();
-        newState.setCost(cost);*/
+        newState.setCost(cost);
 
-        //this.setSelf(state.self);
-        //this.id = newState.id;
-        //this.setParent(newState.getParent());
-        //this.setSuccessors(newState.getSuccessors());
-        //this.setCost(newState.getCost());
+        this.setSelf(state.self);
+        this.id = newState.id;
+        this.setParent(newState.getParent());
+        this.setSuccessors(newState.getSuccessors());
+        this.setCost(newState.getCost());
 
-        int row = inputStream.readInt();
+        /*int row = inputStream.readInt();
         int col = inputStream.readInt();
-        this.self = new Position(row, col);
+        this.self = new Position(row, col);*/
 
     }
 

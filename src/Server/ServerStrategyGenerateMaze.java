@@ -33,17 +33,11 @@ public class ServerStrategyGenerateMaze implements IServerStrategy
             AMazeGenerator mazegen = new MyMazeGenerator();
             Maze maze = mazegen.generate(maze_size[0],maze_size[1]);
 
-            /////////////@TODO: test section
-
-            System.out.println("server: ");
-            maze.print();
-            System.out.println("------------");
             byte [] compressedArr;
             out = new ByteArrayOutputStream();
             compressorOutputStream = new MyCompressorOutputStream(out);
             compressorOutputStream.write(maze.toByteArray());
             compressedArr = out.toByteArray();
-            /////////////
             objectOutputStream.writeObject(compressedArr);
             objectOutputStream.flush();
             compressorOutputStream.close();

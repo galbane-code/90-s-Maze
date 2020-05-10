@@ -14,9 +14,9 @@ public class Client
 
     public Client(InetAddress serverIP, int port ,IClientStrategy clientStrategy)
     {
-        this.clientStrategy = clientStrategy;
-        this.port = port;
-        this.serverIP = serverIP;
+            this.clientStrategy = clientStrategy;
+            this.port = port;
+            this.serverIP = serverIP;
     }
 
     public void communicateWithServer()
@@ -36,7 +36,5 @@ public class Client
             e.printStackTrace();
         }
     }
-
-
 
 }

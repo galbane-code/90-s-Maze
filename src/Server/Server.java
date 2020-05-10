@@ -7,50 +7,60 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-public class Server
+public class Server implements Runnable
 {
     private IServerStrategy strategy;
-    private int max_pool;
+    private int listenTime;
     private int port;
     private volatile boolean stop;
+    private ExecutorService executor;
 
-    public Server(int port, int max_pool , IServerStrategy strategy) throws IOException
+    public Server(int port, int listenTime , IServerStrategy strategy) throws IOException
     {
         this.strategy = strategy;
-        this.max_pool = max_pool;
+        this.listenTime = listenTime;
         this.port = port;
         this.stop = false;
+        this.executor = Executors.newFixedThreadPool(3);
     }
 
 
 
-    public void start() throws Exception {
+    public void start() {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
+            serverSocket.setSoTimeout(listenTime);
 
             while (!stop) {
                 try {
                     Socket clientSocket = serverSocket.accept();
 
-                    OutputStream outToClient = clientSocket.getOutputStream();
-                    InputStream inFromClient = clientSocket.getInputStream();
+                    Runnable r = new Thread (()->
+                    {
+                        handleClient(clientSocket);
+                    });
+                    executor.execute(r);
 
-                    this.strategy.handleClient(inFromClient, outToClient);
 
-                    inFromClient.close();
-                    outToClient.close();
-                    clientSocket.close();
                 }
-                catch (ClassNotFoundException e)
+                catch (IOException e)
                 {
-                    System.out.println("Class not found");
+                    System.out.println("Where are the clients?");
                 }
             }
             }
 
-        catch (IOException e) {
-            System.out.println("Where are the clients??");
+        catch (SocketTimeoutException | SocketException e)
+        {
+            e.printStackTrace();
+        }
+
+        catch (IOException e)
+        {
+            e.printStackTrace();
         }
     }
 
@@ -60,4 +70,36 @@ public class Server
             this.stop = true;
         }
 
+
+    public void handleClient(Socket clientSocket)
+    {
+        try
+        {
+            // had to put the outPutStream in a var because of a failure. notice that!
+            OutputStream outToClient = clientSocket.getOutputStream();
+            InputStream inFromClient = clientSocket.getInputStream();
+
+            this.strategy.handleClient(inFromClient, outToClient);
+
+            inFromClient.close();
+            outToClient.close();
+            clientSocket.close();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    @Override
+    public void run()
+    {
+        this.start();
+    }
 }

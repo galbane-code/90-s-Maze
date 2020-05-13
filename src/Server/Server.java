@@ -22,11 +22,11 @@ public class Server implements Runnable
 
     public Server(int port, int listenTime , IServerStrategy strategy) throws IOException
     {
+        Configurations.create();
         this.strategy = strategy;
         this.listenTime = listenTime;
         this.port = port;
         this.stop = false;
-        Configurations.create();
         this.executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(Integer.parseInt(ThreadPoolSize));
     }
 

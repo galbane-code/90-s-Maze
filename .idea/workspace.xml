@@ -7,49 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="71c2414f-64b7-40b3-b724-844e5e64a335" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ATP-Project-PartA.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ATP-Project-PartA.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ATP-Project-PartA/Client/Client.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ATP-Project-PartA/Client/IClientStrategy.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ATP-Project-PartA/IO/MyCompressorOutputStream.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ATP-Project-PartA/IO/MyDecompressorInputStream.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ATP-Project-PartA/Server/IServerStrategy.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ATP-Project-PartA/Server/Server.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ATP-Project-PartA/Server/ServerStrategyGenerateMaze.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ATP-Project-PartA/Server/ServerStrategySolveSearchProblem.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ATP-Project-PartA/algorithms/mazeGenerators/AMazeGenerator.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ATP-Project-PartA/algorithms/mazeGenerators/Edge.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ATP-Project-PartA/algorithms/mazeGenerators/EmptyMazeGenerator.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ATP-Project-PartA/algorithms/mazeGenerators/IMazeGenerator.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ATP-Project-PartA/algorithms/mazeGenerators/Maze.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ATP-Project-PartA/algorithms/mazeGenerators/MyMazeGenerator.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ATP-Project-PartA/algorithms/mazeGenerators/Position.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ATP-Project-PartA/algorithms/mazeGenerators/SimpleMazeGenerator.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ATP-Project-PartA/algorithms/search/ASearchingAlgorithm.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ATP-Project-PartA/algorithms/search/AState.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ATP-Project-PartA/algorithms/search/BestFirstSearch.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ATP-Project-PartA/algorithms/search/BreadthFirstSearch.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ATP-Project-PartA/algorithms/search/DepthFirstSearch.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ATP-Project-PartA/algorithms/search/ISearchable.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ATP-Project-PartA/algorithms/search/ISearchingAlgorithm.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ATP-Project-PartA/algorithms/search/MazeState.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ATP-Project-PartA/algorithms/search/SearchableMaze.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ATP-Project-PartA/algorithms/search/Solution.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ATP-Project-PartA/algorithms/search/The_Comparator.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ATP-Project-PartA/test/RunCommunicateWithServers$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ATP-Project-PartA/test/RunCommunicateWithServers$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ATP-Project-PartA/test/RunCommunicateWithServers.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ATP-Project-PartA/test/RunCompressDecompressMaze.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ATP-Project-PartA/test/RunMazeGenerator.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ATP-Project-PartA/test/RunSearchOnMaze.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Server/ServerStrategyGenerateMaze.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server/ServerStrategyGenerateMaze.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Server/ServerStrategySolveSearchProblem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server/ServerStrategySolveSearchProblem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/algorithms/mazeGenerators/AMazeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/algorithms/mazeGenerators/AMazeGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/algorithms/search/ASearchingAlgorithm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/algorithms/search/ASearchingAlgorithm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/algorithms/search/ISearchingAlgorithm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/algorithms/search/ISearchingAlgorithm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/algorithms/search/MazeState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/algorithms/search/MazeState.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -66,26 +25,26 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/RunCommunicateWithServers.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="32" column="47" selection-start-line="32" selection-start-column="47" selection-end-line="32" selection-end-column="47" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Server/Server.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="274">
-              <caret line="47" column="12" lean-forward="true" selection-start-line="47" selection-start-column="12" selection-end-line="47" selection-end-column="36" />
+            <state relative-caret-position="85">
+              <caret line="23" selection-start-line="23" selection-end-line="23" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Server/Server.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="158">
+              <caret line="28" column="26" selection-start-line="28" selection-start-column="26" selection-end-line="28" selection-end-column="26" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Server/ServerStrategyGenerateMaze.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="30" column="12" selection-start-line="30" selection-start-column="12" selection-end-line="30" selection-end-column="12" />
+            <state relative-caret-position="-51">
+              <caret line="14" selection-start-line="14" selection-end-line="14" />
             </state>
           </provider>
         </entry>
@@ -103,7 +62,7 @@
         <entry file="file://$PROJECT_DIR$/src/algorithms/search/ISearchingAlgorithm.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="119">
-              <caret line="7" column="4" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="4" />
+              <caret line="7" selection-start-line="7" selection-end-line="7" />
             </state>
           </provider>
         </entry>
@@ -120,8 +79,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/algorithms/mazeGenerators/AMazeGenerator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="8" column="50" selection-start-line="8" selection-start-column="50" selection-end-line="8" selection-end-column="50" />
+            <state relative-caret-position="-1818">
+              <caret line="12" selection-start-line="12" selection-end-line="12" />
             </state>
           </provider>
         </entry>
@@ -183,7 +142,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
     <option name="width" value="974" />
@@ -236,6 +195,12 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="Server" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="ATP-2020" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ATP-2020" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -257,7 +222,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1589364349516" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1589364771673" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/src/test" />
@@ -452,7 +417,7 @@
       <workItem from="1589188038216" duration="296000" />
       <workItem from="1589188728472" duration="684000" />
       <workItem from="1589296692591" duration="16000" />
-      <workItem from="1589358045775" duration="6166000" />
+      <workItem from="1589358045775" duration="6806000" />
     </task>
     <task id="LOCAL-00001" summary="part 2 middle">
       <created>1588259299956</created>
@@ -475,23 +440,30 @@
       <option name="project" value="LOCAL" />
       <updated>1588676931656</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="configuration">
+      <created>1589364403825</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1589364403825</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6166000" />
+    <option name="totallyTimeSpent" value="6806000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
     <layout>
       <window_info id="Image Layers" />
       <window_info id="Designer" />
       <window_info id="UI Designer" />
       <window_info id="Capture Tool" />
       <window_info id="Favorites" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24962178" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24962178" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Messages" />
       <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" />
       <window_info anchor="bottom" id="Version Control" />
@@ -499,8 +471,8 @@
       <window_info anchor="bottom" id="Event Log" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3289689" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.39934534" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -521,7 +493,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="part 2 middle" />
     <MESSAGE value="mutex" />
-    <option name="LAST_COMMIT_MESSAGE" value="mutex" />
+    <MESSAGE value="configuration" />
+    <option name="LAST_COMMIT_MESSAGE" value="configuration" />
   </component>
   <component name="WindowStateProjectService">
     <state x="680" y="0" key="#ATP-Project-PartA.jar" timestamp="1587051725653">
@@ -760,6 +733,30 @@
     <state x="303" y="146" width="672" height="469" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1587049913741" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Server/Server.java</url>
+          <line>126</line>
+          <properties />
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/RunCommunicateWithServers.java</url>
+          <line>23</line>
+          <properties />
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/Server/Server.java</url>
+          <line>22</line>
+          <properties class="Server.Server" method="&lt;init&gt;">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="this" />
@@ -805,13 +802,6 @@
     <entry file="file://$USER_HOME$/AppData/Local/Temp/Rar$DRa0.028/java-properties-file/config.properties">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/RunCommunicateWithServers.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="32" column="47" selection-start-line="32" selection-start-column="47" selection-end-line="32" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Server/Configurations.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
@@ -829,7 +819,7 @@
     <entry file="file://$PROJECT_DIR$/src/algorithms/search/ISearchingAlgorithm.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
-          <caret line="7" column="4" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="4" />
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
         </state>
       </provider>
     </entry>
@@ -847,13 +837,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/algorithms/mazeGenerators/AMazeGenerator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="8" column="50" selection-start-line="8" selection-start-column="50" selection-end-line="8" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/algorithms/search/ASearchingAlgorithm.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
@@ -868,17 +851,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Server/ServerStrategyGenerateMaze.java">
+    <entry file="file://$PROJECT_DIR$/src/algorithms/mazeGenerators/AMazeGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="30" column="12" selection-start-line="30" selection-start-column="12" selection-end-line="30" selection-end-column="12" />
+        <state relative-caret-position="-1818">
+          <caret line="12" selection-start-line="12" selection-end-line="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Server/Server.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
-          <caret line="47" column="12" lean-forward="true" selection-start-line="47" selection-start-column="12" selection-end-line="47" selection-end-column="36" />
+        <state relative-caret-position="158">
+          <caret line="28" column="26" selection-start-line="28" selection-start-column="26" selection-end-line="28" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/RunCommunicateWithServers.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="23" selection-start-line="23" selection-end-line="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Server/ServerStrategyGenerateMaze.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-51">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
         </state>
       </provider>
     </entry>

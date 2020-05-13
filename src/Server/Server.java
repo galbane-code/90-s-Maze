@@ -9,6 +9,7 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class Server implements Runnable
 {
@@ -16,7 +17,7 @@ public class Server implements Runnable
     private int listenTime;
     private int port;
     private volatile boolean stop;
-    private ExecutorService executor;
+    private ThreadPoolExecutor executor;
 
     public Server(int port, int listenTime , IServerStrategy strategy) throws IOException
     {
@@ -24,40 +25,60 @@ public class Server implements Runnable
         this.listenTime = listenTime;
         this.port = port;
         this.stop = false;
-        this.executor = Executors.newFixedThreadPool(3);
+        this.executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(3);
     }
 
 
+    public void start ()
+    {
+        new Thread(()->
+        {
+            run();
+        }).start();
+    }
 
-    public void start() {
-        try {
+
+    @Override
+    public void run()
+    {
+        try
+        {
             ServerSocket serverSocket = new ServerSocket(port);
             serverSocket.setSoTimeout(listenTime);
 
-            while (!stop) {
-                try {
+            while (!stop)
+            {
+                try
+                {
                     Socket clientSocket = serverSocket.accept();
 
-                    Runnable r = new Thread (()->
+                    Runnable r = new Thread(() ->
                     {
                         handleClient(clientSocket);
                     });
                     executor.execute(r);
-
-
                 }
+
                 catch (IOException e)
                 {
                     System.out.println("Where are the clients?");
                 }
             }
+
+            try
+            {
+                serverSocket.close();
             }
+            catch (IOException e)
+            {
+                throw new RuntimeException("Error closing server", e);
+            }
+        }
 
         catch (SocketTimeoutException | SocketException e)
         {
             e.printStackTrace();
         }
-
         catch (IOException e)
         {
             e.printStackTrace();
@@ -65,10 +86,11 @@ public class Server implements Runnable
     }
 
 
-        public void stop()
-        {
-            this.stop = true;
-        }
+    public void stop()
+    {
+        this.stop = true;
+        executor.shutdown();
+    }
 
 
     public void handleClient(Socket clientSocket)
@@ -79,7 +101,7 @@ public class Server implements Runnable
             OutputStream outToClient = clientSocket.getOutputStream();
             InputStream inFromClient = clientSocket.getInputStream();
 
-            this.strategy.handleClient(inFromClient, outToClient);
+            strategy.handleClient(inFromClient, outToClient);
 
             inFromClient.close();
             outToClient.close();
@@ -95,11 +117,5 @@ public class Server implements Runnable
         }
 
 
-    }
-
-    @Override
-    public void run()
-    {
-        this.start();
     }
 }

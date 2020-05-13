@@ -32,7 +32,7 @@ public class Maze implements Serializable {
         this.data = data;
     }
 
-    public Maze(byte [] arr )
+    public Maze(byte[] arr)
 
     {
 

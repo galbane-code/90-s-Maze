@@ -1,7 +1,6 @@
 package Server;
 
 import IO.MyCompressorOutputStream;
-import IO.MyDecompressorInputStream;
 import algorithms.mazeGenerators.AMazeGenerator;
 import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.MyMazeGenerator;
@@ -20,8 +19,6 @@ public class ServerStrategyGenerateMaze implements IServerStrategy
     {
         try
         {
-            //compressorOutputStream = new MyCompressorOutputStream(outputStream);
-            //ObjectOutputStream objectOutputStream = new ObjectOutputStream(this.compressorOutputStream);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
             ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
 

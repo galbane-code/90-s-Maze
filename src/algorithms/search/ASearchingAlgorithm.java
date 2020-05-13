@@ -5,6 +5,27 @@ import java.util.PriorityQueue;
 
 public abstract class ASearchingAlgorithm implements ISearchingAlgorithm
 {
+    public static ISearchingAlgorithm GeneratertingType(String type)
+    {
+        ASearchingAlgorithm toReturn;
+
+        if(type.equals("BestFirstSearch"))
+        {
+            toReturn = new BestFirstSearch();
+            return toReturn;
+        }
+        else if (type.equals("BreadthFirstSearch"))
+        {
+            toReturn = new BreadthFirstSearch();
+            return toReturn;
+        }
+        else
+        {
+            toReturn = new DepthFirstSearch();
+            return toReturn;
+        }
+
+    }
     private String name;
     protected PriorityQueue<AState> openList;
     private int visitedNodes; // the amount of nodes that have been passed during the search algorithm

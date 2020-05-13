@@ -1,12 +1,11 @@
 package Server;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -18,6 +17,8 @@ public class Server implements Runnable
     private int port;
     private volatile boolean stop;
     private ThreadPoolExecutor executor;
+    public static String ThreadPoolSize;
+
 
     public Server(int port, int listenTime , IServerStrategy strategy) throws IOException
     {
@@ -25,7 +26,8 @@ public class Server implements Runnable
         this.listenTime = listenTime;
         this.port = port;
         this.stop = false;
-        this.executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(3);
+        Configurations.create();
+        this.executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(Integer.parseInt(ThreadPoolSize));
     }
 
 
@@ -118,4 +120,41 @@ public class Server implements Runnable
 
 
     }
-}
+
+    public static class Configurations
+    {
+        public static void create() throws IOException
+        {
+            try (OutputStream output = new FileOutputStream("resources\\config.properties")) {
+
+                Properties prop = new Properties();
+
+                // set the properties value
+                prop.setProperty("ThreadPoolSize", "3");
+                prop.setProperty("ISearchingAlgorithm", "BestFirstSearch");
+                prop.setProperty("AMazeGenerator", "MyMazeGenerator");
+
+                // save properties to project root folder
+                prop.store(output, null);
+
+            try
+            {
+                InputStream file = Configurations.class.getClassLoader().getResourceAsStream("config.properties");
+                Properties properties = new Properties();
+                properties.load(file);
+                //String ThreadPoolSize = properties.getProperty("ThreadPoolSize");
+                Server.ThreadPoolSize = properties.getProperty("ThreadPoolSize");
+                ServerStrategySolveSearchProblem.ISearchingAlgorithm = properties.getProperty("ISearchingAlgorithm");
+                ServerStrategyGenerateMaze.AMazeGenerator = properties.getProperty("AMazeGenerator");
+
+            }
+
+            catch(FileNotFoundException e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+
+    }
+}}

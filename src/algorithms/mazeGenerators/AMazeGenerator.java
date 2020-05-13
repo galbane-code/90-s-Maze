@@ -6,6 +6,22 @@ import java.util.Random;
 
 public abstract class AMazeGenerator implements IMazeGenerator{
 
+    public static AMazeGenerator GeneratertingType(String type)
+    {
+        AMazeGenerator toReturn;
+
+        if (type.equals("EmptyMazeGenerator")) {
+            toReturn = new EmptyMazeGenerator();
+            return toReturn;
+        } else if (type.equals("SimpleMazeGenerator")) {
+            toReturn = new SimpleMazeGenerator();
+            return toReturn;
+        } else {
+            toReturn = new MyMazeGenerator();
+            return toReturn;
+        }
+    }
+
     protected ArrayList<Edge> totalEdges; // keeps all the possible Edges and then we use an algorithm that returns only the ones we need.
     protected Position [][] positionArr; //  keeps all the positions of the maze
     protected int counter = 0;

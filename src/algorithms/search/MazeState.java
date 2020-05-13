@@ -70,7 +70,7 @@ public class MazeState extends AState implements Serializable
     }
 
 
-    public static MazeState ByteArrToMazeState (byte [] arr) // TODO: CHANGE the byte arr back to maze PositIon
+    public  MazeState ByteArrToMazeState (byte [] arr) // TODO: CHANGE the byte arr back to maze PositIon
     {
         byte [] RowSizeBytes = Arrays.copyOfRange(arr, 0, 4);
         byte [] ColSizeBytes = Arrays.copyOfRange(arr, 4, 8);
@@ -111,19 +111,19 @@ public class MazeState extends AState implements Serializable
         int colInt = ByteBuffer.wrap(ColSizeBytes).getInt();
         Position pos = new Position(rowInt, colInt);
         MazeState state = new MazeState(0, pos);
-        MazeState newState = MazeState.ByteArrToMazeState(arr);
+        MazeState newState = ByteArrToMazeState(arr);
         byte successorsSize = (byte)inputStream.readObject();
 
         MazeState temp;
         for(int i = 0; i < successorsSize; i++)
         {
             byte [] tempArr = (byte [])inputStream.readObject();
-            temp = MazeState.ByteArrToMazeState(tempArr);
+            temp = ByteArrToMazeState(tempArr);
             newState.getSuccessors().add(temp);
         }
 
         arr = (byte [])inputStream.readObject();
-        MazeState parent = MazeState.ByteArrToMazeState(arr);
+        MazeState parent = ByteArrToMazeState(arr);
         newState.setParent(parent);
 
         double cost = (double)inputStream.readObject();

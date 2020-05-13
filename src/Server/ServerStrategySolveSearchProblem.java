@@ -12,9 +12,9 @@ import java.util.concurrent.Semaphore;
 
 public class ServerStrategySolveSearchProblem implements IServerStrategy
 {
-
+    public static String ISearchingAlgorithm;
     private HashMap<byte[], Solution> SolutionsMap = new HashMap<byte[], Solution>();
-    private ISearchingAlgorithm bfs = new BestFirstSearch();
+    private ISearchingAlgorithm SearchAlgorithm = ASearchingAlgorithm.GeneratertingType(ISearchingAlgorithm);
     private static Semaphore mutex = new Semaphore(1);
 
     /**
@@ -60,7 +60,7 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy
             else
             {
                 ISearchable searchablemaze = new SearchableMaze(maze);
-                solved = bfs.solve(searchablemaze);
+                solved = SearchAlgorithm.solve(searchablemaze);
                 SolutionsMap.put(mazeByteArr, solved);
                 writeToFile();
             }

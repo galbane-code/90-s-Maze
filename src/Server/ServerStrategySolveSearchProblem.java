@@ -12,13 +12,12 @@ import java.util.concurrent.Semaphore;
 
 public class ServerStrategySolveSearchProblem implements IServerStrategy
 {
-    public static String ISearchingAlgorithm;
+    public static String searchingAlgorithmString;//config file data member
     private HashMap<byte[], Solution> SolutionsMap = new HashMap<byte[], Solution>();
-    private ISearchingAlgorithm SearchAlgorithm = ASearchingAlgorithm.GeneratertingType(ISearchingAlgorithm);
     private static Semaphore mutex = new Semaphore(1);
 
     /**
-    file creation for maze solutions
+     data members used for the file creation inorder to store SolutionsMap HashMap
      */
     private String tempDirectoryPath = System.getProperty("java.io.tmpdir");
     private FileOutputStream fos;
@@ -32,13 +31,18 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy
     @Override
     public void handleClient(InputStream inputStream, OutputStream outputStream) throws IOException, ClassNotFoundException, InterruptedException {
 
-        //generating a maze
-        //converting it into a searchable maze and then solves it with best first search
+        /**
+         * generating a maze
+         * converting it into a searchable maze and then solves it with best first search
+         */
         try
         {
             Solution solved;
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
             ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
+
+            ISearchingAlgorithm searchAlgorithm = ASearchingAlgorithm.algorithmType(searchingAlgorithmString);
+
             Maze maze = (Maze)objectInputStream.readObject();
             byte[] mazeByteArr = maze.toByteArray();
 
@@ -60,7 +64,7 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy
             else
             {
                 ISearchable searchablemaze = new SearchableMaze(maze);
-                solved = SearchAlgorithm.solve(searchablemaze);
+                solved = searchAlgorithm.solve(searchablemaze);
                 SolutionsMap.put(mazeByteArr, solved);
                 writeToFile();
             }
@@ -89,6 +93,7 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy
         }
         return null;
     }
+
 
     public void readFromFile() throws IOException, ClassNotFoundException {
         try

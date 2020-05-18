@@ -16,18 +16,19 @@ public class Server implements Runnable
     private int listenTime;
     private int port;
     private volatile boolean stop;
-    private ThreadPoolExecutor executor;
+    private ExecutorService executor;
     public static String ThreadPoolSize;
 
 
     public Server(int port, int listenTime , IServerStrategy strategy) throws IOException
     {
-        Configurations.create();
+        Configurations.propertiesCreation();
         this.strategy = strategy;
         this.listenTime = listenTime;
         this.port = port;
         this.stop = false;
-        this.executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(Integer.parseInt(ThreadPoolSize));
+        this.executor = Executors.newFixedThreadPool(Integer.parseInt(ThreadPoolSize));
+        //this.executor = Executors.newFixedThreadPool(1);
     }
 
 
@@ -123,29 +124,38 @@ public class Server implements Runnable
 
     public static class Configurations
     {
-        public static void create() throws IOException
+        public static void propertiesCreation() throws IOException
         {
+            /**
+             * write the properties to the config file
+             */
             try (OutputStream output = new FileOutputStream("resources\\config.properties")) {
 
                 Properties prop = new Properties();
 
                 // set the properties value
                 prop.setProperty("ThreadPoolSize", "3");
-                prop.setProperty("ISearchingAlgorithm", "BestFirstSearch");
+                prop.setProperty("ASearchingAlgorithm", "BestFirstSearch");
                 prop.setProperty("AMazeGenerator", "MyMazeGenerator");
 
                 // save properties to project root folder
                 prop.store(output, null);
 
+
+
+                /**
+                 * reads the properties from the config file
+                 * static variables init from the config file
+                 */
             try
             {
-                InputStream file = Configurations.class.getClassLoader().getResourceAsStream("config.properties");
+                InputStream is = Configurations.class.getClassLoader().getResourceAsStream("config.properties");
                 Properties properties = new Properties();
-                properties.load(file);
-                //String ThreadPoolSize = properties.getProperty("ThreadPoolSize");
+                properties.load(is);
+
                 Server.ThreadPoolSize = properties.getProperty("ThreadPoolSize");
-                ServerStrategySolveSearchProblem.ISearchingAlgorithm = properties.getProperty("ISearchingAlgorithm");
-                ServerStrategyGenerateMaze.AMazeGenerator = properties.getProperty("AMazeGenerator");
+                ServerStrategySolveSearchProblem.searchingAlgorithmString = properties.getProperty("ASearchingAlgorithm");
+                ServerStrategyGenerateMaze.mazeGeneratorString = properties.getProperty("AMazeGenerator");
 
             }
 

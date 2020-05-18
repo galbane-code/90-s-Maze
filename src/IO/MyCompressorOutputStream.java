@@ -13,7 +13,6 @@ import java.util.Arrays;
 public class MyCompressorOutputStream extends OutputStream {
 
     private OutputStream out;
-    private ObjectOutputStream out1;
 
     public MyCompressorOutputStream(OutputStream outputStream)
     {
@@ -21,16 +20,17 @@ public class MyCompressorOutputStream extends OutputStream {
     }
 
     @Override
+    public void write(byte[] b) throws IOException
+    {
+        /**
+         * a byte array that will be used to store the compressed data.
+         * the main compression idea - turning 8 bytes of data (values 1 or 0 only except the first 24 bytes that represent the maze
+         * size, entry and goal) into 1 byte data
+         * @param b
+         * @throws IOException
+         */
 
-
-
-    public void write(byte[] b) throws IOException {
-
-        /** THIS FUNCTION COMPRESS THE BYTE ARR BY CHANGING THE MAZE 8 BINARY TO A BYTE */
-
-        ArrayList<Byte> ByteArrList = new ArrayList<Byte>(); // in this arrays list we insert the bytes that we want to send after the compressor.
-
-        // first we insert the first 24 bytes for the size of the maze and the S and E position indexes.
+        ArrayList<Byte> ByteArrList = new ArrayList<Byte>();
 
         for ( int i=0 ; i < 24; i++)
         {
@@ -38,8 +38,7 @@ public class MyCompressorOutputStream extends OutputStream {
         }
 
 
-        // we change the values of the the S and E to zero so they dont interrupt with the compress procedure.
-
+        //changes the values of the "Start" and "End" to zero for later use.
         for(int g = 24; g < b.length; g++)
         {
             if( b[g] == 69 || b[g] == 83 )
@@ -48,16 +47,15 @@ public class MyCompressorOutputStream extends OutputStream {
             }
         }
 
-        int current_index = 24; // the index from which we begin to insert the compressed bytes.
-        int lengthRemain = b.length - 24; // the length that remain to compress
-        int finalInt = lengthRemain % 8; // an int to help us with the size of a "cut" of the bytes if it below 8
-        ByteArrList.add((byte)finalInt); // send it to the output file to help us with the decompressed part.
+        int current_index = 24; // the index from which we begin the insertion to the compressed byte array.
+        int lengthRemain = b.length - 24; // the length remained to compress
+        int finalInt = lengthRemain % 8; // an indication int. evaluates the size of "the last cut" (between 0 to 8)
+        ByteArrList.add((byte)finalInt); // writes the finalInt to the outputStream. later use in the decompression part.
 
         while(lengthRemain > 0) {
-
-            // in this function we use the convert function that gets a byte arr and two indexes of the arr and return the "slice" as a string
-            // check if the there is 8 bits to change into a byte
-
+            /**
+             * conversion of 8 bytes (or less) with values 0 or 1 to 1 byte (values -128 to 127)
+             */
             if (lengthRemain >= 8)
             {
                 String current_string = convert(b, current_index , current_index + 8);
@@ -66,8 +64,6 @@ public class MyCompressorOutputStream extends OutputStream {
                 current_index += 8;
                 lengthRemain -= 8;
             }
-
-            // else we change only the amount of the string to convert
 
             else
             {
@@ -78,20 +74,16 @@ public class MyCompressorOutputStream extends OutputStream {
             }
         }
 
-        // we initial the compressed arr we wish to send to the output.
-
+        /**
+         * copy the ArrayList into an array. the new array will be pointed by array b.
+         * write the b array to the outputStream.
+         */
         byte[] newarr = new byte[ByteArrList.size()];
-
-        // insert to the compressed arr from the Arrayslist.
-
         for(int i = 0; i < newarr.length; i++)
         {
             newarr[i] = ByteArrList.get(i);
 
         }
-
-        // change the pointer and write out
-
         b = newarr;
         out.write(b);
     }
@@ -104,7 +96,13 @@ public class MyCompressorOutputStream extends OutputStream {
 
     private String convert(byte[] arr,int index,int endindex)
     {
-        //function that gets a byte arr and two indexes of the arr and return the "slice" as a string
+        /**
+         * the function receives a byte arr and two indices of the arr and returns the "slice" as a string
+         * @param arr
+         * @param index
+         * @param endindex
+         * @return String toReturn
+         */
 
         String toReturn = "";
         for(int i = index; i < endindex ; i++ )

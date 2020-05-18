@@ -2,6 +2,7 @@ package algorithms.mazeGenerators;
 
 //import javax.swing.text.Position;
 import javafx.geometry.Pos;
+import sun.awt.Mutex;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -24,7 +25,6 @@ public class Maze implements Serializable {
 
 
 
-
     public Maze(int [][] data, Position entry, Position exit) {
         this.entry = entry;
         this.exit = exit;
@@ -35,7 +35,6 @@ public class Maze implements Serializable {
     public Maze(byte[] arr)
 
     {
-
         int rowSizeInt;
         int colSizeInt;
         int entryRowInt;
@@ -43,7 +42,6 @@ public class Maze implements Serializable {
         int exitRowInt;
         int exitColInt;
 
-       //int x = ByteBuffer.wrap(arr).getInt();
         byte [] RowSizeBytes = Arrays.copyOfRange(arr, 0, 4);
         byte [] ColSizeBytes = Arrays.copyOfRange(arr, 4, 8);
 
@@ -55,7 +53,7 @@ public class Maze implements Serializable {
         byte [] EndColBytes = Arrays.copyOfRange(arr, 20, 24);
 
         rowSizeInt = ByteBuffer.wrap(RowSizeBytes).getInt();
-        colSizeInt = ByteBuffer.wrap(ColSizeBytes).getInt();
+        colSizeInt = ByteBuffer.wrap(ColSizeBytes).getInt() ;
         entryRowInt = ByteBuffer.wrap(StartRowBytes).getInt();
         entryColInt = ByteBuffer.wrap(StartColBytes).getInt();
         exitRowInt = ByteBuffer.wrap(EndRowBytes).getInt();
@@ -65,7 +63,6 @@ public class Maze implements Serializable {
         this.data = new int [rowSizeInt][colSizeInt];
 
         int byteArrIndex = 24;
-
         for(int i = 0; i < rowSizeInt; i++)
         {
             for(int j = 0; j < colSizeInt; j++)
@@ -73,9 +70,6 @@ public class Maze implements Serializable {
                 this.data[i][j] = arr[byteArrIndex++];
             }
         }
-
-        this.data[entryRowInt*2][entryColInt*2] = 0;
-        this.data[exitRowInt*2][exitColInt*2] = 0;
 
         this.PositionMatrix = new Position[rowSizeInt / 2 + 1][colSizeInt / 2 + 1];
         int counter = 0;
@@ -87,6 +81,9 @@ public class Maze implements Serializable {
             }
         }
 
+        this.data[entryRowInt*2][entryColInt*2] = 0;
+        this.data[exitRowInt*2][exitColInt*2] = 0;
+
         intToPositionArr(this.PositionMatrix, data);
 
         this.data[entryRowInt*2][entryColInt*2] = 83;
@@ -94,53 +91,42 @@ public class Maze implements Serializable {
 
         this.entry = PositionMatrix[entryRowInt][entryColInt];
         this.exit = PositionMatrix[exitRowInt][exitColInt];
-
     }
-
-
 
     //name
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
 
     //entry
-
     public Position getStartPosition() {
         return entry;
     }
-
     public void setStartPosition(Position entry) {
         this.entry = entry;
     }
 
     //exit
-
     public Position getGoalPosition() {
         return exit;
     }
-
     public void setGoalPosition(Position exit) {
         this.exit = exit;
     }
 
     //isSolved
-
     public boolean isSolved() {
         return isSolved;
     }
-
     public void setSolved(boolean solved){}
 
     // character
     public Character[] getCharacters() {
         return characters;
     }
-
     public void setCharacters(Character[] characters) {
         this.characters = characters;
     }

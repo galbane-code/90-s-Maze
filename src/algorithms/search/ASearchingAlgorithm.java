@@ -5,7 +5,12 @@ import java.util.PriorityQueue;
 
 public abstract class ASearchingAlgorithm implements ISearchingAlgorithm
 {
-    public static ISearchingAlgorithm GeneratertingType(String type)
+    /**
+     * function for the config file
+     * @param  type
+     * @return toReturn
+     */
+    public static ISearchingAlgorithm algorithmType(String type)
     {
         ASearchingAlgorithm toReturn;
 

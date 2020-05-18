@@ -10,10 +10,9 @@ import java.io.*;
 public class ServerStrategyGenerateMaze implements IServerStrategy
 
 {
-    public static String AMazeGenerator;
+    public static String mazeGeneratorString;
     private MyCompressorOutputStream compressorOutputStream;
-    private AMazeGenerator mazegen = algorithms.mazeGenerators.AMazeGenerator.GeneratertingType(AMazeGenerator);
-    private ByteArrayOutputStream out;
+    private ByteArrayOutputStream byteArrayOutputStreamout;
     private ByteArrayInputStream in;
 
     @Override
@@ -24,6 +23,7 @@ public class ServerStrategyGenerateMaze implements IServerStrategy
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
             ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
 
+            AMazeGenerator mazegen = AMazeGenerator.generateType(mazeGeneratorString);
 
 
             int [] maze_size;
@@ -32,10 +32,10 @@ public class ServerStrategyGenerateMaze implements IServerStrategy
             Maze maze = mazegen.generate(maze_size[0],maze_size[1]);
 
             byte [] compressedArr;
-            out = new ByteArrayOutputStream();
-            compressorOutputStream = new MyCompressorOutputStream(out);
+            byteArrayOutputStreamout = new ByteArrayOutputStream();
+            compressorOutputStream = new MyCompressorOutputStream(byteArrayOutputStreamout);
             compressorOutputStream.write(maze.toByteArray());
-            compressedArr = out.toByteArray();
+            compressedArr = byteArrayOutputStreamout.toByteArray();
             objectOutputStream.writeObject(compressedArr);
             objectOutputStream.flush();
             compressorOutputStream.close();

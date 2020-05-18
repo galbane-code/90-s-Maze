@@ -18,18 +18,20 @@ public class MyDecompressorInputStream extends InputStream {
 
     @Override
     public int read(byte[] b) throws IOException
-
-    /** THIS FUNCTION DECOMPRESS THE BYTE ARR OF THE MAZE BACK TO BINARY */
     {
+    /**
+     * decompresses the array by the same rules we compressed it.
+     * first 24 bytes will be copied "as is". they represent the size of the maze, entry and goal.
+     * the 25th byte represent the size of the last "cut" of the maze. (size 0 to 8)
+     * 1 byte now represents an 8 byte array (values 0 or 1)
+     * using 0xFF we convert the signed value of the byte into an unsigned value (0 to 255)
+     *
+     */
+        int totalArrbSize = in.read(b); // reads the compressed array size into a variable.
 
-        int x = in.read(b); // uses the input file stream of java to update b to the input bytes and change x into the size of the compress arr.
-
-        ArrayList<Byte> byteArrayList = new ArrayList<Byte>(); // in this arrays list we insert the bytes that we want to send after the decompressor.
+        ArrayList<Byte> byteArrayList = new ArrayList<Byte>();
 
         int i = 0;
-
-        // first we insert the first 24 bytes for the size of the maze and the S and E position indexes.
-
         while(i < 24 )
         {
             byteArrayList.add(b[i]);
@@ -38,17 +40,16 @@ public class MyDecompressorInputStream extends InputStream {
 
 
         byte count; // temp byte to insert into the byte arrays lists after the decompression.
-        byte [] sizeOfEightArr = new byte [8]; // the byte arr of binary that decompressed from count.
-        int totalArrbSize = x; // the size of the file to decompressed.
+        byte [] sizeOfEightArr = new byte [8];
         for(i = 25; i < totalArrbSize; i++)
         {
             /** in this for loop we decompress the byte into the binary 10101 of the maze */
 
-            int j = 0; // the index to insert to the arrays list.
+            int j = 0; // the index to insert to the array list.
 
             count = b[i]; // initial the temp byte
 
-            int byteToInt = count & 0xFF; // if the value of the byte is above 128 it change to minus from 256 this line set the byte to it actual value.
+            int byteToInt = count & 0xFF; // signed to unsigned int
 
             String byteString = Integer.toBinaryString(byteToInt); // this function change the byte into a binary string.
 
@@ -105,7 +106,6 @@ public class MyDecompressorInputStream extends InputStream {
                 }
 
                 // if it does not need to add zeros it just add the binary as is to the final arr
-
                 else
                 {
                     for(int h = 0; h < 8; h++)
@@ -115,7 +115,6 @@ public class MyDecompressorInputStream extends InputStream {
                 }
 
                 // after that we add the binary into the array list.
-
                 while (j < sizeOfEightArr.length)
                 {
                     byteArrayList.add((byte) (sizeOfEightArr[j] - ((byte) 48)));
@@ -124,15 +123,14 @@ public class MyDecompressorInputStream extends InputStream {
             }
         }
 
-        // initial the array to send to the input stream.
-
+        /**
+         * copy the ArrayList into an array. the new array will be copied into array b.
+         */
         byte [] toAssign = new byte[byteArrayList.size()];
         for (int k = 0; k < byteArrayList.size(); k++)
         {
             toAssign[k] = byteArrayList.get(k);
         }
-
-        // insert the values that we decompressed into the b
 
         for(int h = 0; h < toAssign.length; h++)
         {

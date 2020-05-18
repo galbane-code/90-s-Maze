@@ -5,6 +5,7 @@ import Client.*;
 import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.MyMazeGenerator;
 import algorithms.search.*;
+import sun.awt.Mutex;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -19,7 +20,6 @@ import java.util.concurrent.Semaphore;
 public class RunCommunicateWithServers {
     public static void main(String[] args) throws IOException, InterruptedException {
 
-
         //Initializing servers
         Server mazeGeneratingServer = new Server(5400, 2000, new ServerStrategyGenerateMaze());
         Server solveSearchProblemServer = new Server(5401, 2000, new ServerStrategySolveSearchProblem());
@@ -30,7 +30,12 @@ public class RunCommunicateWithServers {
         mazeGeneratingServer.start();
 
         //Communicating with servers
-        CommunicateWithServer_MazeGenerating();
+            for (int i = 0; i < 25; i++) {
+                new Thread(() -> {
+                    CommunicateWithServer_MazeGenerating();
+               }).start();
+            }
+
         CommunicateWithServer_SolveSearchProblem();
 
         //Stopping all servers
@@ -47,16 +52,15 @@ public class RunCommunicateWithServers {
                         ObjectOutputStream toServer = new ObjectOutputStream(outToServer);
                         ObjectInputStream fromServer = new ObjectInputStream(inFromServer);
                         toServer.flush();
-                        int[] mazeDimensions = new int[]{5, 5};
+                        int[] mazeDimensions = new int[]{3, 3};
                         toServer.writeObject(mazeDimensions); //send maze dimensions to server
                         toServer.flush();
                         byte[] compressedMaze = (byte[]) fromServer.readObject(); //read generated maze (compressed with MyCompressor) from server
                         InputStream is = new MyDecompressorInputStream(new ByteArrayInputStream(compressedMaze));
-                        byte[] decompressedMaze = new byte[59*59 + 25 /*CHANGE SIZE ACCORDING TO YOU MAZE SIZE*/]; //allocating byte[] for the decompressed maze -
+                        byte[] decompressedMaze = new byte[300*200 + 25 /*CHANGE SIZE ACCORDING TO YOU MAZE SIZE*/]; //allocating byte[] for the decompressed maze -
                         is.read(decompressedMaze); //Fill decompressedMaze with bytes
                         Maze maze = new Maze(decompressedMaze);
                         maze.print();
-
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -79,6 +83,7 @@ public class RunCommunicateWithServers {
                         toServer.flush();
                         MyMazeGenerator mg = new MyMazeGenerator();
                         Maze maze = mg.generate(50, 7);
+                        //maze.print();
                         toServer.writeObject(maze); //send maze to server
                         toServer.flush();
                         Solution mazeSolution = (Solution) fromServer.readObject(); //read generated maze (compressed with MyCompressor) from server

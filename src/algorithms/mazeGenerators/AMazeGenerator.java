@@ -6,7 +6,12 @@ import java.util.Random;
 
 public abstract class AMazeGenerator implements IMazeGenerator{
 
-    public static AMazeGenerator GeneratertingType(String type)
+    /**
+     * function for the config file
+     * @param type
+     * @return
+     */
+    public static AMazeGenerator generateType(String type)
     {
         AMazeGenerator toReturn;
 

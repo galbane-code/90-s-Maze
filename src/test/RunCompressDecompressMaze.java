@@ -17,7 +17,7 @@ import java.util.Arrays;
  * Created by Aviadjo on 3/26/2017.
  */
 public class RunCompressDecompressMaze {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         String mazeFileName = "savedMaze.maze";
         AMazeGenerator mazeGenerator = new MyMazeGenerator();
         Maze maze = mazeGenerator.generate(3, 3); //Generate new maze
@@ -44,8 +44,6 @@ public class RunCompressDecompressMaze {
             e.printStackTrace();
         }
         Maze loadedMaze = new Maze(savedMazeBytes);
-        //System.out.println("--------");
-        //loadedMaze.print();
         boolean areMazesEquals = Arrays.equals(loadedMaze.toByteArray(),maze.toByteArray());
         System.out.println(String.format("Mazes equal: %s",areMazesEquals)); //maze should be equal to loadedMaze
     }

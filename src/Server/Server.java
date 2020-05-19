@@ -6,12 +6,15 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.Properties;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.*;
 
 public class Server implements Runnable
 {
+    /**
+     *The class represents a server containing a serverStrategy that will handle different client requests.
+     * each client is being manipulated as a thread - as part of a threadPool.
+     */
+
     private IServerStrategy strategy;
     private int listenTime;
     private int port;
@@ -22,13 +25,12 @@ public class Server implements Runnable
 
     public Server(int port, int listenTime , IServerStrategy strategy) throws IOException
     {
-        Configurations.propertiesCreation();
+        Configurations.propertiesCreation();// init the properties by which the server will work (threadPool size, searching algorithm etc.)
         this.strategy = strategy;
         this.listenTime = listenTime;
         this.port = port;
         this.stop = false;
         this.executor = Executors.newFixedThreadPool(Integer.parseInt(ThreadPoolSize));
-        //this.executor = Executors.newFixedThreadPool(1);
     }
 
 
@@ -55,7 +57,7 @@ public class Server implements Runnable
                 {
                     Socket clientSocket = serverSocket.accept();
 
-                    Runnable r = new Thread(() ->
+                    Thread r = new Thread(() ->
                     {
                         handleClient(clientSocket);
                     });
@@ -89,18 +91,22 @@ public class Server implements Runnable
     }
 
 
-    public void stop()
-    {
+    public synchronized void stop() throws InterruptedException {
+        Thread.sleep(1000);
         this.stop = true;
-        executor.shutdown();
+        executor.shutdownNow();
+
     }
 
 
     public void handleClient(Socket clientSocket)
     {
+        /**
+         * handles the client request using a specific server strategy
+         */
+
         try
         {
-            // had to put the outPutStream in a var because of a failure. notice that!
             OutputStream outToClient = clientSocket.getOutputStream();
             InputStream inFromClient = clientSocket.getInputStream();
 
@@ -110,16 +116,16 @@ public class Server implements Runnable
             outToClient.close();
             clientSocket.close();
         }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+
+        catch(IOException e){
             e.printStackTrace();
         }
-
-
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public static class Configurations
@@ -127,7 +133,7 @@ public class Server implements Runnable
         public static void propertiesCreation() throws IOException
         {
             /**
-             * write the properties to the config file
+             * writes the properties to the config file
              */
             try (OutputStream output = new FileOutputStream("resources\\config.properties")) {
 
@@ -142,10 +148,9 @@ public class Server implements Runnable
                 prop.store(output, null);
 
 
-
                 /**
                  * reads the properties from the config file
-                 * static variables init from the config file
+                 * static variables init
                  */
             try
             {
@@ -158,7 +163,6 @@ public class Server implements Runnable
                 ServerStrategyGenerateMaze.mazeGeneratorString = properties.getProperty("AMazeGenerator");
 
             }
-
             catch(FileNotFoundException e)
             {
                 e.printStackTrace();

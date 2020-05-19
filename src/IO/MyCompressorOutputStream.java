@@ -85,6 +85,7 @@ public class MyCompressorOutputStream extends OutputStream {
 
         }
         b = newarr;
+
         out.write(b);
     }
 

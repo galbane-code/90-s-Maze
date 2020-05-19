@@ -93,7 +93,7 @@ public class MazeState extends AState implements Serializable
         }
 
         outputStream.writeObject(((MazeState)(this.getParent())).MazeStateTobyteArr()); // write his parent
-        outputStream.writeObject(this.getCost()); // write the cost of the node
+        outputStream.writeObject(this.getCost());// write the cost of the node
         /*outputStream.writeInt(this.self.getRowIndex());
         outputStream.writeInt(this.self.getColumnIndex());*/
 

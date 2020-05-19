@@ -1,5 +1,6 @@
 package Server;
 
+import java.util.Collections;
 import IO.MyCompressorOutputStream;
 import algorithms.mazeGenerators.AMazeGenerator;
 import algorithms.mazeGenerators.Maze;
@@ -13,8 +14,9 @@ import java.util.concurrent.Semaphore;
 public class ServerStrategySolveSearchProblem implements IServerStrategy
 {
     public static String searchingAlgorithmString;//config file data member
-    private HashMap<byte[], Solution> SolutionsMap = new HashMap<byte[], Solution>();
-    private static Semaphore mutex = new Semaphore(1);
+    private HashMap<byte[], Solution> SolutionsMap = new  HashMap<byte[], Solution>();
+    private Semaphore mutex = new Semaphore(1);
+    private Solution solved;
 
     /**
      data members used for the file creation inorder to store SolutionsMap HashMap
@@ -25,37 +27,34 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy
     private ObjectInputStream ois;
     private ObjectOutputStream oos;
     private File file;
-
+    private boolean isFile = false;
 
 
     @Override
     public void handleClient(InputStream inputStream, OutputStream outputStream) throws IOException, ClassNotFoundException, InterruptedException {
 
         /**
-         * generating a maze
-         * converting it into a searchable maze and then solves it with best first search
+         * receiving a maze from the client inputStream.
+         * checks in a file (storing a HashMap<byte[], Solution>) if the current maze was already solved earlier by the server.
+         *  if so, we pull the solution of the current maze from the same file.
+         * else, convert the maze into a searchable maze and solves it with a given ASearchingAlgorithm.
          */
         try
         {
-            Solution solved;
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
             ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
 
             ISearchingAlgorithm searchAlgorithm = ASearchingAlgorithm.algorithmType(searchingAlgorithmString);
-
             Maze maze = (Maze)objectInputStream.readObject();
             byte[] mazeByteArr = maze.toByteArray();
 
-            mutex.acquire();
             byte[] returned = null;
-            if(file != null)
+            if(isFile)
             {
                 readFromFile();
                 ArrayList<byte[]> keysArrayList = new ArrayList<byte[]>(this.SolutionsMap.keySet());
                 returned = isExist(keysArrayList, mazeByteArr);
             }
-            mutex.release();
-
 
             if( returned != null )
             {
@@ -69,7 +68,6 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy
                 writeToFile();
             }
 
-
             objectOutputStream.writeObject(solved);
             objectOutputStream.flush();
         }
@@ -81,8 +79,11 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy
 
     }
 
-    private byte[] isExist(ArrayList<byte[]> mazeSolutions , byte[] tocheck)
+    private synchronized byte[] isExist(ArrayList<byte[]> mazeSolutions , byte[] tocheck)
     {
+        /**
+         * checks whether the current maze has been solved before
+         */
 
         for(int i=0; i < mazeSolutions.size(); i++)
         {
@@ -95,13 +96,20 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy
     }
 
 
-    public void readFromFile() throws IOException, ClassNotFoundException {
+    public synchronized void readFromFile() throws IOException, ClassNotFoundException {
+        /**
+         * reads the HashMap from the temp file.
+         */
         try
         {
-
             fis = new FileInputStream(file);
             ois = new ObjectInputStream(fis);
+
             SolutionsMap = (HashMap<byte[], Solution>) ois.readObject();
+            isFile = true;
+
+            ois.close();
+            fis.close();
         }
 
         catch(IOException e)
@@ -110,19 +118,26 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy
         }
     }
 
-    public void writeToFile() throws IOException
+    public synchronized void writeToFile() throws IOException
     {
+        /**
+         * writes the HashMap to the temp file.
+         */
         try
         {
             file = File.createTempFile(tempDirectoryPath, null);
             fos = new FileOutputStream(file);
             oos = new ObjectOutputStream(fos);
 
+            if(file.length() != 0)
+            {
+                file.delete();
+            }
             oos.writeObject(SolutionsMap);
+
             oos.flush();
             oos.close();
             fos.close();
-
         }
 
         catch (IOException e)

@@ -30,17 +30,24 @@ public class RunCommunicateWithServers {
         mazeGeneratingServer.start();
 
         //Communicating with servers
-            for (int i = 0; i < 25; i++) {
+            for (int i = 0; i < 10; i++) {
                 new Thread(() -> {
                     CommunicateWithServer_MazeGenerating();
-               }).start();
+                }).start();
             }
 
-        CommunicateWithServer_SolveSearchProblem();
+        for (int i = 0; i < 10; i++) {
+            new Thread(() -> {
+                CommunicateWithServer_SolveSearchProblem();
+            }).start();
+        }
+
+        //CommunicateWithServer_SolveSearchProblem();
+        //CommunicateWithServer_MazeGenerating();
 
         //Stopping all servers
-        mazeGeneratingServer.stop();
         solveSearchProblemServer.stop();
+        mazeGeneratingServer.stop();
     }
 
     private static void CommunicateWithServer_MazeGenerating() {
@@ -82,7 +89,7 @@ public class RunCommunicateWithServers {
                         ObjectInputStream fromServer = new ObjectInputStream(inFromServer);
                         toServer.flush();
                         MyMazeGenerator mg = new MyMazeGenerator();
-                        Maze maze = mg.generate(50, 7);
+                        Maze maze = mg.generate(2, 2);
                         //maze.print();
                         toServer.writeObject(maze); //send maze to server
                         toServer.flush();

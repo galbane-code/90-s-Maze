@@ -8,6 +8,12 @@ import java.net.Socket;
 
 public class Client
 {
+    /**
+     *The class represents a client sending different requests from the server.
+     * has a clientStrategy data member that represents the way the client will handle the server response
+     * the clientStrategies implementations can be found in the RunCommunicateWithServer class
+     */
+
     private IClientStrategy clientStrategy;
     private int port;
     private InetAddress serverIP;

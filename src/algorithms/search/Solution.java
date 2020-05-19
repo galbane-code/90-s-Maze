@@ -28,6 +28,10 @@ public class Solution implements Serializable
         return solution;
     }
 
+    public void setSolution(ArrayList<AState> solution) {
+        this.solution = solution;
+    }
+
     /*
     private void writeObject(ObjectOutputStream outputStream) throws IOException
     {

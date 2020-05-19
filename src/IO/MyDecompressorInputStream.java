@@ -27,6 +27,7 @@ public class MyDecompressorInputStream extends InputStream {
      * using 0xFF we convert the signed value of the byte into an unsigned value (0 to 255)
      *
      */
+
         int totalArrbSize = in.read(b); // reads the compressed array size into a variable.
 
         ArrayList<Byte> byteArrayList = new ArrayList<Byte>();
@@ -132,10 +133,12 @@ public class MyDecompressorInputStream extends InputStream {
             toAssign[k] = byteArrayList.get(k);
         }
 
+
         for(int h = 0; h < toAssign.length; h++)
         {
             b[h] = toAssign[h];
         }
+
 
         return -1;
 

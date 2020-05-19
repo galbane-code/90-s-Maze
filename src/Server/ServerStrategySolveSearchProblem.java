@@ -1,11 +1,7 @@
 package Server;
 
-import java.util.Collections;
 import IO.MyCompressorOutputStream;
-import algorithms.mazeGenerators.AMazeGenerator;
 import algorithms.mazeGenerators.Maze;
-import algorithms.mazeGenerators.MyMazeGenerator;
-import algorithms.mazeGenerators.Position;
 import algorithms.search.*;
 import java.io.*;
 import java.util.*;
@@ -21,6 +17,9 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy
     /**
      data members used for the file creation inorder to store SolutionsMap HashMap
      */
+
+    private MyCompressorOutputStream compressorOutputStream;
+    private ByteArrayOutputStream byteArrayOutputStreamout;
     private String tempDirectoryPath = System.getProperty("java.io.tmpdir");
     private FileOutputStream fos;
     private FileInputStream fis;

@@ -1,13 +1,8 @@
 package IO;
 
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
-
-import java.nio.ByteBuffer;
-import java.util.Arrays;
 
 
 public class MyCompressorOutputStream extends OutputStream {

@@ -1,16 +1,12 @@
 package test;
 
 import IO.MyCompressorOutputStream;
-//import IO.MyDecompressorInputStream;
 import IO.MyDecompressorInputStream;
 import algorithms.mazeGenerators.AMazeGenerator;
 import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.MyMazeGenerator;
-import algorithms.search.*;
 
 import java.io.*;
-import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -20,12 +16,11 @@ public class RunCompressDecompressMaze {
     public static void main(String[] args) throws InterruptedException {
         String mazeFileName = "savedMaze.maze";
         AMazeGenerator mazeGenerator = new MyMazeGenerator();
-        Maze maze = mazeGenerator.generate(3, 3); //Generate new maze
+        Maze maze = mazeGenerator.generate(100, 100); //Generate new maze
 
         try {
             // save maze to a file
             OutputStream out = new MyCompressorOutputStream(new FileOutputStream(mazeFileName));
-            maze.print();
             out.write(maze.toByteArray());
             out.flush();
             out.close();
@@ -43,9 +38,9 @@ public class RunCompressDecompressMaze {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         Maze loadedMaze = new Maze(savedMazeBytes);
         boolean areMazesEquals = Arrays.equals(loadedMaze.toByteArray(),maze.toByteArray());
         System.out.println(String.format("Mazes equal: %s",areMazesEquals)); //maze should be equal to loadedMaze
     }
-
 }

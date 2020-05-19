@@ -1,8 +1,6 @@
 package algorithms.search;
 
 import java.util.ArrayDeque;
-import java.util.Collections;
-import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class BreadthFirstSearch extends ASearchingAlgorithm

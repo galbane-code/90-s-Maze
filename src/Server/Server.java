@@ -1,5 +1,6 @@
 package Server;
 
+//import java.io.*;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -92,7 +93,7 @@ public class Server implements Runnable
 
 
     public synchronized void stop() throws InterruptedException {
-        Thread.sleep(1000);
+        Thread.sleep(10000);
         this.stop = true;
         executor.shutdownNow();
 

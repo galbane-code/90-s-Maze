@@ -1,8 +1,5 @@
 package algorithms.mazeGenerators;
 
-//import javax.swing.text.Position;
-import javafx.geometry.Pos;
-import sun.awt.Mutex;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -10,8 +7,6 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.nio.ByteBuffer;
-import java.util.Arrays;
-import java.util.concurrent.Semaphore;
 
 public class Maze implements Serializable {
 
@@ -177,20 +172,6 @@ public class Maze implements Serializable {
             }
             System.out.println();
         }
-
-        /*for(int i = 0; i < this.PositionMatrix.length; i++)
-        {
-            for(int j = 0; j <this.PositionMatrix[0].length; j++)
-            {
-                System.out.println(PositionMatrix[i][j] + "his children:");
-                for(int h = 0; h < this.PositionMatrix[i][j].getNeighbors().size(); h++ )
-                {
-                    System.out.println(PositionMatrix[i][j].getNeighbors().get(h));
-                }
-                System.out.println("---------");
-
-            }
-        }*/
     }
 
 

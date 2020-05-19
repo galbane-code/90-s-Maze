@@ -1,16 +1,7 @@
 package algorithms.search;
 
-import algorithms.mazeGenerators.Maze;
-import algorithms.mazeGenerators.Position;
-
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 
 public class Solution implements Serializable
 {

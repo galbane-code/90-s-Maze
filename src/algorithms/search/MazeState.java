@@ -1,6 +1,5 @@
 package algorithms.search;
 
-import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.Position;
 
 import java.io.IOException;

@@ -4,12 +4,14 @@ import IO.MyCompressorOutputStream;
 import algorithms.mazeGenerators.AMazeGenerator;
 import algorithms.mazeGenerators.Maze;
 import java.io.*;
+import java.util.concurrent.Semaphore;
 
 public class ServerStrategyGenerateMaze implements IServerStrategy
 {
     public static String mazeGeneratorString;//config file data member
     private MyCompressorOutputStream compressorOutputStream;
-    private ByteArrayOutputStream byteArrayOutputStreamout;
+    private ByteArrayOutputStream byteArrayOutputStream;
+    private byte [] compressedArr;
 
     @Override
     public void handleClient(InputStream inputStream, OutputStream outputStream) throws IOException
@@ -29,18 +31,21 @@ public class ServerStrategyGenerateMaze implements IServerStrategy
             int [] maze_size = (int[]) (objectInputStream.readObject());
             Maze maze = mazeGenerator.generate(maze_size[0],maze_size[1]);
 
-            byte [] compressedArr = new byte[0];
-            byteArrayOutputStreamout = new ByteArrayOutputStream();
-            compressorOutputStream = new MyCompressorOutputStream(byteArrayOutputStreamout);
-            compressorOutputStream.write(maze.toByteArray());
+            compressedArr = new byte[0];
+            byteArrayOutputStream = new ByteArrayOutputStream();
+            compressorOutputStream = new MyCompressorOutputStream(byteArrayOutputStream);
+            byte[] bytesMaze = maze.toByteArray();
+            compressorOutputStream.write(bytesMaze);
+            compressorOutputStream.flush();
+
             while(compressedArr.length == 0)
             {
-                compressedArr = byteArrayOutputStreamout.toByteArray();
+                compressedArr = byteArrayOutputStream.toByteArray();
             }
             objectOutputStream.writeObject(compressedArr);
-
             objectOutputStream.flush();
-            byteArrayOutputStreamout.close();
+
+            byteArrayOutputStream.close();
             compressorOutputStream.close();
         }
 

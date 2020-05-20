@@ -133,6 +133,11 @@ public class MyDecompressorInputStream extends InputStream {
 
         for(int h = 0; h < toAssign.length; h++)
         {
+            if(h == b.length)
+            {
+                break;
+            }
+
             b[h] = toAssign[h];
         }
 

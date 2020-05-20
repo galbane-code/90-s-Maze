@@ -6,7 +6,7 @@ import java.util.Comparator;
 
 // an abstract class to represent one state/move in a searching problem.
 
-public abstract class AState implements Serializable {
+public abstract class AState {
 
     private AState parent;
     private String State;

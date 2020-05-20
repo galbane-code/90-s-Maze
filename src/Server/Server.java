@@ -58,7 +58,7 @@ public class Server implements Runnable
                 {
                     Socket clientSocket = serverSocket.accept();
 
-                    Thread r = new Thread(() ->
+                    Runnable r = new Thread(() ->
                     {
                         handleClient(clientSocket);
                     });
@@ -69,6 +69,7 @@ public class Server implements Runnable
                 {
                     System.out.println("Where are the clients?");
                 }
+
             }
 
             try
@@ -92,11 +93,11 @@ public class Server implements Runnable
     }
 
 
-    public synchronized void stop() throws InterruptedException {
+    public synchronized void stop() throws InterruptedException
+    {
         Thread.sleep(10000);
         this.stop = true;
         executor.shutdownNow();
-
     }
 
 
@@ -141,7 +142,7 @@ public class Server implements Runnable
                 Properties prop = new Properties();
 
                 // set the properties value
-                prop.setProperty("ThreadPoolSize", "3");
+                prop.setProperty("ThreadPoolSize", "2");
                 prop.setProperty("ASearchingAlgorithm", "BestFirstSearch");
                 prop.setProperty("AMazeGenerator", "MyMazeGenerator");
 

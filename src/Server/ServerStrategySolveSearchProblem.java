@@ -11,15 +11,12 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy
 {
     public static String searchingAlgorithmString;//config file data member
     private HashMap<byte[], Solution> SolutionsMap = new  HashMap<byte[], Solution>();
-    private Semaphore mutex = new Semaphore(1);
     private Solution solved;
 
     /**
      data members used for the file creation inorder to store SolutionsMap HashMap
      */
 
-    private MyCompressorOutputStream compressorOutputStream;
-    private ByteArrayOutputStream byteArrayOutputStreamout;
     private String tempDirectoryPath = System.getProperty("java.io.tmpdir");
     private FileOutputStream fos;
     private FileInputStream fis;

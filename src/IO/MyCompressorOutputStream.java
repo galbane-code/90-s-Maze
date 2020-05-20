@@ -3,11 +3,12 @@ package IO;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.concurrent.Semaphore;
 
 
 public class MyCompressorOutputStream extends OutputStream {
 
-    private OutputStream out;
+    private volatile OutputStream out;
 
     public MyCompressorOutputStream(OutputStream outputStream)
     {
@@ -24,6 +25,13 @@ public class MyCompressorOutputStream extends OutputStream {
          * @param b
          * @throws IOException
          */
+
+        Semaphore mutex = new Semaphore(1);
+        try {
+            mutex.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         ArrayList<Byte> ByteArrList = new ArrayList<Byte>();
 
@@ -82,6 +90,8 @@ public class MyCompressorOutputStream extends OutputStream {
         b = newarr;
 
         out.write(b);
+
+        mutex.release();
     }
 
         @Override

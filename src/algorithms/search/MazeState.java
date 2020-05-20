@@ -82,7 +82,7 @@ public class MazeState extends AState implements Serializable
 
     private void writeObject(ObjectOutputStream outputStream) throws IOException
     {
-        byte [] arr = this.MazeStateTobyteArr();
+        /*byte [] arr = this.MazeStateTobyteArr();
         outputStream.writeObject(arr); // first we write this maze state
         byte SuccesorsSize = (byte)(this.getSuccessors().size());
         outputStream.writeObject(SuccesorsSize); // then the size of his successors
@@ -92,9 +92,9 @@ public class MazeState extends AState implements Serializable
         }
 
         outputStream.writeObject(((MazeState)(this.getParent())).MazeStateTobyteArr()); // write his parent
-        outputStream.writeObject(this.getCost());// write the cost of the node
-        /*outputStream.writeInt(this.self.getRowIndex());
-        outputStream.writeInt(this.self.getColumnIndex());*/
+        outputStream.writeObject(this.getCost());*/// write the cost of the node
+        outputStream.writeInt(this.self.getRowIndex());
+        outputStream.writeInt(this.self.getColumnIndex());
 
     }
 
@@ -102,7 +102,7 @@ public class MazeState extends AState implements Serializable
     private void readObject(ObjectInputStream inputStream) throws IOException, ClassNotFoundException
     {
 
-        byte[] arr = (byte[]) inputStream.readObject();
+        /*byte[] arr = (byte[]) inputStream.readObject();
 
         byte[] RowSizeBytes = Arrays.copyOfRange(arr, 0, 4);
         byte[] ColSizeBytes = Arrays.copyOfRange(arr, 4, 8);
@@ -132,11 +132,11 @@ public class MazeState extends AState implements Serializable
         this.id = newState.id;
         this.setParent(newState.getParent());
         this.setSuccessors(newState.getSuccessors());
-        this.setCost(newState.getCost());
+        this.setCost(newState.getCost());*/
 
-        /*int row = inputStream.readInt();
+        int row = inputStream.readInt();
         int col = inputStream.readInt();
-        this.self = new Position(row, col);*/
+        this.self = new Position(row, col);
 
     }
 

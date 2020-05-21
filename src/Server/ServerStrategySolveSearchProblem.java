@@ -40,7 +40,9 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
             ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
 
-            ISearchingAlgorithm searchAlgorithm = ASearchingAlgorithm.algorithmType(searchingAlgorithmString);
+            //ISearchingAlgorithm searchAlgorithm = ASearchingAlgorithm.algorithmType(searchingAlgorithmString);
+            ISearchingAlgorithm searchAlgorithm = new BestFirstSearch();
+
             Maze maze = (Maze)objectInputStream.readObject();
             byte[] mazeByteArr = maze.toByteArray();
 

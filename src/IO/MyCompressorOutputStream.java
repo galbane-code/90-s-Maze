@@ -8,7 +8,7 @@ import java.util.concurrent.Semaphore;
 
 public class MyCompressorOutputStream extends OutputStream {
 
-    private volatile OutputStream out;
+    private OutputStream out;
 
     public MyCompressorOutputStream(OutputStream outputStream)
     {
@@ -25,13 +25,6 @@ public class MyCompressorOutputStream extends OutputStream {
          * @param b
          * @throws IOException
          */
-
-        Semaphore mutex = new Semaphore(1);
-        try {
-            mutex.acquire();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         ArrayList<Byte> ByteArrList = new ArrayList<Byte>();
 
@@ -90,8 +83,6 @@ public class MyCompressorOutputStream extends OutputStream {
         b = newarr;
 
         out.write(b);
-
-        mutex.release();
     }
 
         @Override

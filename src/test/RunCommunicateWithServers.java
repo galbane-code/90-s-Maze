@@ -24,22 +24,22 @@ public class RunCommunicateWithServers {
 
         //Starting  servers
         mazeGeneratingServer.start();
-        //solveSearchProblemServer.start();
+        solveSearchProblemServer.start();
 
         //Communicating with servers
-        for(int i =0;i<10;i++) {
-            new Thread(() -> {
+        //for(int i =0;i<10;i++) {
+           // new Thread(() -> {
                 CommunicateWithServer_MazeGenerating();
-            }).start();
+           // }).start();
 
-            /*new Thread(()-> {
+            //new Thread(()-> {
             CommunicateWithServer_SolveSearchProblem();
-            }).start();*/
-        }
+            //}).start();
+        //}
 
         //Stopping all servers
         mazeGeneratingServer.stop();
-        //solveSearchProblemServer.stop();
+        solveSearchProblemServer.stop();
     }
 
     private static void CommunicateWithServer_MazeGenerating() {
@@ -51,12 +51,12 @@ public class RunCommunicateWithServers {
                         ObjectOutputStream toServer = new ObjectOutputStream(outToServer);
                         ObjectInputStream fromServer = new ObjectInputStream(inFromServer);
                         toServer.flush();
-                        int[] mazeDimensions = new int[]{3, 3};
+                        int[] mazeDimensions = new int[]{500, 500};
                         toServer.writeObject(mazeDimensions); //send maze dimensions to server
                         toServer.flush();
                         byte[] compressedMaze = (byte[]) fromServer.readObject(); //read generated maze (compressed with MyCompressor) from server
                         InputStream is = new MyDecompressorInputStream(new ByteArrayInputStream(compressedMaze));
-                        byte[] decompressedMaze = new byte[49 /*CHANGE SIZE ACCORDING TO YOU MAZE SIZE*/]; //allocating byte[] for the decompressed maze -
+                        byte[] decompressedMaze = new byte[998026 /*CHANGE SIZE ACCORDING TO YOU MAZE SIZE*/]; //allocating byte[] for the decompressed maze -
                         is.read(decompressedMaze); //Fill decompressedMaze with bytes
                         Maze maze = new Maze(decompressedMaze);
                         maze.print();
@@ -82,7 +82,7 @@ public class RunCommunicateWithServers {
                         toServer.flush();
                         MyMazeGenerator mg = new MyMazeGenerator();
                         Maze maze = mg.generate(500, 500);
-                       // maze.print();
+                        maze.print();
                         toServer.writeObject(maze); //send maze to server
                         toServer.flush();
                         Solution mazeSolution = (Solution) fromServer.readObject(); //read generated maze (compressed with MyCompressor) from server

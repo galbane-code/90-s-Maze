@@ -26,17 +26,18 @@ public class Server implements Runnable
 
     public Server(int port, int listenTime , IServerStrategy strategy) throws IOException
     {
-        Configurations.propertiesCreation();// init the properties by which the server will work (threadPool size, searching algorithm etc.)
+        //Configurations.propertiesCreation();// init the properties by which the server will work (threadPool size, searching algorithm etc.)
         this.strategy = strategy;
         this.listenTime = listenTime;
         this.port = port;
         this.stop = false;
-        this.executor = Executors.newFixedThreadPool(Integer.parseInt(ThreadPoolSize));
+        //this.executor= Executors.newFixedThreadPool(Integer.parseInt(ThreadPoolSize));
+        this.executor= Executors.newFixedThreadPool(1);
     }
 
 
-    public void start ()
-    {
+    public void start ()  {
+
         new Thread(()->
         {
             run();
@@ -142,7 +143,7 @@ public class Server implements Runnable
                 Properties prop = new Properties();
 
                 // set the properties value
-                prop.setProperty("ThreadPoolSize", "2");
+                prop.setProperty("ThreadPoolSize", "3");
                 prop.setProperty("ASearchingAlgorithm", "BestFirstSearch");
                 prop.setProperty("AMazeGenerator", "MyMazeGenerator");
 

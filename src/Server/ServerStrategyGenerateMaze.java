@@ -20,7 +20,7 @@ public class ServerStrategyGenerateMaze implements IServerStrategy
     private Lock lock = new ReentrantLock();
 
     @Override
-    public void handleClient(InputStream inputStream, OutputStream outputStream) throws IOException
+    public void handleClient(InputStream inputStream, OutputStream outputStream)
     {
         /**
          * generates a maze using an Input from the client, representing the maze dimensions.
@@ -56,7 +56,7 @@ public class ServerStrategyGenerateMaze implements IServerStrategy
             lock.unlock();
         }
 
-        catch (ClassNotFoundException e) {
+        catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
         }
     }

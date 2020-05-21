@@ -28,7 +28,7 @@ public class Maze implements Serializable {
         this.data = data;
     }
 
-    public Maze(byte[] arr) throws InterruptedException {
+    public Maze(byte[] arr)  {
 
         try {
 

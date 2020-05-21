@@ -13,7 +13,7 @@ import java.util.Arrays;
  * Created by Aviadjo on 3/26/2017.
  */
 public class RunCompressDecompressMaze {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args){
         String mazeFileName = "savedMaze.maze";
         AMazeGenerator mazeGenerator = new MyMazeGenerator();
         Maze maze = mazeGenerator.generate(952, 526); //Generate new maze

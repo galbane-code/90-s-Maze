@@ -14,7 +14,7 @@ public class MyDecompressorInputStream extends InputStream {
 
 
     @Override
-    public int read(byte[] b) throws IOException
+    public int read(byte[] b)
     {
     /**
      * decompresses the array by the same rules we compressed it.
@@ -24,126 +24,115 @@ public class MyDecompressorInputStream extends InputStream {
      * using 0xFF we convert the signed value of the byte into an unsigned value (0 to 255)
      *
      */
+        try {
+            int totalArrbSize = in.read(b); // reads the compressed array size into a variable.
 
-        int totalArrbSize = in.read(b); // reads the compressed array size into a variable.
+            ArrayList<Byte> byteArrayList = new ArrayList<Byte>();
 
-        ArrayList<Byte> byteArrayList = new ArrayList<Byte>();
-
-        int i = 0;
-        while(i < 24 )
-        {
-            byteArrayList.add(b[i]);
-            i++;
-        }
-
-
-        byte count; // temp byte to insert into the byte arrays lists after the decompression.
-        byte [] sizeOfEightArr = new byte [8];
-        for(i = 25; i < totalArrbSize; i++)
-        {
-            /** in this for loop we decompress the byte into the binary 10101 of the maze */
-
-            int j = 0; // the index to insert to the array list.
-
-            count = b[i]; // initial the temp byte
-
-            int byteToInt = count & 0xFF; // signed to unsigned int
-
-            String byteString = Integer.toBinaryString(byteToInt); // this function change the byte into a binary string.
-
-            byte[] byteArr = byteString.getBytes(); // change the binary string into a byte arr of binary.
-
-
-            if (i == totalArrbSize - 1 && b[24] > 0)    //b[24] is the size of the last array we compressed ( it is less then 8)
-            {
-                int finalInt = b[24]; // the size of the last part to add to complete the binary maze
-
-                int [] finalArr = new int [finalInt]; // the byte arr we add to the arrays list
-
-                if(byteArr.length < finalArr.length) // checks if we need to add zeros on the left and add if needed to the final arr.
-                {
-                    for (int k = 0; k < finalArr.length; k++)
-                    {
-                        if (k < byteArr.length)
-                            finalArr[finalArr.length - k - 1] = byteArr[byteArr.length - k - 1];
-                        else
-                        {
-                            finalArr[finalArr.length - k - 1] = 48;
-                        }
-                    }
-                }
-                else // if it does not need to add zeros it just add the binary as is to the final arr
-                {
-                    for(int h = 0; h < finalArr.length; h++)
-                    {
-                        finalArr[h] = byteArr[h];
-                    }
-                }
-                // after that we add the binary into the arrays list.
-                while (j < finalArr.length)
-                {
-                    byteArrayList.add((byte) (finalArr[j] - ((byte) 48)));
-                    j++;
-                }
-                break;
+            int i = 0;
+            while (i < 24) {
+                byteArrayList.add(b[i]);
+                i++;
             }
 
-            else  // else is if the process is still in the middle of the maze and didnt reached the end.
-            {
-                if(byteArr.length < 8) //checks if we need to add zeros on the left and add if needed to the final arr.
+
+            byte count; // temp byte to insert into the byte arrays lists after the decompression.
+            byte[] sizeOfEightArr = new byte[8];
+            for (i = 25; i < totalArrbSize; i++) {
+                /** in this for loop we decompress the byte into the binary 10101 of the maze */
+
+                int j = 0; // the index to insert to the array list.
+
+                count = b[i]; // initial the temp byte
+
+                int byteToInt = count & 0xFF; // signed to unsigned int
+
+                String byteString = Integer.toBinaryString(byteToInt); // this function change the byte into a binary string.
+
+                byte[] byteArr = byteString.getBytes(); // change the binary string into a byte arr of binary.
+
+
+                if (i == totalArrbSize - 1 && b[24] > 0)    //b[24] is the size of the last array we compressed ( it is less then 8)
                 {
-                    for (int k = 0; k < 8; k++)
+                    int finalInt = b[24]; // the size of the last part to add to complete the binary maze
+
+                    int[] finalArr = new int[finalInt]; // the byte arr we add to the arrays list
+
+                    if (byteArr.length < finalArr.length) // checks if we need to add zeros on the left and add if needed to the final arr.
                     {
-                        if (k < byteArr.length)
-                            sizeOfEightArr[sizeOfEightArr.length - k - 1] = byteArr[byteArr.length - k - 1];
-                        else
-                        {
-                            sizeOfEightArr[sizeOfEightArr.length - k - 1] = 48;
+                        for (int k = 0; k < finalArr.length; k++) {
+                            if (k < byteArr.length)
+                                finalArr[finalArr.length - k - 1] = byteArr[byteArr.length - k - 1];
+                            else {
+                                finalArr[finalArr.length - k - 1] = 48;
+                            }
+                        }
+                    } else // if it does not need to add zeros it just add the binary as is to the final arr
+                    {
+                        for (int h = 0; h < finalArr.length; h++) {
+                            finalArr[h] = byteArr[h];
                         }
                     }
-                }
-
-                // if it does not need to add zeros it just add the binary as is to the final arr
-                else
+                    // after that we add the binary into the arrays list.
+                    while (j < finalArr.length) {
+                        byteArrayList.add((byte) (finalArr[j] - ((byte) 48)));
+                        j++;
+                    }
+                    break;
+                } else  // else is if the process is still in the middle of the maze and didnt reached the end.
                 {
-                    for(int h = 0; h < 8; h++)
+                    if (byteArr.length < 8) //checks if we need to add zeros on the left and add if needed to the final arr.
                     {
-                        sizeOfEightArr[h] = byteArr[h];
+                        for (int k = 0; k < 8; k++) {
+                            if (k < byteArr.length)
+                                sizeOfEightArr[sizeOfEightArr.length - k - 1] = byteArr[byteArr.length - k - 1];
+                            else {
+                                sizeOfEightArr[sizeOfEightArr.length - k - 1] = 48;
+                            }
+                        }
+                    }
+
+                    // if it does not need to add zeros it just add the binary as is to the final arr
+                    else {
+                        for (int h = 0; h < 8; h++) {
+                            sizeOfEightArr[h] = byteArr[h];
+                        }
+                    }
+
+                    // after that we add the binary into the array list.
+                    while (j < sizeOfEightArr.length) {
+                        byteArrayList.add((byte) (sizeOfEightArr[j] - ((byte) 48)));
+                        j++;
                     }
                 }
-
-                // after that we add the binary into the array list.
-                while (j < sizeOfEightArr.length)
-                {
-                    byteArrayList.add((byte) (sizeOfEightArr[j] - ((byte) 48)));
-                    j++;
-                }
             }
-        }
 
-        /**
-         * copy the ArrayList into an array. the new array will be copied into array b.
-         */
-        byte [] toAssign = new byte[byteArrayList.size()];
-        for (int k = 0; k < byteArrayList.size(); k++)
-        {
-            toAssign[k] = byteArrayList.get(k);
-        }
+            /**
+             * copy the ArrayList into an array. the new array will be copied into array b.
+             */
+            byte[] toAssign = new byte[byteArrayList.size()];
+            for (int k = 0; k < byteArrayList.size(); k++) {
+                toAssign[k] = byteArrayList.get(k);
+            }
 
 
-        for(int h = 0; h < toAssign.length; h++)
-        {
+            for (int h = 0; h < toAssign.length; h++) {
             /*if(h == b.length)
             {
                 break;
             }*/
 
-            b[h] = toAssign[h];
+                b[h] = toAssign[h];
+            }
+
+
+
         }
-
-
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
         return -1;
-
     }
 
     @Override

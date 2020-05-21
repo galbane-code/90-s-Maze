@@ -9,6 +9,7 @@ import algorithms.search.AState;
 import algorithms.search.Solution;
 
 import java.io.*;
+import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
  * Created by Aviadjo on 3/27/2017.
  */
 public class RunCommunicateWithServers {
-    public static void main(String[] args) throws InterruptedException, IOException {
+    public static void main(String[] args){
         //Initializing servers
         Server mazeGeneratingServer = new Server(5400, 1000, new ServerStrategyGenerateMaze());
         Server solveSearchProblemServer = new Server(5401, 1000, new ServerStrategySolveSearchProblem());

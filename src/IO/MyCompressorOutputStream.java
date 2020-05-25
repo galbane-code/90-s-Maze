@@ -2,7 +2,9 @@ package IO;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.Semaphore;
 
 
@@ -43,6 +45,21 @@ public class MyCompressorOutputStream extends OutputStream {
             }
         }
 
+        ////
+        byte[] remain = Arrays.copyOfRange(b,24 , b.length);
+        byte[] info = Arrays.copyOfRange(b,0 , 24);
+
+        byte[] ColSizeBytes = Arrays.copyOfRange(b, 4, 8);
+        int colSizeInt = ByteBuffer.wrap(ColSizeBytes).getInt();
+
+        remain = CreateSmallData(remain,colSizeInt);
+
+        b = new byte[info.length+remain.length];
+
+        System.arraycopy(info, 0, b, 0, info.length);
+        System.arraycopy(remain, 0, b, info.length,remain.length);
+
+/////
         int current_index = 24; // the index from which we begin the insertion to the compressed byte array.
         int lengthRemain = b.length - 24; // the length remained to compress
         int finalInt = lengthRemain % 8; // an indication int. evaluates the size of "the last cut" (between 0 to 8)
@@ -80,7 +97,9 @@ public class MyCompressorOutputStream extends OutputStream {
             newarr[i] = ByteArrList.get(i);
 
         }
+
         b = newarr;
+
 
         out.write(b);
     }
@@ -109,5 +128,64 @@ public class MyCompressorOutputStream extends OutputStream {
         }
 
       return toReturn;
+    }
+
+    private byte[] CreateSmallData(byte[] mazetoshrink, int rowlen)
+    {
+        ArrayList<Byte> toreturn = new ArrayList<Byte>();
+
+        boolean Row = true;
+        int i;
+
+        for(i=0; i < mazetoshrink.length; i++)
+        {
+            if(Row)
+            {
+                for(int j=0; j < rowlen; j++)
+                {
+                    if( j%2 == 0)
+                    {
+                        i++;
+                        continue;
+                    }
+
+                    else
+                    {
+                        toreturn.add(mazetoshrink[i]);
+                        i++;
+                    }
+                }
+
+                i--;
+                Row = false;
+            }
+            else
+            {
+                for(int j=0; j < rowlen; j++)
+                {
+                    if( j%2 == 0)
+                    {
+                        toreturn.add(mazetoshrink[i]);
+                        i++;
+                    }
+                    else
+                    {
+                        i++;
+                        continue;
+                    }
+                }
+                i--;
+                Row = true;
+            }
+        }
+
+        byte [] arr = new byte[toreturn.size()];
+
+        for(int h=0; h < toreturn.size(); h++)
+        {
+            arr[h] = toreturn.get(h);
+        }
+
+        return arr;
     }
 }

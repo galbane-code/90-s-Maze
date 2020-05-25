@@ -13,10 +13,11 @@ import java.util.Arrays;
  * Created by Aviadjo on 3/26/2017.
  */
 public class RunCompressDecompressMaze {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         String mazeFileName = "savedMaze.maze";
         AMazeGenerator mazeGenerator = new MyMazeGenerator();
-        Maze maze = mazeGenerator.generate(952, 526); //Generate new maze
+        Maze maze = mazeGenerator.generate(952,758 ); //Generate new maze
+        maze.print();
 
         try {
             // save maze to a file
@@ -40,6 +41,8 @@ public class RunCompressDecompressMaze {
         }
 
         Maze loadedMaze = new Maze(savedMazeBytes);
+       // System.out.println("\n");
+        //loadedMaze.print();
         boolean areMazesEquals = Arrays.equals(loadedMaze.toByteArray(),maze.toByteArray());
         System.out.println(String.format("Mazes equal: %s",areMazesEquals)); //maze should be equal to loadedMaze
     }

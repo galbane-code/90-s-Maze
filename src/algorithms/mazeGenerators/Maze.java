@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.nio.ByteBuffer;
 
@@ -28,7 +29,7 @@ public class Maze implements Serializable {
         this.data = data;
     }
 
-    public Maze(byte[] arr) throws InterruptedException {
+    public Maze(byte[] arr) {
 
         try {
 
@@ -58,12 +59,16 @@ public class Maze implements Serializable {
 
             this.data = new int[rowSizeInt][colSizeInt];
 
+            // function that change the byte arr
+            byte[] remain = Arrays.copyOfRange(arr,24 , arr.length);
+
             int byteArrIndex = 24;
             for (int i = 0; i < rowSizeInt; i++) {
                 for (int j = 0; j < colSizeInt; j++) {
                     this.data[i][j] = arr[byteArrIndex++];
                 }
             }
+
 
             this.PositionMatrix = new Position[rowSizeInt / 2 + 1][colSizeInt / 2 + 1];
             int counter = 0;
@@ -85,6 +90,7 @@ public class Maze implements Serializable {
 
             this.entry = PositionMatrix[entryRowInt][entryColInt];
             this.exit = PositionMatrix[exitRowInt][exitColInt];
+
 
         }
 
@@ -179,6 +185,8 @@ public class Maze implements Serializable {
 
         int rowSize = data.length;
         int colSize = data[0].length;
+      //  int rowSize = PositionMatrix.length;
+       // int colSize = PositionMatrix[0].length;
         byte [] byteArr = new byte[rowSize * colSize + 24]; // 24 for the entry, exit, size of row, size of col
         int byteCounter = 24;
 
@@ -206,6 +214,7 @@ public class Maze implements Serializable {
         System.arraycopy(EndColBytes, 0, byteArr, 20, 4);
 
 
+
         for (int i = 0; i < data.length; i++)
         {
             for (int j = 0; j < data[0].length; j++)
@@ -214,7 +223,6 @@ public class Maze implements Serializable {
                 byteCounter++;
             }
         }
-
 
         return byteArr;
     }
@@ -283,5 +291,7 @@ public class Maze implements Serializable {
         this.data = maze.data;
 
     }
+
+
 
 }

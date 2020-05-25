@@ -9,6 +9,7 @@ public class MyMazeGenerator extends AMazeGenerator {
     public Maze generate(int rows, int cols) {
 
         //Objects to be used
+
         int[][] data;
         ArrayList<Edge> mazeEdges;
         Position [] entryExitArr = new Position[2];
@@ -31,24 +32,7 @@ public class MyMazeGenerator extends AMazeGenerator {
     }
 
 
-    //perfectMazeEdges initializes edge between every two positions (a complete graph)
-    //to be sent later to Kruskal's algorithm
-    public Position[][] perfectMazeEdges(Position[][] positionArr, int rows, int cols, ArrayList<Edge> mazeEdges) {
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                positionArr[i][j].getNeighbors().clear();
-            }
-        }
 
-        for (int h = 0; h < mazeEdges.size(); h++) {
-            Position x = mazeEdges.get(h).getX();
-            Position y = mazeEdges.get(h).getY();
-            x.getNeighbors().add(y);
-            y.getNeighbors().add(x);
-        }
-
-        return positionArr;
-    }
 
 
     //finds the ancestor of every position in order to decide whether to unify or not

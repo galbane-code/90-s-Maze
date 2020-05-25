@@ -24,8 +24,7 @@ public class Server implements Runnable
     public static String ThreadPoolSize;
 
 
-    public Server(int port, int listenTime , IServerStrategy strategy) throws IOException
-    {
+    public Server(int port, int listenTime , IServerStrategy strategy) {
         //Configurations.propertiesCreation();// init the properties by which the server will work (threadPool size, searching algorithm etc.)
         this.strategy = strategy;
         this.listenTime = listenTime;
@@ -94,9 +93,13 @@ public class Server implements Runnable
     }
 
 
-    public synchronized void stop() throws InterruptedException
+    public synchronized void stop()
     {
-        Thread.sleep(10000);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         this.stop = true;
         executor.shutdownNow();
     }

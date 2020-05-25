@@ -2,7 +2,9 @@ package IO;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MyDecompressorInputStream extends InputStream {
 
@@ -35,7 +37,9 @@ public class MyDecompressorInputStream extends InputStream {
             byteArrayList.add(b[i]);
             i++;
         }
+        //expand the maze
 
+       // byte divide = b[24];
 
         byte count; // temp byte to insert into the byte arrays lists after the decompression.
         byte [] sizeOfEightArr = new byte [8];
@@ -130,6 +134,20 @@ public class MyDecompressorInputStream extends InputStream {
             toAssign[k] = byteArrayList.get(k);
         }
 
+        byte[] remain = Arrays.copyOfRange(toAssign,24 , toAssign.length);
+        byte[] info = Arrays.copyOfRange(toAssign,0 , 24);
+
+        byte[] ColSizeBytes = Arrays.copyOfRange(toAssign, 4, 8);
+        int colSizeInt = ByteBuffer.wrap(ColSizeBytes).getInt();
+
+        remain = CreateBigDate(remain,colSizeInt);
+
+        toAssign = new byte[info.length+remain.length];
+
+
+        System.arraycopy(info, 0, toAssign, 0, info.length);
+        System.arraycopy(remain, 0, toAssign, info.length,remain.length);
+
 
         for(int h = 0; h < toAssign.length; h++)
         {
@@ -141,6 +159,8 @@ public class MyDecompressorInputStream extends InputStream {
             b[h] = toAssign[h];
         }
 
+        // function tha
+
 
         return -1;
 
@@ -149,5 +169,63 @@ public class MyDecompressorInputStream extends InputStream {
     @Override
     public int read() throws IOException {
         return 0;
+    }
+
+    private byte[] CreateBigDate(byte[] mazetoexpand, int rowlen)
+    {
+        ArrayList<Byte> toreturn = new ArrayList<Byte>();
+        boolean Row = true;
+        int i;
+
+        for(i=0; i < mazetoexpand.length; i++)
+        {
+            if(Row)
+            {
+                for(int j=0; j < rowlen; j++)
+                {
+                    if( j%2 == 0)
+                    {
+                        Byte zero = 0;
+                        toreturn.add(zero);
+                    }
+
+                    else
+                    {
+                        toreturn.add(mazetoexpand[i]);
+                        i++;
+                    }
+                }
+                i--;
+                Row = false;
+            }
+            else
+            {
+                for(int j=0; j < rowlen; j++)
+                {
+                    if( j%2 == 0)
+                    {
+                        toreturn.add(mazetoexpand[i]);
+                        i++;
+                    }
+                    else
+                    {
+                        Byte one = 1;
+                        toreturn.add(one);
+                    }
+                }
+                i--;
+                Row = true;
+
+            }
+        }
+
+        byte [] arr = new byte[toreturn.size()];
+
+        for(int h=0; h < toreturn.size(); h++)
+        {
+            arr[h] = toreturn.get(h);
+        }
+
+        return arr;
     }
 }

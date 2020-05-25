@@ -27,7 +27,7 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy
 
 
     @Override
-    public void handleClient(InputStream inputStream, OutputStream outputStream) throws IOException, ClassNotFoundException, InterruptedException {
+    public void handleClient(InputStream inputStream, OutputStream outputStream){
 
         /**
          * receiving a maze from the client inputStream.
@@ -71,7 +71,7 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy
         }
 
 
-        catch (ClassNotFoundException e) {
+        catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
         }
 

@@ -24,14 +24,15 @@ public class Server implements Runnable
     public static String ThreadPoolSize;
 
 
-    public Server(int port, int listenTime , IServerStrategy strategy) {
+    public Server(int port, int listenTime , IServerStrategy strategy)
+    {
         //Configurations.propertiesCreation();// init the properties by which the server will work (threadPool size, searching algorithm etc.)
         this.strategy = strategy;
         this.listenTime = listenTime;
         this.port = port;
         this.stop = false;
         //this.executor= Executors.newFixedThreadPool(Integer.parseInt(ThreadPoolSize));
-        this.executor= Executors.newFixedThreadPool(1);
+        this.executor= Executors.newFixedThreadPool(3);
     }
 
 
@@ -78,7 +79,7 @@ public class Server implements Runnable
             }
             catch (IOException e)
             {
-                throw new RuntimeException("Error closing server", e);
+                e.printStackTrace();
             }
         }
 
@@ -97,11 +98,13 @@ public class Server implements Runnable
     {
         try {
             Thread.sleep(1000);
-        } catch (InterruptedException e) {
+        }
+        catch(InterruptedException e)
+        {
             e.printStackTrace();
         }
         this.stop = true;
-        executor.shutdownNow();
+        executor.shutdown();
     }
 
 

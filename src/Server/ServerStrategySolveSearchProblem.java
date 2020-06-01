@@ -104,7 +104,7 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy
             ois = new ObjectInputStream(fis);
 
             SolutionsMap = (HashMap<byte[], Solution>) ois.readObject();
-            isFile = true;
+
 
             ois.close();
             fis.close();
@@ -126,6 +126,7 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy
             file = File.createTempFile(tempDirectoryPath, null);
             fos = new FileOutputStream(file);
             oos = new ObjectOutputStream(fos);
+            isFile = true;
 
             if(file.length() != 0)
             {

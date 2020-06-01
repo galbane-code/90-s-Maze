@@ -134,36 +134,29 @@ public class MyDecompressorInputStream extends InputStream {
             toAssign[k] = byteArrayList.get(k);
         }
 
-        byte[] remain = Arrays.copyOfRange(toAssign,24 , toAssign.length);
-        byte[] info = Arrays.copyOfRange(toAssign,0 , 24);
+        /**
+         * data for createBigData function
+         */
+        byte[] mazeToDecomp = Arrays.copyOfRange(toAssign,24 , toAssign.length);
+        byte[] fixedInfo = Arrays.copyOfRange(toAssign,0 , 24);
 
-        byte[] ColSizeBytes = Arrays.copyOfRange(toAssign, 4, 8);
-        int colSizeInt = ByteBuffer.wrap(ColSizeBytes).getInt();
+        byte[] colSizeBytes = Arrays.copyOfRange(toAssign, 4, 8);
+        int colSizeInt = ByteBuffer.wrap(colSizeBytes).getInt();
 
-        remain = CreateBigDate(remain,colSizeInt);
+        mazeToDecomp = createBigDate(mazeToDecomp,colSizeInt);
+        toAssign = new byte[fixedInfo.length + mazeToDecomp.length];
 
-        toAssign = new byte[info.length+remain.length];
-
-
-        System.arraycopy(info, 0, toAssign, 0, info.length);
-        System.arraycopy(remain, 0, toAssign, info.length,remain.length);
+        System.arraycopy(fixedInfo, 0, toAssign, 0, fixedInfo.length);
+        System.arraycopy(mazeToDecomp, 0, toAssign, fixedInfo.length,mazeToDecomp.length);
+        /////////////////////////////////////////////////////////////////////////////////////////
 
 
         for(int h = 0; h < toAssign.length; h++)
         {
-            /*if(h == b.length)
-            {
-                break;
-            }*/
-
             b[h] = toAssign[h];
         }
 
-        // function tha
-
-
         return -1;
-
     }
 
     @Override
@@ -171,61 +164,68 @@ public class MyDecompressorInputStream extends InputStream {
         return 0;
     }
 
-    private byte[] CreateBigDate(byte[] mazetoexpand, int rowlen)
-    {
-        ArrayList<Byte> toreturn = new ArrayList<Byte>();
-        boolean Row = true;
-        int i;
 
-        for(i=0; i < mazetoexpand.length; i++)
+    /**
+     * takes the relevant data of the maze and creates the visual data from it.
+     * adds the int rows between each position row, and adds 0 or 1 between two positions in the same column or row.
+     * (0 for a path 1 for a wall between the two positions)
+     * @param mazetoexpand
+     * @param rowlen
+     * @return
+     */
+    private byte[] createBigDate(byte[] mazetoexpand, int rowlen)
+    {
+        ArrayList<Byte> mazArrList = new ArrayList<Byte>();
+        boolean isRow = true;
+
+        for(int i = 0; i < mazetoexpand.length; i++)
         {
-            if(Row)
+            if(isRow)
             {
                 for(int j=0; j < rowlen; j++)
                 {
                     if( j%2 == 0)
                     {
                         Byte zero = 0;
-                        toreturn.add(zero);
+                        mazArrList.add(zero);
                     }
 
                     else
                     {
-                        toreturn.add(mazetoexpand[i]);
+                        mazArrList.add(mazetoexpand[i]);
                         i++;
                     }
                 }
                 i--;
-                Row = false;
+                isRow = false;
             }
             else
             {
-                for(int j=0; j < rowlen; j++)
+                for(int j = 0; j < rowlen; j++)
                 {
-                    if( j%2 == 0)
+                    if( j % 2 == 0)
                     {
-                        toreturn.add(mazetoexpand[i]);
+                        mazArrList.add(mazetoexpand[i]);
                         i++;
                     }
                     else
                     {
                         Byte one = 1;
-                        toreturn.add(one);
+                        mazArrList.add(one);
                     }
                 }
                 i--;
-                Row = true;
+                isRow = true;
 
             }
         }
 
-        byte [] arr = new byte[toreturn.size()];
-
-        for(int h=0; h < toreturn.size(); h++)
+        byte [] arrToReturn = new byte[mazArrList.size()];
+        for(int h = 0; h < mazArrList.size(); h++)
         {
-            arr[h] = toreturn.get(h);
+            arrToReturn[h] = mazArrList.get(h);
         }
 
-        return arr;
+        return arrToReturn;
     }
 }

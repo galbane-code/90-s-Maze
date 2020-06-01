@@ -24,6 +24,7 @@ public class MyCompressorOutputStream extends OutputStream {
          * a byte array that will be used to store the compressed data.
          * the main compression idea - turning 8 bytes of data (values 1 or 0 only except the first 24 bytes that represent the maze
          * size, entry and goal) into 1 byte data
+         * compression rate is about 16 times smaller than the original (depends on how big is the maze - because of the fixed data)
          * @param b
          * @throws IOException
          */
@@ -35,7 +36,6 @@ public class MyCompressorOutputStream extends OutputStream {
             ByteArrList.add(b[i]);
         }
 
-
         //changes the values of the "Start" and "End" to zero for later use.
         for(int g = 24; g < b.length; g++)
         {
@@ -45,21 +45,23 @@ public class MyCompressorOutputStream extends OutputStream {
             }
         }
 
-        ////
-        byte[] remain = Arrays.copyOfRange(b,24 , b.length);
-        byte[] info = Arrays.copyOfRange(b,0 , 24);
+        /**
+         * data for createSmallData function
+         */
+        byte[] compressBy16 = Arrays.copyOfRange(b,24 , b.length);
+        byte[] fixedInfo = Arrays.copyOfRange(b,0 , 24);
 
-        byte[] ColSizeBytes = Arrays.copyOfRange(b, 4, 8);
-        int colSizeInt = ByteBuffer.wrap(ColSizeBytes).getInt();
+        byte[] colSizeBytes = Arrays.copyOfRange(b, 4, 8);
+        int colSizeInt = ByteBuffer.wrap(colSizeBytes).getInt();
 
-        remain = CreateSmallData(remain,colSizeInt);
+        compressBy16 = createSmallData(compressBy16, colSizeInt);
 
-        b = new byte[info.length+remain.length];
+        b = new byte[fixedInfo.length + compressBy16.length];
 
-        System.arraycopy(info, 0, b, 0, info.length);
-        System.arraycopy(remain, 0, b, info.length,remain.length);
+        System.arraycopy(fixedInfo, 0, b, 0, fixedInfo.length);
+        System.arraycopy(compressBy16, 0, b, fixedInfo.length,compressBy16.length);
+        ///////////////////////////////////////////////////////////////////////////////////
 
-/////
         int current_index = 24; // the index from which we begin the insertion to the compressed byte array.
         int lengthRemain = b.length - 24; // the length remained to compress
         int finalInt = lengthRemain % 8; // an indication int. evaluates the size of "the last cut" (between 0 to 8)
@@ -130,20 +132,29 @@ public class MyCompressorOutputStream extends OutputStream {
       return toReturn;
     }
 
-    private byte[] CreateSmallData(byte[] mazetoshrink, int rowlen)
+    /**
+     * The function takes out the relevant data only.
+     * the idea was to extract the paths from each position, without considering
+     * the extra int rows we have add between each positions row.
+     * that is because of the reason that the int data is not relevant to the searchable maze.
+     * the extra int rows were useful only for the visualization of the maze
+     * @param mazeToCompress
+     * @param rowlen
+     * @return
+     */
+    private byte[] createSmallData(byte[] mazeToCompress, int rowlen)
     {
-        ArrayList<Byte> toreturn = new ArrayList<Byte>();
 
-        boolean Row = true;
-        int i;
+        ArrayList<Byte> mazeArrList = new ArrayList<Byte>();
+        boolean isRow = true;
 
-        for(i=0; i < mazetoshrink.length; i++)
+        for(int i = 0; i < mazeToCompress.length; i++)
         {
-            if(Row)
+            if(isRow)
             {
-                for(int j=0; j < rowlen; j++)
+                for(int j = 0; j < rowlen; j++)
                 {
-                    if( j%2 == 0)
+                    if( j % 2 == 0)
                     {
                         i++;
                         continue;
@@ -151,21 +162,21 @@ public class MyCompressorOutputStream extends OutputStream {
 
                     else
                     {
-                        toreturn.add(mazetoshrink[i]);
+                        mazeArrList.add(mazeToCompress[i]);
                         i++;
                     }
                 }
 
                 i--;
-                Row = false;
+                isRow = false;
             }
             else
             {
-                for(int j=0; j < rowlen; j++)
+                for(int j = 0; j < rowlen; j++)
                 {
-                    if( j%2 == 0)
+                    if( j % 2 == 0)
                     {
-                        toreturn.add(mazetoshrink[i]);
+                        mazeArrList.add(mazeToCompress[i]);
                         i++;
                     }
                     else
@@ -175,17 +186,17 @@ public class MyCompressorOutputStream extends OutputStream {
                     }
                 }
                 i--;
-                Row = true;
+                isRow = true;
             }
         }
 
-        byte [] arr = new byte[toreturn.size()];
+        byte [] arrToReturn = new byte[mazeArrList.size()];
 
-        for(int h=0; h < toreturn.size(); h++)
+        for(int h = 0; h < mazeArrList.size(); h++)
         {
-            arr[h] = toreturn.get(h);
+            arrToReturn[h] = mazeArrList.get(h);
         }
 
-        return arr;
+        return arrToReturn;
     }
 }

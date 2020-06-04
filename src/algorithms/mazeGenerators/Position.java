@@ -2,28 +2,32 @@ package algorithms.mazeGenerators;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+
+/**
+ * the object that represents the row and the col of the maze so we can access it easily and manipulate the maze.
+ */
 public class Position implements Serializable{
-    // the object that represents the row and the col of the maze so we can access its easily and manipulate the maze
-    //
 
     private int row;
     private int col;
-    private int id; // help us in "kroskal" algorithm for the disjoint sets .
-    private Position father; // a pointer has a role in the build algorithm .
-    private int rank; // help us in "kroskal" algorithm for the disjoint sets.
-    private ArrayList<Position> neighbors; // the positions that connected to this position in our maze.
+    private int id; //helps in Kruskals algorithm for the disjoint sets.
+    private Position father; //Parent Position.
+    private int rank; //helps in Kruskals algorithm for the disjoint sets.
+    private ArrayList<Position> neighbors; //Each Position neighbors set.
 
-
-    public Position(int row, int col) {
+    public Position(int row, int col)
+    {
         this.row = row;
         this.col = col;
         this.neighbors = new ArrayList<Position>();
         this.father = this;
     }
 
+    /**
+     * Getters and Setters
+     */
     //row
     public int getRowIndex() {return row;}
-
     public void setRow(int row) {
         this.row = row;
     }
@@ -32,7 +36,6 @@ public class Position implements Serializable{
     public int getColumnIndex() {
         return col;
     }
-
     public void setCol(int col) {
         this.col = col;
     }
@@ -41,7 +44,6 @@ public class Position implements Serializable{
     public int getRank() {
         return rank;
     }
-
     public void setRank(int rank) {
         this.rank = rank;
     }
@@ -50,7 +52,6 @@ public class Position implements Serializable{
     public void setId(int visited) {
         this.id = id;
     }
-
     public int getId() {
         return this.id;
     }
@@ -59,7 +60,6 @@ public class Position implements Serializable{
     public Position getFather() {
         return father;
     }
-
     public void setFather(Position father) {
         this.father = father;
     }
@@ -68,7 +68,6 @@ public class Position implements Serializable{
     public ArrayList<Position> getNeighbors() {
         return neighbors;
     }
-
     public void setNeighbors(ArrayList<Position> neighbors) {
         this.neighbors = neighbors;
     }

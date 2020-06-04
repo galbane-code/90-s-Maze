@@ -9,9 +9,9 @@ import java.net.Socket;
 public class Client
 {
     /**
-     *The class represents a client sending different requests from the server.
+     *The class represents a client sending different requests to the server.
      * has a clientStrategy data member that represents the way the client will handle the server response
-     * the clientStrategies implementations can be found in the RunCommunicateWithServer class
+     * the clientStrategies implementations can be found in the RunCommunicateWithServer class (as anonymous class)
      */
 
     private IClientStrategy clientStrategy;

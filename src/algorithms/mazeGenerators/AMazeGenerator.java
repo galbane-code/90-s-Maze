@@ -6,6 +6,9 @@ import java.util.Random;
 
 public abstract class AMazeGenerator implements IMazeGenerator{
 
+    protected Position [][] positionArr;
+    protected int counter = 0;
+
     /**
      * function for the config file
      * @param type
@@ -27,12 +30,10 @@ public abstract class AMazeGenerator implements IMazeGenerator{
         }
     }
 
-    protected ArrayList<Edge> totalEdges; // keeps all the possible Edges and then we use an algorithm that returns only the ones we need.
-    protected Position [][] positionArr; //  keeps all the positions of the maze
-    protected int counter = 0;
-
     @Override
-    // function that measure the time of the maze generation
+    /**
+     * function that measures the time of the maze generation
+     */
     public long measureAlgorithmTimeMillis(int rows, int cols) {
         long start = System.currentTimeMillis();
         generate(rows, cols);
@@ -41,13 +42,19 @@ public abstract class AMazeGenerator implements IMazeGenerator{
         return (end - start);
     }
 
-    // creates a position array and position neighbors to all types of mazes
-    public void createPositioinArray(int rows, int cols)
+    /**
+     * Creates a position matrix, and assy to each Position its neighbors
+     * @param rows
+     * @param cols
+     */
+    public void createPositioinMatrix(int rows, int cols)
     {
         positionArr = new Position[rows][cols];
 
-        for(int i = 0; i< rows; i++){
-            for (int j = 0; j < cols; j++){
+        for(int i = 0; i< rows; i++)
+        {
+            for (int j = 0; j < cols; j++)
+            {
                 positionArr[i][j] = new Position(i,j);
                 positionArr[i][j].setRank(0);
                 positionArr[i][j].setId(counter);
@@ -123,43 +130,14 @@ public abstract class AMazeGenerator implements IMazeGenerator{
 
     }
 
-
-    // this function create the maze edges only for the MymazeGenrator build algorithm
-    public  ArrayList<Edge> createEdges(Position [][] positionArr, int rows, int cols)
-    {
-            Edge edgeRight;
-            Edge edgeDown;
-            ArrayList <Edge> tempEdges = new ArrayList<Edge>();
-            for(int i = 0; i < rows; i++)
-            {
-                for(int j = 0;  j < cols; j++)
-                {
-                    if(i != rows - 1 && j != cols - 1) {
-                        edgeRight = new Edge(positionArr[i][j], positionArr[i][j + 1]);
-                        edgeDown = new Edge(positionArr[i][j], positionArr[i + 1][j]);
-                        tempEdges.add(edgeRight);
-                        tempEdges.add(edgeDown);
-                    }
-
-                    else if(i == rows -1 && j != cols -1)
-                    {
-                        edgeRight = new Edge(positionArr[i][j], positionArr[i][j + 1]);
-                        tempEdges.add(edgeRight);
-                    }
-
-                    else if (j == cols - 1 && i != rows  - 1)
-                    {
-                        edgeDown = new Edge(positionArr[i][j], positionArr[i + 1][j]);
-                        tempEdges.add(edgeDown);
-                    }
-                }
-            }
-            return tempEdges;
-    }
-
-
-    // this function chooses random Start and End of the Maze.
-
+    /**
+     * this function chooses random Entry and Goal of the Maze.
+     * @param rows
+     * @param cols
+     * @param intMaze
+     * @param entryExitArr
+     * @return
+     */
     public int [][] intMazeRandom(int rows, int cols, int [][] intMaze, Position [] entryExitArr)
     {
         Random rand = new Random();
@@ -202,25 +180,6 @@ public abstract class AMazeGenerator implements IMazeGenerator{
         intMaze[rowIndex2 * 2][colIndex2 * 2] = 69;
 
         return intMaze;
-    }
-
-    //perfectMazeEdges initializes edge between every two positions (a complete graph)
-    //to be sent later to Kruskal's algorithm
-    public Position[][] perfectMazeEdges(Position[][] positionArr, int rows, int cols, ArrayList<Edge> mazeEdges) {
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                positionArr[i][j].getNeighbors().clear();
-            }
-        }
-
-        for (int h = 0; h < mazeEdges.size(); h++) {
-            Position x = mazeEdges.get(h).getX();
-            Position y = mazeEdges.get(h).getY();
-            x.getNeighbors().add(y);
-            y.getNeighbors().add(x);
-        }
-
-        return positionArr;
     }
 
 }

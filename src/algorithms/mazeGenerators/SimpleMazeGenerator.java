@@ -1,11 +1,17 @@
 package algorithms.mazeGenerators;
 import java.util.Random;
+
+/**
+ * Class that represents a maze with random walls.
+ */
 public class SimpleMazeGenerator extends AMazeGenerator {
 
     @Override
-    public Maze generate(int rows, int cols) {
-
-
+    /**
+     * Main function of the maze generation
+     */
+    public Maze generate(int rows, int cols)
+    {
         // randomly selects walls in the maze
         Random randInt = new Random();
         int [][] data = new int[rows*2-1][cols*2-1];
@@ -20,7 +26,6 @@ public class SimpleMazeGenerator extends AMazeGenerator {
         }
 
         // sets the frame of the maze to zero
-
         for(int i = 0; i < 1; i++)
         {
             for(int j = 0; j < cols*2-1; j++)
@@ -39,11 +44,10 @@ public class SimpleMazeGenerator extends AMazeGenerator {
             }
         }
 
-        createPositioinArray(rows, cols); // calls the function that creates the positionArr in the base class
+        createPositioinMatrix(rows, cols); // calls the function that creates the positionArr in the base class
 
         Position[] entryExitArr = new Position[2]; // an array of the start and the end positions
         data = intMazeRandom(rows, cols, data, entryExitArr); // generates the final maze data with the random start and goal
-
 
         Maze maze = new Maze(data, entryExitArr[0], entryExitArr[1]); //maze constructor call
         maze.setPositionMatrix(positionArr); // sets the position into the maze to be use in the search and solved of Maze
@@ -52,15 +56,16 @@ public class SimpleMazeGenerator extends AMazeGenerator {
     }
 
     @Override
-
-    // Here we Override the method beacuse we create a path only on the frame unlike the other mazes
-
-    public void createPositioinArray(int rows, int cols) {
+    /**
+     * Creates the relevant Position matrix for a SimpleMaze
+     */
+    public void createPositioinMatrix(int rows, int cols) {
         positionArr = new Position[rows][cols];
 
-
-        for(int i = 0; i< rows; i++){
-            for (int j = 0; j < cols; j++){
+        for(int i = 0; i< rows; i++)
+        {
+            for (int j = 0; j < cols; j++)
+            {
                 positionArr[i][j] = new Position(i,j);
                 positionArr[i][j].setRank(0);
                 positionArr[i][j].setId(counter);
@@ -85,8 +90,6 @@ public class SimpleMazeGenerator extends AMazeGenerator {
 
             positionArr[i+1][0].getNeighbors().add(positionArr[i][0]);
             positionArr[i+1][cols-1].getNeighbors().add(positionArr[i][cols-1]);
-
         }
-
     }
 }

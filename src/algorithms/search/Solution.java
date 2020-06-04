@@ -3,10 +3,13 @@ package algorithms.search;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Represents the solution of a certain problem.
+ * all the states that combine into one solution
+ */
 public class Solution implements Serializable
 {
     //public byte[] toWriteObject;
-
     private ArrayList<AState> solution; // A field that keeps the route from the goal state to the start state
 
     public Solution()

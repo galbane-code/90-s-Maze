@@ -5,10 +5,11 @@ import algorithms.mazeGenerators.Position;
 
 import java.util.*;
 
+/**
+ * An object adapter between the Maze and The Searchable problem
+ */
 public class SearchableMaze implements ISearchable
 {
-    //An object adapter between the Maze and The Searchable problem
-
     private Maze maze;
     private MazeState goalState;
     private MazeState startState;
@@ -18,13 +19,13 @@ public class SearchableMaze implements ISearchable
     protected Solution solution;
 
 
-    public SearchableMaze(Maze maze) {
-
+    public SearchableMaze(Maze maze)
+    {
         this.maze = maze;
         this.states = new ArrayList<MazeState>();
         this.poseToStateMap = new HashMap<Position,MazeState>();
         this.stateToPoseMap = new HashMap<MazeState, Position>();
-        positionTostate(this.states,this.poseToStateMap, this.stateToPoseMap, this.maze.getPositionMatrix(), startState, goalState);
+        positionTostate(this.states,this.poseToStateMap, this.stateToPoseMap, this.maze.getPositionMatrix());
         this.startState = poseToStateMap.get(this.maze.getStartPosition());
         this.goalState = poseToStateMap.get(this.maze.getGoalPosition());
         this.solution = new Solution();
@@ -32,40 +33,14 @@ public class SearchableMaze implements ISearchable
 
     }
 
-    // Set and Get methods
-    public Solution getSolution() {
-        return solution;
-    }
-
-    public ArrayList<MazeState> getStates() {
-        return states;
-    }
-
-    public  ArrayList<AState> getAllPossibleStates(MazeState state)
-    {
-        return state.getSuccessors();
-    }
-
-    @Override
-    public void SetSolution(Solution solution) {
-        this.solution = solution;
-    }
-
-    @Override
-    public AState getStartState() {
-        return startState;
-    }
-
-    @Override
-    public AState getGoalState() {
-        return goalState;
-    }
-
-
-    // The Function that wraps a mazze Position in a MazeState
-
-    public void positionTostate(ArrayList<MazeState> states, HashMap<Position,MazeState> poseToStateMap, HashMap<MazeState, Position> stateToPoseMap, Position[][] positions,
-    MazeState startState, MazeState goalState)
+    /**
+     * The Function that wraps a maze Position with a MazeState
+     * @param states
+     * @param poseToStateMap
+     * @param stateToPoseMap
+     * @param positions
+     */
+    public void positionTostate(ArrayList<MazeState> states, HashMap<Position, MazeState> poseToStateMap, HashMap<MazeState, Position> stateToPoseMap, Position[][] positions)
     {
         MazeState newState;
         for(int i=0; i < positions.length; i++)
@@ -99,21 +74,21 @@ public class SearchableMaze implements ISearchable
                         newState.getSuccessors().add(newState1);
                         poseToStateMap.put(((MazeState) newState1).getSelf(),newState1);
                         stateToPoseMap.put(newState1, ((MazeState)(newState1)).getSelf());
-
                     }
-
                 }
                 states.add(newState);
-
             }
         }
-
         addDiagonal(states,stateToPoseMap,positions.length,positions[0].length);
-
-
     }
 
-    // The function checks if there are diagonal neighbors that can be add to each MazeState
+    /**
+     * The function checks if there are diagonal neighbors that can be add to each MazeState
+     * @param states
+     * @param stateToPoseMap
+     * @param sizerow
+     * @param sizecol
+     */
     public void addDiagonal(ArrayList<MazeState> states,HashMap<MazeState, Position> stateToPoseMap, int sizerow,int sizecol)
     {
         for(int i = 0; i<states.size(); i++)
@@ -163,16 +138,18 @@ public class SearchableMaze implements ISearchable
                         current.getSuccessors().add(currentsonchild);
                         currentsonchild.getSuccessors().add(current);
                     }
-
-
-
                 }
             }
         }
     }
 
-    // The function sets the cost for each Maze state from the StartState.
-    // 10 points for a straight neighbor, 15 for a diagonal neighbor
+    /**
+     * The function sets the cost for each Maze state from the StartState.
+     * 10 points for a straight neighbor, 15 for a diagonal neighbor
+     * @param startState
+     * @param stateToPoseMap
+     * @param states
+     */
     public void setCost(MazeState startState, HashMap<MazeState,Position> stateToPoseMap, ArrayList<MazeState> states)
     {
         Queue<MazeState> queue = new ArrayDeque<MazeState>();
@@ -231,7 +208,9 @@ public class SearchableMaze implements ISearchable
     }
 
     @Override
-    // resets the IsVisited field of a State to false, necessary after searching
+    /**
+     * resets the IsVisited field of a State to false, necessary after searching
+     */
     public void resetBool()
     {
         for(int i = 0; i < states.size(); i++)
@@ -240,5 +219,31 @@ public class SearchableMaze implements ISearchable
         }
     }
 
+    /**
+     * Getters and Setters
+     */
+    public Solution getSolution() {
+        return solution;
+    }
+
+    public  ArrayList<AState> getAllPossibleStates(MazeState state)
+    {
+        return state.getSuccessors();
+    }
+
+    @Override
+    public void SetSolution(Solution solution) {
+        this.solution = solution;
+    }
+
+    @Override
+    public AState getStartState() {
+        return startState;
+    }
+
+    @Override
+    public AState getGoalState() {
+        return goalState;
+    }
 
 }

@@ -137,6 +137,10 @@ public class Server implements Runnable
         }
     }
 
+    /**
+     * Static class that sets the configurations of the server.
+     * each property will be assigned into a static string, related to a specific class.
+     */
     public static class Configurations
     {
         public static void propertiesCreation() throws IOException

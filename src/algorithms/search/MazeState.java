@@ -9,9 +9,10 @@ import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
+/**
+ * a derived class of AState, used for the maze problem
+ */
 public class MazeState extends AState implements Serializable
-
-    // a derived class of AState, used for the maze problem
 {
     private int id;
     private Position self; // the maze position
@@ -23,42 +24,13 @@ public class MazeState extends AState implements Serializable
         this.self = self;
     }
 
-    //self use printing function
-    public void print() {
-        System.out.println("self: " + this.self);
-        System.out.println("neighbors: ");
-        for (AState neighbor : this.getSuccessors())
-        {
-            System.out.println(neighbor);
-        }
-        System.out.println("--------");
-    }
-
-    @Override
-    public String toString()
-    {
-        return self.toString();
-    }
-
-    //Self
-    public Position getSelf() {
-        return self;
-    }
-
-    public void setSelf(Position self) {
-        this.self = self;
-    }
-
-    //Id
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public byte[] MazeStateTobyteArr() // TODO: change the maze state to byte arr
+    /**
+     * If we would like to use the whole data of a mazeState
+     * we would have to use these 2 functions below
+     * and use the comment lines in the
+     * Read\Write functions
+     */
+    public byte[] MazeStateTobyteArr()//TODO: DO NOT DELETE!!
     {
         byte [] arr = new byte[8];
         byte [] RowBytes = ByteBuffer.allocate(4).putInt(this.self.getRowIndex()).array();
@@ -68,8 +40,7 @@ public class MazeState extends AState implements Serializable
         return arr;
     }
 
-
-    public  MazeState ByteArrToMazeState (byte [] arr) // TODO: CHANGE the byte arr back to maze PositIon
+    public MazeState ByteArrToMazeState (byte [] arr)//@TODO: DO NOT DELETE!!
     {
         byte [] RowSizeBytes = Arrays.copyOfRange(arr, 0, 4);
         byte [] ColSizeBytes = Arrays.copyOfRange(arr, 4, 8);
@@ -140,4 +111,43 @@ public class MazeState extends AState implements Serializable
 
     }
 
+    /**
+     * self use printing function
+     */
+    public void print()
+    {
+        System.out.println("self: " + this.self);
+        System.out.println("neighbors: ");
+        for (AState neighbor : this.getSuccessors())
+        {
+            System.out.println(neighbor);
+        }
+        System.out.println("--------");
+    }
+
+    @Override
+    public String toString()
+    {
+        return self.toString();
+    }
+
+    /**
+     * Getters and Setters
+     * @return
+     */
+    //Self
+    public Position getSelf() {
+        return self;
+    }
+    public void setSelf(Position self) {
+        this.self = self;
+    }
+
+    //Id
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
 }

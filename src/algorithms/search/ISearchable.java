@@ -2,9 +2,11 @@ package algorithms.search;
 
 import java.util.ArrayList;
 
+/**
+ *The interface for all "future problems" we would like to solve
+ */
 public interface ISearchable
 {
-     // the interface for all the "problems" we would like to solve
      AState getStartState();
      AState getGoalState();
 

@@ -9,28 +9,39 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.nio.ByteBuffer;
 
+/**
+ * Represents the Maze itself.
+ */
 public class Maze implements Serializable {
 
     private String name = "new maze";
-    private Position entry; // the position we start from in the maze
-    private Position exit; // the position we need to leave the maze
-    private boolean isSolved = false; // a bool that confirm as if the maze is solved or not
-    private int [][] data; // the field that we keep the print of the maze
+    private Position entry; // Maze entry
+    private Position exit; // Maze exit
+    private boolean isSolved = false; //If the maze was solved -> true
+    private int [][] data; // Visualisation of the maze
+    private Position [][] PositionMatrix; //Each cell represented as a Position
+    private Character [] characters;
 
-    private Character [] characters; // the characters that play in the maze
-    private Position [][] PositionMatrix; // a field that we keep in all the position and there neighbors updated to create and solved the maze
-
-
-
-    public Maze(int [][] data, Position entry, Position exit) {
+    /**
+     * "Regular' constructor
+     * @param data
+     * @param entry
+     * @param exit
+     */
+    public Maze(int [][] data, Position entry, Position exit)
+    {
         this.entry = entry;
         this.exit = exit;
         //this.characters = characters;
         this.data = data;
     }
 
-    public Maze(byte[] arr) {
-
+    /**
+     * A byte array constructor
+     * @param arr
+     */
+    public Maze(byte[] arr)
+    {
         try {
 
             int rowSizeInt;
@@ -43,7 +54,6 @@ public class Maze implements Serializable {
             byte[] RowSizeBytes = Arrays.copyOfRange(arr, 0, 4);
             byte[] ColSizeBytes = Arrays.copyOfRange(arr, 4, 8);
 
-            // first we initial the start and end position of the maze in the four bits and set those values into  four values in the arr bit
             byte[] StartRowBytes = Arrays.copyOfRange(arr, 8, 12);
             byte[] StartColBytes = Arrays.copyOfRange(arr, 12, 16);
 
@@ -59,21 +69,22 @@ public class Maze implements Serializable {
 
             this.data = new int[rowSizeInt][colSizeInt];
 
-            // function that change the byte arr
-            byte[] remain = Arrays.copyOfRange(arr,24 , arr.length);
-
+            //Sets the visual int matrix
             int byteArrIndex = 24;
-            for (int i = 0; i < rowSizeInt; i++) {
-                for (int j = 0; j < colSizeInt; j++) {
+            for (int i = 0; i < rowSizeInt; i++)
+            {
+                for (int j = 0; j < colSizeInt; j++)
+                {
                     this.data[i][j] = arr[byteArrIndex++];
                 }
             }
 
-
             this.PositionMatrix = new Position[rowSizeInt / 2 + 1][colSizeInt / 2 + 1];
             int counter = 0;
-            for (int i = 0; i < rowSizeInt / 2 + 1; i++) {
-                for (int j = 0; j < colSizeInt / 2 + 1; j++) {
+            for (int i = 0; i < rowSizeInt / 2 + 1; i++)
+            {
+                for (int j = 0; j < colSizeInt / 2 + 1; j++)
+                {
                     this.PositionMatrix[i][j] = new Position(i, j);
                     this.PositionMatrix[i][j].setId(counter);
                     counter++;
@@ -90,71 +101,17 @@ public class Maze implements Serializable {
 
             this.entry = PositionMatrix[entryRowInt][entryColInt];
             this.exit = PositionMatrix[exitRowInt][exitColInt];
-
-
         }
 
-        catch (Exception e){
-            System.out.println(data.length);
-            System.out.println(data[0].length);
-
-            System.out.println(arr.length);
+        catch (Exception e)
+        {
             e.printStackTrace();
-
         }
     }
 
-    //name
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    //entry
-    public Position getStartPosition() {
-        return entry;
-    }
-    public void setStartPosition(Position entry) {
-        this.entry = entry;
-    }
-
-    //exit
-    public Position getGoalPosition() {
-        return exit;
-    }
-    public void setGoalPosition(Position exit) {
-        this.exit = exit;
-    }
-
-    //isSolved
-    public boolean isSolved() {
-        return isSolved;
-    }
-    public void setSolved(boolean solved){}
-
-    // character
-    public Character[] getCharacters() {
-        return characters;
-    }
-    public void setCharacters(Character[] characters) {
-        this.characters = characters;
-    }
-
-    // PositionMatrix getter
-    public Position[][] getPositionMatrix() {
-        return PositionMatrix;
-    }
-
-    //defines the Position matrix of the maze
-    public void setPositionMatrix(Position[][] positionMatrix) {
-        PositionMatrix = positionMatrix;
-        this.entry = positionMatrix[entry.getRowIndex()][entry.getColumnIndex()];
-        this.exit = positionMatrix[exit.getRowIndex()][exit.getColumnIndex()];
-    }
-
-    //printFunction to print the maze as an int maze with its start and goal positions
+    /**
+     * PrintFunction to print the maze as an int maze with its start and goal positions
+     */
     public void print()
     {
         for(int i = 0; i < this.data.length; i++)
@@ -181,31 +138,29 @@ public class Maze implements Serializable {
     }
 
 
+    /**
+     * converts a maze into a byte array.
+     * relevant when using Output\Input Stream
+     * @return byteArr
+     */
     public byte[] toByteArray() {
 
         int rowSize = data.length;
         int colSize = data[0].length;
-      //  int rowSize = PositionMatrix.length;
-       // int colSize = PositionMatrix[0].length;
         byte [] byteArr = new byte[rowSize * colSize + 24]; // 24 for the entry, exit, size of row, size of col
         int byteCounter = 24;
 
-        //TODO: add the first 24 bytes!
-
-        // first we initial the size of the maze in the four bits and set those values into  values in the arr bit
+        //Converts the RowSize, ColSize, Start, Exit of the maze into four bytes data each.
         byte [] RowSizeBytes = ByteBuffer.allocate(4).putInt(rowSize).array();
         byte [] ColSizeBytes = ByteBuffer.allocate(4).putInt(colSize).array();
 
-        // first we initial the start and end position of the maze in the four bits and set those values into  four values in the arr bit
         byte [] StartRowBytes = ByteBuffer.allocate(4).putInt(this.entry.getRowIndex()).array();
         byte [] StartColBytes = ByteBuffer.allocate(4).putInt(this.entry.getColumnIndex()).array();
 
         byte [] EndRowBytes = ByteBuffer.allocate(4).putInt(this.exit.getRowIndex()).array();
         byte [] EndColBytes = ByteBuffer.allocate(4).putInt(this.exit.getColumnIndex()).array();
 
-        // insert the bytes into the return bite arr by order we set which is :
-        // RowSizeBytes,ColSizeBytes,StartRowBytes,StartColBytes,EndRowBytes,EndColBytes.
-
+        //Copies the data to the main byte array.
         System.arraycopy(RowSizeBytes, 0, byteArr, 0, 4);
         System.arraycopy(ColSizeBytes, 0, byteArr, 4, 4);
         System.arraycopy(StartRowBytes, 0, byteArr, 8, 4);
@@ -213,8 +168,7 @@ public class Maze implements Serializable {
         System.arraycopy(EndRowBytes, 0, byteArr, 16, 4);
         System.arraycopy(EndColBytes, 0, byteArr, 20, 4);
 
-
-
+        //Copies the int maze to the byte array
         for (int i = 0; i < data.length; i++)
         {
             for (int j = 0; j < data[0].length; j++)
@@ -227,6 +181,11 @@ public class Maze implements Serializable {
         return byteArr;
     }
 
+    /**
+     * Converts the visual (int) data into a Position matrix
+     * @param poseArr
+     * @param intData
+     */
     public void intToPositionArr(Position [][] poseArr, int [][] intData)
     {
         int intMazeRow = 0;
@@ -274,24 +233,95 @@ public class Maze implements Serializable {
     }
 
 
+    /**
+     * OutputStream use.
+     * @param outputStream
+     * @throws IOException
+     */
     private void writeObject(ObjectOutputStream outputStream) throws IOException
     {
         byte [] byteArr = this.toByteArray();
         outputStream.writeObject(byteArr);
     }
 
-
-    private void readObject(ObjectInputStream inputStream) throws IOException, ClassNotFoundException, InterruptedException {
-
+    /**
+     * InputStream use.
+     * @param inputStream
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws InterruptedException
+     */
+    private void readObject(ObjectInputStream inputStream) throws IOException, ClassNotFoundException, InterruptedException
+    {
         byte [] arr = (byte [])inputStream.readObject();
         Maze maze = new Maze(arr);
         this.exit = maze.getGoalPosition();
         this.entry = maze.getStartPosition();
         this.PositionMatrix = maze.getPositionMatrix();
         this.data = maze.data;
-
     }
 
+    /**
+     * Getters and Setters.
+     */
+    //name
+    public String getName()
+    {
+        return name;
+    }
+    public void setName(String name)
+    {
+        this.name = name;
+    }
 
+    //entry
+    public Position getStartPosition()
+    {
+        return entry;
+    }
+    public void setStartPosition(Position entry)
+    {
+        this.entry = entry;
+    }
+
+    //exit
+    public Position getGoalPosition()
+    {
+        return exit;
+    }
+    public void setGoalPosition(Position exit)
+    {
+        this.exit = exit;
+    }
+
+    //isSolved
+    public boolean isSolved()
+    {
+        return isSolved;
+    }
+    public void setSolved(boolean solved){}
+
+    // character
+    public Character[] getCharacters()
+    {
+        return characters;
+    }
+    public void setCharacters(Character[] characters)
+    {
+        this.characters = characters;
+    }
+
+    // PositionMatrix getter
+    public Position[][] getPositionMatrix() {
+        return PositionMatrix;
+    }
+
+    //defines the Position matrix of the maze
+    public void setPositionMatrix(Position[][] positionMatrix)
+    {
+        PositionMatrix = positionMatrix;
+        this.entry = positionMatrix[entry.getRowIndex()][entry.getColumnIndex()];
+        this.exit = positionMatrix[exit.getRowIndex()][exit.getColumnIndex()];
+    }
 
 }

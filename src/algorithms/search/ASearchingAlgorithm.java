@@ -3,8 +3,15 @@ package algorithms.search;
 import java.util.Collections;
 import java.util.PriorityQueue;
 
+/**
+ * The class contains a  builds solution function that is relevant for all searching algorithms
+ */
 public abstract class ASearchingAlgorithm implements ISearchingAlgorithm
 {
+    private String name;
+    protected PriorityQueue<AState> openList;
+    private int visitedNodes; // the amount of nodes that have been checked during the search algorithm
+
     /**
      * function for the config file
      * @param  type
@@ -31,28 +38,13 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm
         }
 
     }
-    private String name;
-    protected PriorityQueue<AState> openList;
-    private int visitedNodes; // the amount of nodes that have been passed during the search algorithm
 
-
-    protected AState popOpenList() //returns the first element of the queue
-    {
-        visitedNodes++;
-        return openList.poll();
-    }
-
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public  abstract  Solution solve(ISearchable searchable); // finds the solution of the problem if exists
-
-    public  Solution CheckifExist(ISearchable searchable) //builds the solution after the search
+    /**
+     * builds the solution after the search
+     * @param searchable
+     * @return
+     */
+    public Solution solutionBuild(ISearchable searchable)
     {
         AState solutionTemp = searchable.getGoalState();
         Solution solution = new Solution();
@@ -81,20 +73,28 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm
         searchable.resetBool(); //resets the boolean for future searches
         Collections.reverse(solution.getSolutionPath());
         return solution;
-
     }
 
-    // Get
+    /**
+     * Getters and Setters
+     * @return
+     */
+    public String getName()
+    {
+        return name;
+    }
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
     //number of nodes evaluated during the search algorithm
-    public int getNumberOFNodesEvaluated() {
+    public int getNumberOFNodesEvaluated()
+    {
         return visitedNodes;
     }
-
-    public void setNumberOFNodesEvaluated(int visitedNodes) {
+    public void setNumberOFNodesEvaluated(int visitedNodes)
+    {
         this.visitedNodes = visitedNodes;
-    }
-
-    public PriorityQueue<AState> getOpenList() {
-        return openList;
     }
 }

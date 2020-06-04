@@ -41,30 +41,22 @@ public class MyDecompressorInputStream extends InputStream {
 
        // byte divide = b[24];
 
-        byte count; // temp byte to insert into the byte arrays lists after the decompression.
+        byte count; //temp byte to insert into the byte arrayList after the decompression.
         byte [] sizeOfEightArr = new byte [8];
         for(i = 25; i < totalArrbSize; i++)
         {
             /** in this for loop we decompress the byte into the binary 10101 of the maze */
-
-            int j = 0; // the index to insert to the array list.
-
-            count = b[i]; // initial the temp byte
-
+            count = b[i];
             int byteToInt = count & 0xFF; // signed to unsigned int
+            String byteString = Integer.toBinaryString(byteToInt); //change the byte into a binary string.
+            byte[] byteArr = byteString.getBytes(); //change the binary string into a byte arr of ones\zeros.
 
-            String byteString = Integer.toBinaryString(byteToInt); // this function change the byte into a binary string.
-
-            byte[] byteArr = byteString.getBytes(); // change the binary string into a byte arr of binary.
-
-
-            if (i == totalArrbSize - 1 && b[24] > 0)    //b[24] is the size of the last array we compressed ( it is less then 8)
+            int j = 0;
+            if (i == totalArrbSize - 1 && b[24] > 0) //b[24] is the size of the last array we compressed ( it is less then 8)
             {
-                int finalInt = b[24]; // the size of the last part to add to complete the binary maze
-
-                int [] finalArr = new int [finalInt]; // the byte arr we add to the arrays list
-
-                if(byteArr.length < finalArr.length) // checks if we need to add zeros on the left and add if needed to the final arr.
+                int finalInt = b[24]; //the size of the last section of the maze
+                int [] finalArr = new int [finalInt]; // the byte arr we add to the arrayList
+                if(byteArr.length < finalArr.length) // checks if we need to add zeros on the left and add if needed, to the final arr.
                 {
                     for (int k = 0; k < finalArr.length; k++)
                     {
@@ -76,14 +68,14 @@ public class MyDecompressorInputStream extends InputStream {
                         }
                     }
                 }
-                else // if it does not need to add zeros it just add the binary as is to the final arr
+                else // if it does not need to add zeros it just adds the values as is to the final arr
                 {
                     for(int h = 0; h < finalArr.length; h++)
                     {
                         finalArr[h] = byteArr[h];
                     }
                 }
-                // after that we add the binary into the arrays list.
+                // after that we add the values into the arrays list.
                 while (j < finalArr.length)
                 {
                     byteArrayList.add((byte) (finalArr[j] - ((byte) 48)));
@@ -92,9 +84,9 @@ public class MyDecompressorInputStream extends InputStream {
                 break;
             }
 
-            else  // else is if the process is still in the middle of the maze and didnt reached the end.
+            else //if the process is still in the middle of the maze and didnt reached the end.
             {
-                if(byteArr.length < 8) //checks if we need to add zeros on the left and add if needed to the final arr.
+                if(byteArr.length < 8) //checks if we need to add zeros on the left and add if needed
                 {
                     for (int k = 0; k < 8; k++)
                     {
@@ -163,7 +155,6 @@ public class MyDecompressorInputStream extends InputStream {
     public int read() throws IOException {
         return 0;
     }
-
 
     /**
      * takes the relevant data of the maze and creates the visual data from it.

@@ -1,4 +1,4 @@
-package Server;
+/*package Server;
 
 import IO.MyCompressorOutputStream;
 import algorithms.mazeGenerators.Maze;
@@ -15,7 +15,7 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy
 
     /**
      data members used for the file creation inorder to store SolutionsMap HashMap
-     */
+
 
     private String tempDirectoryPath = System.getProperty("java.io.tmpdir");
     private FileOutputStream fos;
@@ -34,7 +34,7 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy
          * checks in a file (storing a HashMap<byte[], Solution>) if the current maze was already solved earlier by the server.
          *  if so, we pull the solution of the current maze from the same file.
          * else, convert the maze into a searchable maze and solves it with a given ASearchingAlgorithm.
-         */
+
         try
         {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
@@ -81,7 +81,7 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy
     {
         /**
          * checks whether the current maze has been solved before
-         */
+
 
         for(int i=0; i < mazeSolutions.size(); i++)
         {
@@ -97,7 +97,7 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy
     public synchronized void readFromFile() throws IOException, ClassNotFoundException {
         /**
          * reads the HashMap from the temp file.
-         */
+
         try
         {
             fis = new FileInputStream(file);
@@ -120,7 +120,7 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy
     {
         /**
          * writes the HashMap to the temp file.
-         */
+
         try
         {
             file = File.createTempFile(tempDirectoryPath, null);
@@ -144,4 +144,107 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy
             e.printStackTrace();
         }
     }
+}*/
+package Server;
+
+import IO.MyCompressorOutputStream;
+import algorithms.mazeGenerators.Maze;
+import algorithms.search.*;
+import sun.awt.Mutex;
+
+import java.io.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class ServerStrategySolveSearchProblem implements IServerStrategy {
+
+    public static String searchingAlgorithmString;
+    private static ConcurrentHashMap SolutionMap;
+    private AtomicInteger num;
+    private Mutex mutex;
+
+    public ServerStrategySolveSearchProblem() {
+        SolutionMap = new ConcurrentHashMap<String,String>();
+        this.num = new AtomicInteger(1);
+        this.mutex = new Mutex();
+    }
+    @Override
+    public void handleClient(InputStream IStream, OutputStream OStream) {
+        try {
+            ObjectOutputStream OOS = new ObjectOutputStream(OStream);
+            ObjectInputStream OINS = new ObjectInputStream(IStream);
+            String tempDirectoryPath = System.getProperty("java.io.tmpdir");
+
+            try {
+                Maze toSolveMaze = (Maze) OINS.readObject();
+                Solution solution = null;
+                //byte[] MazeAsByteArray = toSolveMaze.toByteArray();
+
+
+////////////////////////
+                ByteArrayOutputStream BAOS = new ByteArrayOutputStream();
+                OutputStream out = new MyCompressorOutputStream(BAOS);
+                out.write(toSolveMaze.toByteArray());
+                byte[] MazeAsByteArray = BAOS.toByteArray();
+////////////////////////
+
+
+
+
+                mutex.lock();
+                if(SolutionMap.containsKey(Arrays.toString(MazeAsByteArray))){
+
+                    FileInputStream SolutionInputFile = new FileInputStream(tempDirectoryPath+"\\"+SolutionMap.get(Arrays.toString(MazeAsByteArray)));
+                    ObjectInputStream SolutionObject = new ObjectInputStream(SolutionInputFile);
+                    solution = (Solution) SolutionObject.readObject();
+                }
+                else{
+                    SearchableMaze searchableMaze = new SearchableMaze(toSolveMaze);
+                    ISearchingAlgorithm searchAlgo =ASearchingAlgorithm.algorithmType(searchingAlgorithmString);
+                    solution = searchAlgo.solve(searchableMaze);
+
+
+                    SolutionMap.put(Arrays.toString(MazeAsByteArray),"Sol"+ num.toString());
+                    File SolFile = new File(tempDirectoryPath+"\\"+"Sol"+ num.toString());
+                    File MazeFile = new File(tempDirectoryPath+"\\"+"Maze"+ num.toString());
+                    num.incrementAndGet();
+
+
+                    FileOutputStream fileOutForMaze = new FileOutputStream(MazeFile);
+                    ObjectOutputStream objectMazeOut = new ObjectOutputStream(fileOutForMaze);
+                    objectMazeOut.writeObject(toSolveMaze);
+                    objectMazeOut.close();
+
+
+
+
+                    FileOutputStream fileOutForSolution = new FileOutputStream(SolFile);
+                    ObjectOutputStream objectSolutionOut = new ObjectOutputStream(fileOutForSolution);
+                    objectSolutionOut.writeObject(solution);
+                    objectSolutionOut.close();
+
+                }
+                mutex.unlock();
+
+
+
+                OOS.writeObject(solution);
+                OOS.flush();
+
+
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            OOS.close();
+            OINS.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }
+

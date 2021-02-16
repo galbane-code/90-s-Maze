@@ -13,11 +13,24 @@ import java.util.concurrent.locks.ReentrantLock;
 public class ServerStrategyGenerateMaze implements IServerStrategy
 {
     public static String mazeGeneratorString;//config file data member
+    public AMazeGenerator mazeGenerator;
     private MyCompressorOutputStream compressorOutputStream;
     private ByteArrayOutputStream byteArrayOutputStream;
     private byte [] compressedArr = new byte[0];
 
     private Lock lock = new ReentrantLock();
+
+    public AMazeGenerator getMazeGenerator() {
+        return mazeGenerator;
+    }
+
+    public static String getMazeGeneratorString() {
+        return mazeGeneratorString;
+    }
+
+    public static void setMazeGeneratorString(String mazeGeneratorString) {
+        ServerStrategyGenerateMaze.mazeGeneratorString = mazeGeneratorString;
+    }
 
     @Override
     public void handleClient(InputStream inputStream, OutputStream outputStream)
@@ -30,8 +43,8 @@ public class ServerStrategyGenerateMaze implements IServerStrategy
         try
         {
             lock.lock();
-            //AMazeGenerator mazeGenerator = AMazeGenerator.generateType(mazeGeneratorString);
-            AMazeGenerator mazeGenerator = new MyMazeGenerator();
+            mazeGenerator = AMazeGenerator.generateType(mazeGeneratorString);
+            //AMazeGenerator mazeGenerator = new MyMazeGenerator();
 
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
             ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);

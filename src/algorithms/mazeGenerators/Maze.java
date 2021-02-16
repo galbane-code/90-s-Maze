@@ -261,9 +261,36 @@ public class Maze implements Serializable {
         this.data = maze.data;
     }
 
+    public Position getEntry() {
+        return entry;
+    }
+
+    public void setEntry(Position entry) {
+        this.entry = entry;
+    }
+
+    public Position getExit() {
+        return exit;
+    }
+
+    public void setExit(Position exit) {
+        this.exit = exit;
+    }
+
+    public int[][] getData() {
+        return data;
+    }
+
+    public void setData(int[][] data) {
+        this.data = data;
+    }
+
     /**
      * Getters and Setters.
      */
+
+    //data
+
     //name
     public String getName()
     {

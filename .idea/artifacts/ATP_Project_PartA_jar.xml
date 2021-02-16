@@ -3,6 +3,9 @@
     <output-path>$PROJECT_DIR$/out/artifacts/ATP_Project_PartA_jar</output-path>
     <root id="archive" name="ATP-Project-PartA.jar">
       <element id="module-output" name="ATP-Project-PartB" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/MANIFESTS/RunSearchOnMaze.META-INF/MANIFEST.MF" />
+      </element>
     </root>
   </artifact>
 </component>

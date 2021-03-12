@@ -7,6 +7,14 @@ efficient communication and data transfer.
 The MazeFX repository is for the actual maze game visuzlization using javaFX.
 
 
-# Maze Start
+# Maze Start and Player Choosing
 
 ![](https://media.giphy.com/media/qCukNvahKtAQ8nliyz/giphy.gif)
+
+# Playing The Maze
+
+![](https://media.giphy.com/media/W5apWCDfuXLqthpxec/giphy.gif)
+
+# Other Maze Feature's
+
+![](https://media.giphy.com/media/DBAq0uKiTYG5IZjGUA/giphy.gif)

@@ -8,3 +8,5 @@ The MazeFX repository is for the actual maze game visuzlization using javaFX.
 
 
 # Maze Start
+
+![](Maze-Start.gif)

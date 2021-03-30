@@ -15,6 +15,10 @@ The MazeFX repository is for the actual maze game visuzlization using javaFX.
 
 ![](https://media.giphy.com/media/W5apWCDfuXLqthpxec/giphy.gif)
 
+# Maze Auto Save
+
+![](https://media.giphy.com/media/oqQ1qfRYHa2kP8gacZ/giphy.gif)
+
 # Other Maze Feature's
 
 ![](https://media.giphy.com/media/DBAq0uKiTYG5IZjGUA/giphy.gif)

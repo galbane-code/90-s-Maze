@@ -1,4 +1,5 @@
-# ATP-2020
+# 90's Maze
+
 This project combines maze creation and search algorithms.
 For creating the maze, we used Kruskal's algorithm for minimum spanning tree.
 For solving the maze, we used BFS, DFS and UCS algorithms.
